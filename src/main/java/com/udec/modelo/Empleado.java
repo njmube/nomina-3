@@ -55,7 +55,7 @@ public class Empleado implements Serializable {
     private String nombre;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "salario")
-    private Float salario;
+    private Double salario;
     @Column(name = "tipo")
     private String tipo;
     @Column(name = "estado")
@@ -112,12 +112,12 @@ public class Empleado implements Serializable {
         changeSupport.firePropertyChange("nombre", oldNombre, nombre);
     }
 
-    public Float getSalario() {
+    public Double getSalario() {
         return salario;
     }
 
-    public void setSalario(Float salario) {
-        Float oldSalario = this.salario;
+    public void setSalario(Double salario) {
+        Double oldSalario = this.salario;
         this.salario = salario;
         changeSupport.firePropertyChange("salario", oldSalario, salario);
     }
@@ -223,10 +223,10 @@ public class Empleado implements Serializable {
     public String toString() {
         return "com.udec.modelo.Empleado[ codigo=" + codigo + " ]";
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

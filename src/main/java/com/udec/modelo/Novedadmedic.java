@@ -6,6 +6,8 @@
 
 package com.udec.modelo;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -21,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,6 +40,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Novedadmedic.findByFechaFinal", query = "SELECT n FROM Novedadmedic n WHERE n.fechaFinal = :fechaFinal"),
     @NamedQuery(name = "Novedadmedic.findByTipo", query = "SELECT n FROM Novedadmedic n WHERE n.tipo = :tipo")})
 public class Novedadmedic implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,7 +73,9 @@ public class Novedadmedic implements Serializable {
     }
 
     public void setIdnovedadmedic(Integer idnovedadmedic) {
+        Integer oldIdnovedadmedic = this.idnovedadmedic;
         this.idnovedadmedic = idnovedadmedic;
+        changeSupport.firePropertyChange("idnovedadmedic", oldIdnovedadmedic, idnovedadmedic);
     }
 
     public Date getFechaInicio() {
@@ -75,7 +83,9 @@ public class Novedadmedic implements Serializable {
     }
 
     public void setFechaInicio(Date fechaInicio) {
+        Date oldFechaInicio = this.fechaInicio;
         this.fechaInicio = fechaInicio;
+        changeSupport.firePropertyChange("fechaInicio", oldFechaInicio, fechaInicio);
     }
 
     public Date getFechaFinal() {
@@ -83,7 +93,9 @@ public class Novedadmedic implements Serializable {
     }
 
     public void setFechaFinal(Date fechaFinal) {
+        Date oldFechaFinal = this.fechaFinal;
         this.fechaFinal = fechaFinal;
+        changeSupport.firePropertyChange("fechaFinal", oldFechaFinal, fechaFinal);
     }
 
     public String getTipo() {
@@ -91,7 +103,9 @@ public class Novedadmedic implements Serializable {
     }
 
     public void setTipo(String tipo) {
+        String oldTipo = this.tipo;
         this.tipo = tipo;
+        changeSupport.firePropertyChange("tipo", oldTipo, tipo);
     }
 
     public Empleado getEmpleadoCodigo() {
@@ -99,7 +113,10 @@ public class Novedadmedic implements Serializable {
     }
 
     public void setEmpleadoCodigo(Empleado empleadoCodigo) {
+        Empleado oldEmpleadoCodigo = this.empleadoCodigo;
         this.empleadoCodigo = empleadoCodigo;
+        changeSupport.firePropertyChange("empleadoCodigo", oldEmpleadoCodigo, empleadoCodigo);
+
     }
 
     @Override
@@ -126,5 +143,13 @@ public class Novedadmedic implements Serializable {
     public String toString() {
         return "com.udec.modelo.Novedadmedic[ idnovedadmedic=" + idnovedadmedic + " ]";
     }
-    
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
+    }
+
 }

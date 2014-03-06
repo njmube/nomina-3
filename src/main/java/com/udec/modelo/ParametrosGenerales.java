@@ -158,10 +158,10 @@ public class ParametrosGenerales implements Serializable {
     public String toString() {
         return "com.udec.modelo.ParametrosGenerales[ idParametrosgenerales=" + idParametrosgenerales + " ]";
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

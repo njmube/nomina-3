@@ -37,7 +37,7 @@ public class Nomina implements Serializable {
     private Integer idnomina;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
-    private Float valor;
+    private Double valor;
     @JoinColumn(name = "empleado_codigo", referencedColumnName = "codigo")
     @ManyToOne(optional = false)
     private Empleado empleadoCodigo;
@@ -63,11 +63,11 @@ public class Nomina implements Serializable {
         this.idnomina = idnomina;
     }
 
-    public Float getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(Float valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 

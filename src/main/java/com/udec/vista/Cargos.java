@@ -50,9 +50,10 @@ public class Cargos extends JInternalFrame {
         codigoField = new javax.swing.JTextField();
         cargoField = new javax.swing.JTextField();
         funcionesField = new javax.swing.JTextField();
-        saveButton = new javax.swing.JButton();
-        refreshButton = new javax.swing.JButton();
-        newButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        newButton1 = new javax.swing.JButton();
+        refreshButton1 = new javax.swing.JButton();
+        saveButton1 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -94,53 +95,91 @@ public class Cargos extends JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), funcionesField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        saveButton.setText("Guardar Cambios");
-        saveButton.addActionListener(formListener);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("Listado de cargos");
 
-        refreshButton.setText("Actualizar");
-        refreshButton.addActionListener(formListener);
+        newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
+        newButton1.setText("Nuevo");
+        newButton1.setBorder(null);
+        newButton1.setBorderPainted(false);
+        newButton1.setContentAreaFilled(false);
+        newButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        newButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        newButton1.setIconTextGap(-3);
+        newButton1.setMaximumSize(new java.awt.Dimension(115, 100));
+        newButton1.setMinimumSize(new java.awt.Dimension(115, 100));
+        newButton1.setPreferredSize(new java.awt.Dimension(115, 100));
+        newButton1.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
+        newButton1.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
+        newButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        newButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newButton1.addActionListener(formListener);
 
-        newButton.setText("Nuevo");
-        newButton.addActionListener(formListener);
+        refreshButton1.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
+        refreshButton1.setText("Actualizar");
+        refreshButton1.setBorder(null);
+        refreshButton1.setBorderPainted(false);
+        refreshButton1.setContentAreaFilled(false);
+        refreshButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        refreshButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        refreshButton1.setIconTextGap(-3);
+        refreshButton1.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
+        refreshButton1.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
+        refreshButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        refreshButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        refreshButton1.addActionListener(formListener);
+
+        saveButton1.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+        saveButton1.setText("Guardar Cambios");
+        saveButton1.setBorder(null);
+        saveButton1.setBorderPainted(false);
+        saveButton1.setContentAreaFilled(false);
+        saveButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saveButton1.setIconTextGap(-3);
+        saveButton1.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+        saveButton1.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+        saveButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.addActionListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 65, Short.MAX_VALUE)
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(refreshButton)
-                        .addGap(14, 14, 14)
-                        .addComponent(saveButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoLabel)
-                                    .addComponent(cargoLabel)
-                                    .addComponent(funcionesLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoField)
-                                    .addComponent(cargoField)
-                                    .addComponent(funcionesField)))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                            .addComponent(codigoLabel)
+                            .addComponent(cargoLabel)
+                            .addComponent(funcionesLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(codigoField)
+                            .addComponent(cargoField)
+                            .addComponent(funcionesField)))
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newButton, refreshButton, saveButton});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoLabel)
                     .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -153,11 +192,11 @@ public class Cargos extends JInternalFrame {
                     .addComponent(funcionesLabel)
                     .addComponent(funcionesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(refreshButton)
-                    .addComponent(newButton))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -168,22 +207,31 @@ public class Cargos extends JInternalFrame {
     private class FormListener implements java.awt.event.ActionListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == saveButton) {
-                Cargos.this.saveButtonActionPerformed(evt);
+            if (evt.getSource() == newButton1) {
+                Cargos.this.newButton1ActionPerformed(evt);
             }
-            else if (evt.getSource() == refreshButton) {
-                Cargos.this.refreshButtonActionPerformed(evt);
+            else if (evt.getSource() == refreshButton1) {
+                Cargos.this.refreshButton1ActionPerformed(evt);
             }
-            else if (evt.getSource() == newButton) {
-                Cargos.this.newButtonActionPerformed(evt);
+            else if (evt.getSource() == saveButton1) {
+                Cargos.this.saveButton1ActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
 
     
 
-    @SuppressWarnings("unchecked")
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+   
+    private void newButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButton1ActionPerformed
+         com.udec.modelo.Cargo c = new com.udec.modelo.Cargo();
+        entityManager.persist(c);
+        list.add(c);
+        int row = list.size() - 1;
+        masterTable.setRowSelectionInterval(row, row);
+        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+    }//GEN-LAST:event_newButton1ActionPerformed
+
+    private void refreshButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButton1ActionPerformed
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -192,18 +240,9 @@ public class Cargos extends JInternalFrame {
         }
         list.clear();
         list.addAll(data);
-    }//GEN-LAST:event_refreshButtonActionPerformed
+    }//GEN-LAST:event_refreshButton1ActionPerformed
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.udec.modelo.Cargo c = new com.udec.modelo.Cargo();
-        entityManager.persist(c);
-        list.add(c);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
-    
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+    private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
@@ -217,7 +256,7 @@ public class Cargos extends JInternalFrame {
             list.clear();
             list.addAll(merged);
         }
-    }//GEN-LAST:event_saveButtonActionPerformed
+    }//GEN-LAST:event_saveButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -228,13 +267,14 @@ public class Cargos extends JInternalFrame {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JTextField funcionesField;
     private javax.swing.JLabel funcionesLabel;
+    private javax.swing.JLabel jLabel1;
     private java.util.List<com.udec.modelo.Cargo> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
-    private javax.swing.JButton newButton;
+    private javax.swing.JButton newButton1;
     private javax.persistence.Query query;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton refreshButton1;
+    private javax.swing.JButton saveButton1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     

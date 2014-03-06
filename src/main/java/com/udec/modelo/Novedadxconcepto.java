@@ -54,15 +54,15 @@ public class Novedadxconcepto implements Serializable {
     private Integer idnovedad;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
-    private Float valor;
+    private Double valor;
     @Column(name = "saldo")
-    private Float saldo;
+    private Double saldo;
     @Column(name = "tipo_saldo")
     private String tipoSaldo;
     @Column(name = "aplicar_quincenal")
     private String aplicarQuincenal;
     @Column(name = "total_libranza")
-    private Float totalLibranza;
+    private Double totalLibranza;
     @Column(name = "numero_cuotas")
     private Integer numeroCuotas;
     @Column(name = "fecha_inicio")
@@ -95,22 +95,22 @@ public class Novedadxconcepto implements Serializable {
         changeSupport.firePropertyChange("idnovedad", oldIdnovedad, idnovedad);
     }
 
-    public Float getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(Float valor) {
-        Float oldValor = this.valor;
+    public void setValor(Double valor) {
+        Double oldValor = this.valor;
         this.valor = valor;
         changeSupport.firePropertyChange("valor", oldValor, valor);
     }
 
-    public Float getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Float saldo) {
-        Float oldSaldo = this.saldo;
+    public void setSaldo(Double saldo) {
+        Double oldSaldo = this.saldo;
         this.saldo = saldo;
         changeSupport.firePropertyChange("saldo", oldSaldo, saldo);
     }
@@ -135,12 +135,12 @@ public class Novedadxconcepto implements Serializable {
         changeSupport.firePropertyChange("aplicarQuincenal", oldAplicarQuincenal, aplicarQuincenal);
     }
 
-    public Float getTotalLibranza() {
+    public Double getTotalLibranza() {
         return totalLibranza;
     }
 
-    public void setTotalLibranza(Float totalLibranza) {
-        Float oldTotalLibranza = this.totalLibranza;
+    public void setTotalLibranza(Double totalLibranza) {
+         Double oldTotalLibranza = this.totalLibranza;
         this.totalLibranza = totalLibranza;
         changeSupport.firePropertyChange("totalLibranza", oldTotalLibranza, totalLibranza);
     }
@@ -222,7 +222,7 @@ public class Novedadxconcepto implements Serializable {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

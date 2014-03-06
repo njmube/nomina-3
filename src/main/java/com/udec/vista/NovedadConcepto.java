@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.udec.vista;
 
 import com.udec.modelo.Banco;
@@ -12,7 +11,11 @@ import com.udec.modelo.Concepto;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.beans.Beans;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -21,13 +24,12 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
 
-
 /**
  *
  * @author Ususario
  */
 public class NovedadConcepto extends JInternalFrame {
-    
+
     public NovedadConcepto() {
         initComponents();
         if (!Beans.isDesignTime()) {
@@ -55,6 +57,7 @@ public class NovedadConcepto extends JInternalFrame {
         dateConverter1 = new com.udec.vista.DateConverter();
         bancoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT b FROM Banco b");
         bancoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : bancoQuery.getResultList();
+        doubleConverter1 = new com.udec.vista.DoubleConverter();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         empleadoCodigoLabel = new javax.swing.JLabel();
@@ -62,12 +65,8 @@ public class NovedadConcepto extends JInternalFrame {
         valorLabel = new javax.swing.JLabel();
         fechaInicioLabel = new javax.swing.JLabel();
         valorField = new javax.swing.JTextField();
-        saveButton = new javax.swing.JButton();
-        refreshButton = new javax.swing.JButton();
-        newButton = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
-        jTextFieldDateEditor1 = new com.toedter.calendar.JTextFieldDateEditor();
         jLabel1 = new javax.swing.JLabel();
         tipoSaldoLabel = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox();
@@ -82,6 +81,12 @@ public class NovedadConcepto extends JInternalFrame {
         jComboBox5 = new javax.swing.JComboBox();
         numeroCuotasLabel = new javax.swing.JLabel();
         bancoIdbancoLabel = new javax.swing.JLabel();
+        newButton1 = new javax.swing.JButton();
+        refreshButton1 = new javax.swing.JButton();
+        saveButton1 = new javax.swing.JButton();
+        fechaInicioField = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
 
         FormListener formListener = new FormListener();
 
@@ -94,7 +99,7 @@ public class NovedadConcepto extends JInternalFrame {
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valor}"));
         columnBinding.setColumnName("Valor");
-        columnBinding.setColumnClass(Float.class);
+        columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fechaInicio}"));
         columnBinding.setColumnName("Fecha Inicio");
         columnBinding.setColumnClass(java.util.Date.class);
@@ -112,18 +117,10 @@ public class NovedadConcepto extends JInternalFrame {
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.valor}"), valorField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
+        binding.setConverter(doubleConverter1);
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), valorField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
-
-        saveButton.setText("Guardar Cambios");
-        saveButton.addActionListener(formListener);
-
-        refreshButton.setText("Actualizar");
-        refreshButton.addActionListener(formListener);
-
-        newButton.setText("Nueva");
-        newButton.addActionListener(formListener);
 
         jComboBox1.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -163,10 +160,6 @@ public class NovedadConcepto extends JInternalFrame {
 
         jComboBox2.addActionListener(formListener);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaInicio}"), jTextFieldDateEditor1, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setConverter(dateConverter1);
-        bindingGroup.addBinding(binding);
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("dd/mm/yyyy");
@@ -174,6 +167,9 @@ public class NovedadConcepto extends JInternalFrame {
         tipoSaldoLabel.setText("Tipo Saldo:");
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Solo este periodo", "Indefinido", "Hasta saldo" }));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipoSaldo}"), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
 
         aplicarQuincenalLabel.setText("Aplicar Quincenal:");
 
@@ -188,12 +184,14 @@ public class NovedadConcepto extends JInternalFrame {
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.saldo}"), saldoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
+        binding.setConverter(doubleConverter1);
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), saldoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.totalLibranza}"), totalLibranzaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
+        binding.setConverter(doubleConverter1);
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), totalLibranzaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -228,6 +226,50 @@ public class NovedadConcepto extends JInternalFrame {
 
         bancoIdbancoLabel.setText("Banco Idbanco:");
 
+        newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
+        newButton1.setText("Nuevo");
+        newButton1.setBorder(null);
+        newButton1.setBorderPainted(false);
+        newButton1.setContentAreaFilled(false);
+        newButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        newButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        newButton1.setIconTextGap(-3);
+        newButton1.setMaximumSize(new java.awt.Dimension(115, 100));
+        newButton1.setMinimumSize(new java.awt.Dimension(115, 100));
+        newButton1.setPreferredSize(new java.awt.Dimension(115, 100));
+        newButton1.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
+        newButton1.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
+        newButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        newButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newButton1.addActionListener(formListener);
+
+        refreshButton1.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
+        refreshButton1.setText("Actualizar");
+        refreshButton1.setBorder(null);
+        refreshButton1.setBorderPainted(false);
+        refreshButton1.setContentAreaFilled(false);
+        refreshButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        refreshButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        refreshButton1.setIconTextGap(-3);
+        refreshButton1.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
+        refreshButton1.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
+        refreshButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        refreshButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        refreshButton1.addActionListener(formListener);
+
+        saveButton1.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+        saveButton1.setText("Guardar Cambios");
+        saveButton1.setBorder(null);
+        saveButton1.setBorderPainted(false);
+        saveButton1.setContentAreaFilled(false);
+        saveButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saveButton1.setIconTextGap(-3);
+        saveButton1.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+        saveButton1.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+        saveButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.addActionListener(formListener);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -238,7 +280,7 @@ public class NovedadConcepto extends JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bancoIdbancoLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox5, 0, 342, Short.MAX_VALUE))
+                        .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(totalLibranzaLabel)
@@ -250,6 +292,13 @@ public class NovedadConcepto extends JInternalFrame {
                             .addComponent(numeroCuotasField)
                             .addComponent(totalLibranzaField))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,58 +319,68 @@ public class NovedadConcepto extends JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bancoIdbancoLabel)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(newButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(saveButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(refreshButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        fechaInicioField.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaInicio}"), fechaInicioField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(dateConverter1);
+        bindingGroup.addBinding(binding);
+
+        jDateChooser1.setMaximumSize(new java.awt.Dimension(27, 20));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setText("Listado de novedades por concepto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(refreshButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveButton))
+                    .addComponent(masterScrollPane)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(aplicarQuincenalLabel)
-                                .addGap(6, 6, 6)
-                                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                            .addComponent(empleadoCodigoLabel)
+                            .addComponent(conceptoIdconceptoLabel)
+                            .addComponent(valorLabel)
+                            .addComponent(fechaInicioLabel)
+                            .addComponent(tipoSaldoLabel)
+                            .addComponent(aplicarQuincenalLabel))
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valorField)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(empleadoCodigoLabel)
-                                    .addComponent(conceptoIdconceptoLabel)
-                                    .addComponent(valorLabel)
-                                    .addComponent(fechaInicioLabel)
-                                    .addComponent(tipoSaldoLabel))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(valorField, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jTextFieldDateEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(fechaInicioField, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1))
+                                .addGap(0, 240, Short.MAX_VALUE))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newButton, refreshButton, saveButton});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2)
+                .addGap(4, 4, 4)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(empleadoCodigoLabel)
@@ -335,12 +394,13 @@ public class NovedadConcepto extends JInternalFrame {
                     .addComponent(valorLabel)
                     .addComponent(valorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldDateEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(fechaInicioLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
+                        .addComponent(fechaInicioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,76 +410,46 @@ public class NovedadConcepto extends JInternalFrame {
                     .addComponent(aplicarQuincenalLabel)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(refreshButton)
-                    .addComponent(newButton))
-                .addGap(3, 3, 3))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
-        bindingGroup.bind();
-    }
+        jDateChooser1.getDateEditor().addPropertyChangeListener(
+            new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent e) {
+                    if ("date".equals(e.getPropertyName())) {
+                        System.out.println(e.getPropertyName()
+                            + ": " + (Date) e.getNewValue());
+                        fechaInicioField.setText(""+new SimpleDateFormat("dd/MM/yyyy").format((Date)e.getNewValue()));
+                    }
+                }
+            });
+            this.add(jDateChooser1);
 
-    // Code for dispatching events from components to event handlers.
-
-    private class FormListener implements java.awt.event.ActionListener {
-        FormListener() {}
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == saveButton) {
-                NovedadConcepto.this.saveButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == refreshButton) {
-                NovedadConcepto.this.refreshButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == newButton) {
-                NovedadConcepto.this.newButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == jComboBox2) {
-                NovedadConcepto.this.jComboBox2ActionPerformed(evt);
-            }
+            bindingGroup.bind();
         }
-    }// </editor-fold>//GEN-END:initComponents
 
-    
+        // Code for dispatching events from components to event handlers.
 
-    @SuppressWarnings("unchecked")
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        entityManager.getTransaction().rollback();
-        entityManager.getTransaction().begin();
-        java.util.Collection data = query.getResultList();
-        for (Object entity : data) {
-            entityManager.refresh(entity);
-        }
-        list.clear();
-        list.addAll(data);
-    }//GEN-LAST:event_refreshButtonActionPerformed
-
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.udec.modelo.Novedadxconcepto n = new com.udec.modelo.Novedadxconcepto();
-        entityManager.persist(n);
-        list.add(n);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
-    
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-        } catch (RollbackException rex) {
-            rex.printStackTrace();
-            entityManager.getTransaction().begin();
-            List<com.udec.modelo.Novedadxconcepto> merged = new ArrayList<com.udec.modelo.Novedadxconcepto>(list.size());
-            for (com.udec.modelo.Novedadxconcepto n : list) {
-                merged.add(entityManager.merge(n));
+        private class FormListener implements java.awt.event.ActionListener {
+            FormListener() {}
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                if (evt.getSource() == jComboBox2) {
+                    NovedadConcepto.this.jComboBox2ActionPerformed(evt);
+                }
+                else if (evt.getSource() == newButton1) {
+                    NovedadConcepto.this.newButton1ActionPerformed(evt);
+                }
+                else if (evt.getSource() == refreshButton1) {
+                    NovedadConcepto.this.refreshButton1ActionPerformed(evt);
+                }
+                else if (evt.getSource() == saveButton1) {
+                    NovedadConcepto.this.saveButton1ActionPerformed(evt);
+                }
             }
-            list.clear();
-            list.addAll(merged);
-        }
-    }//GEN-LAST:event_saveButtonActionPerformed
+        }// </editor-fold>//GEN-END:initComponents
+
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         com.udec.modelo.Concepto aux = (com.udec.modelo.Concepto) jComboBox2.getSelectedItem();
@@ -444,6 +474,39 @@ public class NovedadConcepto extends JInternalFrame {
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
+    private void newButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButton1ActionPerformed
+        com.udec.modelo.Novedadxconcepto n = new com.udec.modelo.Novedadxconcepto();
+        jDateChooser1.setDate(new Date());
+        entityManager.persist(n);
+        list.add(n);
+        int row = list.size() - 1;
+        masterTable.setRowSelectionInterval(row, row);
+        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+    }//GEN-LAST:event_newButton1ActionPerformed
+
+    private void refreshButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButton1ActionPerformed
+        fechaInicioField.setText("");
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
+        java.util.Collection data = query.getResultList();
+        for (Object entity : data) {
+            entityManager.refresh(entity);
+        }
+        list.clear();
+        list.addAll(data);
+
+    }//GEN-LAST:event_refreshButton1ActionPerformed
+
+    private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
+        com.udec.modelo.Novedadxconcepto n = new com.udec.modelo.Novedadxconcepto();
+        jDateChooser1.setDate(new Date());
+        entityManager.persist(n);
+        list.add(n);
+        int row = list.size() - 1;
+        masterTable.setRowSelectionInterval(row, row);
+        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+    }//GEN-LAST:event_saveButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aplicarQuincenalLabel;
@@ -454,30 +517,33 @@ public class NovedadConcepto extends JInternalFrame {
     private java.util.List<com.udec.modelo.Concepto> conceptoList;
     private javax.persistence.Query conceptoQuery;
     private com.udec.vista.DateConverter dateConverter1;
+    private com.udec.vista.DoubleConverter doubleConverter1;
     private javax.swing.JLabel empleadoCodigoLabel;
     private java.util.List<com.udec.modelo.Empleado> empleadoList;
     private javax.persistence.Query empleadoQuery;
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JTextField fechaInicioField;
     private javax.swing.JLabel fechaInicioLabel;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
     private javax.swing.JComboBox jComboBox5;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private com.toedter.calendar.JTextFieldDateEditor jTextFieldDateEditor1;
     private java.util.List<com.udec.modelo.Novedadxconcepto> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
-    private javax.swing.JButton newButton;
+    private javax.swing.JButton newButton1;
     private javax.swing.JTextField numeroCuotasField;
     private javax.swing.JLabel numeroCuotasLabel;
     private javax.persistence.Query query;
-    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton refreshButton1;
     private javax.swing.JTextField saldoField;
     private javax.swing.JLabel saldoLabel;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton saveButton1;
     private javax.swing.JLabel tipoSaldoLabel;
     private javax.swing.JTextField totalLibranzaField;
     private javax.swing.JLabel totalLibranzaLabel;
@@ -485,6 +551,5 @@ public class NovedadConcepto extends JInternalFrame {
     private javax.swing.JLabel valorLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-    
-    
+
 }

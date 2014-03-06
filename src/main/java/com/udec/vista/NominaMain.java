@@ -5,6 +5,7 @@
  */
 package com.udec.vista;
 
+import com.udec.modelo.Periodo;
 import java.awt.Container;
 import java.awt.event.MouseListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -17,7 +18,15 @@ public class NominaMain extends javax.swing.JFrame {
 
     /**
      * Creates new form NominaMain
+     *
+     * @param p
      */
+    public NominaMain(Periodo p) {
+        periodoActual = p;
+        initComponents();
+        periodoLabel.setText("PERIODO: " + p.getNombre());
+    }
+
     public NominaMain() {
         initComponents();
     }
@@ -32,6 +41,8 @@ public class NominaMain extends javax.swing.JFrame {
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
+        periodoLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -52,12 +63,16 @@ public class NominaMain extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1205, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 563, Short.MAX_VALUE)
+            .addGap(0, 609, Short.MAX_VALUE)
         );
+
+        jLabel1.setText("EMPRESA: CAJA DE PREVISION SOCIAL U. DE C.     ");
+
+        periodoLabel.setText("  PERIODO: SEGUNDA QUINCENA DEL MES DE AGOSTO DE 2012");
 
         jMenu1.setText("Archivo");
 
@@ -144,11 +159,23 @@ public class NominaMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(periodoLabel)
+                .addContainerGap(641, Short.MAX_VALUE))
             .addComponent(jDesktopPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(periodoLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDesktopPane1))
         );
 
         pack();
@@ -156,137 +183,90 @@ public class NominaMain extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         Cargos c = new Cargos();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) c.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) c.getUI()).getNorthPane().removeMouseListener(listener);
-        }
         c.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) c.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(c);
-        c.setBounds(0, 0, 500, 400);
+        c.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         c.show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         Bancos cb = new Bancos();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) cb.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) cb.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        cb.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) cb.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(cb);
-        cb.setBounds(0, 0, 500, 400);
+        cb.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         cb.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         Empleados2 cb = new Empleados2();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) cb.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) cb.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        cb.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) cb.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(cb);
-        cb.setBounds(0, 0, 1180, 540);
+        cb.setBounds(0, 0, jDesktopPane1.getWidth(), jDesktopPane1.getHeight());
         cb.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         NovedadMedica nm = new NovedadMedica();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        nm.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, 1180, 540);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         nm.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         GruposConcepto nm = new GruposConcepto();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        nm.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, 1180, 540);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         nm.show();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         Conceptos nm = new Conceptos();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        nm.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, 1180, 540);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         nm.show();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         ParametrosGenerales nm = new ParametrosGenerales();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        nm.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, 1180, 540);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         nm.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
         NovedadConcepto nm = new NovedadConcepto();
-        for (MouseListener listener : ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().getMouseListeners()) {
-            ((javax.swing.plaf.basic.BasicInternalFrameUI) nm.getUI()).getNorthPane().removeMouseListener(listener);
-        }
-        nm.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        Container north = (Container) ui.getNorthPane();
-        north.remove(0);
-        north.validate();
-        north.repaint();
+        ui.setNorthPane(null);
         this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, 521, 562);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         nm.show();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -325,8 +305,10 @@ public class NominaMain extends javax.swing.JFrame {
         });
     }
 
+    private Periodo periodoActual;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -340,5 +322,6 @@ public class NominaMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JLabel periodoLabel;
     // End of variables declaration//GEN-END:variables
 }

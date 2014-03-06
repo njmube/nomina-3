@@ -56,7 +56,8 @@ public class ParametrosGenerales extends JInternalFrame {
         porcentajeSaludField = new javax.swing.JTextField();
         porcentajePensionField = new javax.swing.JTextField();
         porcentajeFpsField = new javax.swing.JTextField();
-        saveButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        saveButton1 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -131,46 +132,62 @@ public class ParametrosGenerales extends JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), porcentajeFpsField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        saveButton.setText("Guardar Cambios");
-        saveButton.addActionListener(formListener);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("Parametros generales");
+
+        saveButton1.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+        saveButton1.setText("Guardar Cambios");
+        saveButton1.setBorder(null);
+        saveButton1.setBorderPainted(false);
+        saveButton1.setContentAreaFilled(false);
+        saveButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saveButton1.setIconTextGap(-3);
+        saveButton1.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+        saveButton1.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+        saveButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.addActionListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(salarioMinimoLabel)
+                            .addComponent(subsidioTransporteLabel)
+                            .addComponent(subsidioAlimentacionLabel)
+                            .addComponent(porcentajeSaludLabel)
+                            .addComponent(porcentajePensionLabel)
+                            .addComponent(porcentajeFpsLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(salarioMinimoField, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(subsidioTransporteField, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(subsidioAlimentacionField, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(porcentajeSaludField, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(porcentajePensionField, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                            .addComponent(porcentajeFpsField, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)))
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(saveButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(salarioMinimoLabel)
-                                    .addComponent(subsidioTransporteLabel)
-                                    .addComponent(subsidioAlimentacionLabel)
-                                    .addComponent(porcentajeSaludLabel)
-                                    .addComponent(porcentajePensionLabel)
-                                    .addComponent(porcentajeFpsLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(salarioMinimoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(subsidioTransporteField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(subsidioAlimentacionField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(porcentajeSaludField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(porcentajePensionField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(porcentajeFpsField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))))
+                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(salarioMinimoLabel)
                     .addComponent(salarioMinimoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -195,8 +212,8 @@ public class ParametrosGenerales extends JInternalFrame {
                     .addComponent(porcentajeFpsLabel)
                     .addComponent(porcentajeFpsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveButton)
-                .addContainerGap())
+                .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -207,8 +224,8 @@ public class ParametrosGenerales extends JInternalFrame {
     private class FormListener implements java.awt.event.ActionListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == saveButton) {
-                ParametrosGenerales.this.saveButtonActionPerformed(evt);
+            if (evt.getSource() == saveButton1) {
+                ParametrosGenerales.this.saveButton1ActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -216,8 +233,8 @@ public class ParametrosGenerales extends JInternalFrame {
     
 
    
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {
+    private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
+         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
@@ -230,11 +247,12 @@ public class ParametrosGenerales extends JInternalFrame {
             list.clear();
             list.addAll(merged);
         }
-    }//GEN-LAST:event_saveButtonActionPerformed
+    }//GEN-LAST:event_saveButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JLabel jLabel1;
     private java.util.List<com.udec.modelo.ParametrosGenerales> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
@@ -247,7 +265,7 @@ public class ParametrosGenerales extends JInternalFrame {
     private javax.persistence.Query query;
     private javax.swing.JTextField salarioMinimoField;
     private javax.swing.JLabel salarioMinimoLabel;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton saveButton1;
     private javax.swing.JTextField subsidioAlimentacionField;
     private javax.swing.JLabel subsidioAlimentacionLabel;
     private javax.swing.JTextField subsidioTransporteField;

@@ -52,9 +52,10 @@ public class Bancos extends JInternalFrame {
             bancoLabel = new javax.swing.JLabel();
             codigoField = new javax.swing.JTextField();
             bancoField = new javax.swing.JTextField();
-            saveButton = new javax.swing.JButton();
-            refreshButton = new javax.swing.JButton();
-            newButton = new javax.swing.JButton();
+            jLabel1 = new javax.swing.JLabel();
+            newButton1 = new javax.swing.JButton();
+            refreshButton1 = new javax.swing.JButton();
+            saveButton1 = new javax.swing.JButton();
 
             FormListener formListener = new FormListener();
 
@@ -91,14 +92,52 @@ public class Bancos extends JInternalFrame {
 
             bancoField.addActionListener(formListener);
 
-            saveButton.setText("Guardar Cambios");
-            saveButton.addActionListener(formListener);
+            jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+            jLabel1.setText("Listado de bancos");
 
-            refreshButton.setText("Actualizar");
-            refreshButton.addActionListener(formListener);
+            newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
+            newButton1.setText("Nuevo");
+            newButton1.setBorder(null);
+            newButton1.setBorderPainted(false);
+            newButton1.setContentAreaFilled(false);
+            newButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            newButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            newButton1.setIconTextGap(-3);
+            newButton1.setMaximumSize(new java.awt.Dimension(115, 100));
+            newButton1.setMinimumSize(new java.awt.Dimension(115, 100));
+            newButton1.setPreferredSize(new java.awt.Dimension(115, 100));
+            newButton1.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
+            newButton1.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
+            newButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+            newButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            newButton1.addActionListener(formListener);
 
-            newButton.setText("Nuevo Banco");
-            newButton.addActionListener(formListener);
+            refreshButton1.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
+            refreshButton1.setText("Actualizar");
+            refreshButton1.setBorder(null);
+            refreshButton1.setBorderPainted(false);
+            refreshButton1.setContentAreaFilled(false);
+            refreshButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            refreshButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            refreshButton1.setIconTextGap(-3);
+            refreshButton1.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
+            refreshButton1.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
+            refreshButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+            refreshButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            refreshButton1.addActionListener(formListener);
+
+            saveButton1.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+            saveButton1.setText("Guardar Cambios");
+            saveButton1.setBorder(null);
+            saveButton1.setBorderPainted(false);
+            saveButton1.setContentAreaFilled(false);
+            saveButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            saveButton1.setIconTextGap(-3);
+            saveButton1.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+            saveButton1.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+            saveButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+            saveButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            saveButton1.addActionListener(formListener);
 
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
@@ -107,31 +146,34 @@ public class Bancos extends JInternalFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                        .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(codigoLabel)
                                 .addComponent(bancoLabel))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(newButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(refreshButton)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(saveButton))
                                 .addComponent(codigoField)
-                                .addComponent(bancoField))))
+                                .addComponent(bancoField)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(28, 28, 28)
+                            .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap())
             );
-
-            layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newButton, refreshButton, saveButton});
-
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addGap(10, 10, 10)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(codigoLabel)
@@ -140,12 +182,12 @@ public class Bancos extends JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bancoLabel)
                         .addComponent(bancoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(saveButton)
-                        .addComponent(refreshButton)
-                        .addComponent(newButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap(13, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(48, Short.MAX_VALUE))
             );
 
             bindingGroup.bind();
@@ -159,22 +201,35 @@ public class Bancos extends JInternalFrame {
                 if (evt.getSource() == bancoField) {
                     Bancos.this.bancoFieldActionPerformed(evt);
                 }
-                else if (evt.getSource() == saveButton) {
-                    Bancos.this.saveButtonActionPerformed(evt);
+                else if (evt.getSource() == newButton1) {
+                    Bancos.this.newButton1ActionPerformed(evt);
                 }
-                else if (evt.getSource() == refreshButton) {
-                    Bancos.this.refreshButtonActionPerformed(evt);
+                else if (evt.getSource() == refreshButton1) {
+                    Bancos.this.refreshButton1ActionPerformed(evt);
                 }
-                else if (evt.getSource() == newButton) {
-                    Bancos.this.newButtonActionPerformed(evt);
+                else if (evt.getSource() == saveButton1) {
+                    Bancos.this.saveButton1ActionPerformed(evt);
                 }
             }
         }// </editor-fold>//GEN-END:initComponents
 
     
 
-    @SuppressWarnings("unchecked")
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+   
+    private void bancoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bancoFieldActionPerformed
+
+    private void newButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButton1ActionPerformed
+        com.udec.modelo.Banco b = new com.udec.modelo.Banco();
+        entityManager.persist(b);
+        list.add(b);
+        int row = list.size() - 1;
+        masterTable.setRowSelectionInterval(row, row);
+        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+    }//GEN-LAST:event_newButton1ActionPerformed
+
+    private void refreshButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButton1ActionPerformed
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -183,18 +238,9 @@ public class Bancos extends JInternalFrame {
         }
         list.clear();
         list.addAll(data);
-    }//GEN-LAST:event_refreshButtonActionPerformed
+    }//GEN-LAST:event_refreshButton1ActionPerformed
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.udec.modelo.Banco b = new com.udec.modelo.Banco();
-        entityManager.persist(b);
-        list.add(b);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
-    
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+    private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
@@ -208,11 +254,7 @@ public class Bancos extends JInternalFrame {
             list.clear();
             list.addAll(merged);
         }
-    }//GEN-LAST:event_saveButtonActionPerformed
-
-    private void bancoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bancoFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bancoFieldActionPerformed
+    }//GEN-LAST:event_saveButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -221,13 +263,14 @@ public class Bancos extends JInternalFrame {
     private javax.swing.JTextField codigoField;
     private javax.swing.JLabel codigoLabel;
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JLabel jLabel1;
     private java.util.List<com.udec.modelo.Banco> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
-    private javax.swing.JButton newButton;
+    private javax.swing.JButton newButton1;
     private javax.persistence.Query query;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton refreshButton1;
+    private javax.swing.JButton saveButton1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
   

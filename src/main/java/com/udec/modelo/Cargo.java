@@ -136,10 +136,10 @@ public class Cargo implements Serializable {
     public String toString() {
         return "com.udec.modelo.Cargo[ cargoid=" + cargoid + " ]";
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

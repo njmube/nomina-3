@@ -11,16 +11,18 @@ import com.udec.modelo.Cargo;
 import com.udec.modelo.Empleado;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.beans.Beans;
 import java.util.ArrayList;
 
 import java.util.List;
 import javax.persistence.RollbackException;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
-import javax.swing.JPanel;
+
 
 /**
  *
@@ -33,6 +35,8 @@ public class Empleados2 extends JInternalFrame {
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
         }
+        
+        
     }
 
     /**
@@ -52,11 +56,10 @@ public class Empleados2 extends JInternalFrame {
         bancoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : bancoQuery.getResultList();
         cargoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Cargo c");
         cargoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : cargoQuery.getResultList();
-        novedadmedicQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT n FROM Novedadmedic n");
-        novedadmedicList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : novedadmedicQuery.getResultList();
         empleadoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Empleado e");
         empleadoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : empleadoQuery.getResultList();
         dateConverter1 = new com.udec.vista.DateConverter();
+        doubleConverter1 = new com.udec.vista.DoubleConverter();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -77,325 +80,345 @@ public class Empleados2 extends JInternalFrame {
             nombreField = new javax.swing.JTextField();
             salarioField = new javax.swing.JTextField();
             numeroCuentaField = new javax.swing.JTextField();
-            saveButton = new javax.swing.JButton();
-            refreshButton = new javax.swing.JButton();
-            newButton = new javax.swing.JButton();
             jComboBox1 = new javax.swing.JComboBox();
             jComboBox2 = new javax.swing.JComboBox();
-            masterScrollPane1 = new javax.swing.JScrollPane();
-            masterTable2 = new javax.swing.JTable(){
-                public boolean isCellEditable(int rowIndex, int colIndex) {
-                    return false;   //Disallow the editing of any cell
+            jComboBox3 = new javax.swing.JComboBox();
+            jComboBox4 = new javax.swing.JComboBox();
+            newButton1 = new javax.swing.JButton();
+            refreshButton1 = new javax.swing.JButton();
+            saveButton1 = new javax.swing.JButton();
+            jLabel1 = new javax.swing.JLabel();
 
-                }};
-                jLabel1 = new javax.swing.JLabel();
-                jComboBox3 = new javax.swing.JComboBox();
-                jComboBox4 = new javax.swing.JComboBox();
+            FormListener formListener = new FormListener();
 
-                FormListener formListener = new FormListener();
+            setTitle("Listado de empleados");
+            setToolTipText("");
+            setPreferredSize(new java.awt.Dimension(1178, 440));
 
-                setPreferredSize(new java.awt.Dimension(1180, 529));
-
-                org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-                org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
-                columnBinding.setColumnName("Codigo");
-                columnBinding.setColumnClass(Integer.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cedula}"));
-                columnBinding.setColumnName("Cedula");
-                columnBinding.setColumnClass(String.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
-                columnBinding.setColumnName("Nombre");
-                columnBinding.setColumnClass(String.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${salario}"));
-                columnBinding.setColumnName("Salario");
-                columnBinding.setColumnClass(Float.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipo}"));
-                columnBinding.setColumnName("Tipo de contrato");
-                columnBinding.setColumnClass(String.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${estado}"));
-                columnBinding.setColumnName("Estado");
-                columnBinding.setColumnClass(String.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bancoIdbanco.banco}"));
-                columnBinding.setColumnName("Banco Idbanco");
-                columnBinding.setColumnClass(String.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroCuenta}"));
-                columnBinding.setColumnName("Numero Cuenta");
-                columnBinding.setColumnClass(String.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cargoCargoid.cargo}"));
-                columnBinding.setColumnName("Cargo Cargoid");
-                columnBinding.setColumnClass(String.class);
-                bindingGroup.addBinding(jTableBinding);
-                jTableBinding.bind();
-                masterScrollPane.setViewportView(masterTable);
-                if (masterTable.getColumnModel().getColumnCount() > 0) {
-                    masterTable.getColumnModel().getColumn(8).setResizable(false);
-                }
-
-                codigoLabel.setText("Codigo:");
-
-                cedulaLabel.setText("Cedula:");
-
-                nombreLabel.setText("Nombre:");
-
-                salarioLabel.setText("Salario:");
-
-                tipoLabel.setText("Tipo de contrato:");
-
-                estadoLabel.setText("Estado:");
-
-                bancoIdbancoLabel.setText("Banco:");
-
-                numeroCuentaLabel.setText("Numero Cuenta:");
-
-                cargoCargoidLabel.setText("Cargo:");
-
-                org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigo}"), codigoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-                binding.setSourceUnreadableValue("");
-                bindingGroup.addBinding(binding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-                bindingGroup.addBinding(binding);
-
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cedula}"), cedulaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-                binding.setSourceUnreadableValue("");
-                bindingGroup.addBinding(binding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), cedulaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-                bindingGroup.addBinding(binding);
-
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nombre}"), nombreField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-                binding.setSourceUnreadableValue("");
-                bindingGroup.addBinding(binding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nombreField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-                bindingGroup.addBinding(binding);
-
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.salario}"), salarioField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-                binding.setSourceUnreadableValue("");
-                bindingGroup.addBinding(binding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), salarioField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-                bindingGroup.addBinding(binding);
-
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.numeroCuenta}"), numeroCuentaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-                binding.setSourceUnreadableValue("");
-                bindingGroup.addBinding(binding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), numeroCuentaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-                bindingGroup.addBinding(binding);
-
-                saveButton.setText("Guardar Cambios");
-                saveButton.addActionListener(formListener);
-
-                refreshButton.setText("Actualizar");
-                refreshButton.addActionListener(formListener);
-
-                newButton.setText("Nuevo");
-                newButton.addActionListener(formListener);
-
-                jComboBox1.setRenderer(new DefaultListCellRenderer() {
-                    @Override
-                    public Component getListCellRendererComponent(
-                        JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                        if (value instanceof Banco) {
-                            Banco mec = (Banco)value;
-                            setText(mec.getBanco());
-                        }
-                        return this;
-                    }
-                });
-
-                org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bancoList, jComboBox1);
-                bindingGroup.addBinding(jComboBoxBinding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bancoIdbanco}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-                bindingGroup.addBinding(binding);
-
-                jComboBox2.setRenderer(new DefaultListCellRenderer() {
-                    @Override
-                    public Component getListCellRendererComponent(
-                        JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                        if (value instanceof Cargo) {
-                            Cargo mec = (Cargo)value;
-                            setText(mec.getCargo());
-                        }
-                        return this;
-                    }
-                });
-
-                jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargoList, jComboBox2);
-                bindingGroup.addBinding(jComboBoxBinding);
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cargoCargoid}"), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-                bindingGroup.addBinding(binding);
-
-                jComboBox2.addActionListener(formListener);
-
-                org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.novedadmedicList}");
-                jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, masterTable2, "novedades");
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fechaInicio}"));
-                columnBinding.setColumnName("Fecha Inicio");
-                columnBinding.setColumnClass(java.util.Date.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fechaFinal}"));
-                columnBinding.setColumnName("Fecha Final");
-                columnBinding.setColumnClass(java.util.Date.class);
-                columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipo}"));
-                columnBinding.setColumnName("Tipo");
-                columnBinding.setColumnClass(String.class);
-                bindingGroup.addBinding(jTableBinding);
-                jTableBinding.bind();
-                masterScrollPane1.setViewportView(masterTable2);
-
-                jLabel1.setText("Lista de Novedades Medicas");
-
-                jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PLANTA", "CONTRATO" }));
-
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipo}"), jComboBox3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-                bindingGroup.addBinding(binding);
-
-                jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ACTIVO", "INACTIVO" }));
-
-                binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.estado}"), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-                bindingGroup.addBinding(binding);
-
-                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-                getContentPane().setLayout(layout);
-                layout.setHorizontalGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(codigoLabel)
-                                            .addComponent(nombreLabel)
-                                            .addComponent(bancoIdbancoLabel))
-                                        .addGap(42, 42, 42)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(numeroCuentaLabel)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(nombreField, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                        .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(cedulaLabel)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(cedulaField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(estadoLabel)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(tipoLabel)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(salarioLabel)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(salarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(cargoCargoidLabel)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                            .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(numeroCuentaField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(newButton)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(refreshButton)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(saveButton)))))))))
-                                .addGap(45, 45, 45))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(masterScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                );
-
-                layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newButton, refreshButton});
-
-                layout.setVerticalGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(codigoLabel)
-                            .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cedulaLabel)
-                            .addComponent(cedulaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(estadoLabel)
-                            .addComponent(salarioLabel)
-                            .addComponent(salarioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tipoLabel)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nombreLabel)
-                            .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cargoCargoidLabel)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(bancoIdbancoLabel)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(saveButton)
-                                        .addComponent(refreshButton)
-                                        .addComponent(newButton))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(numeroCuentaLabel)
-                                        .addComponent(numeroCuentaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(masterScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(124, Short.MAX_VALUE))
-                );
-
-                bindingGroup.bind();
+            org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
+            org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
+            columnBinding.setColumnName("Codigo");
+            columnBinding.setColumnClass(Integer.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cedula}"));
+            columnBinding.setColumnName("Cedula");
+            columnBinding.setColumnClass(String.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
+            columnBinding.setColumnName("Nombre");
+            columnBinding.setColumnClass(String.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${salario}"));
+            columnBinding.setColumnName("Salario");
+            columnBinding.setColumnClass(Double.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipo}"));
+            columnBinding.setColumnName("Tipo de contrato");
+            columnBinding.setColumnClass(String.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${estado}"));
+            columnBinding.setColumnName("Estado");
+            columnBinding.setColumnClass(String.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bancoIdbanco.banco}"));
+            columnBinding.setColumnName("Banco");
+            columnBinding.setColumnClass(String.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroCuenta}"));
+            columnBinding.setColumnName("Numero Cuenta");
+            columnBinding.setColumnClass(String.class);
+            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cargoCargoid.cargo}"));
+            columnBinding.setColumnName("Cargo");
+            columnBinding.setColumnClass(String.class);
+            bindingGroup.addBinding(jTableBinding);
+            jTableBinding.bind();
+            masterTable.getColumnModel().getColumn(0).setPreferredWidth(75);
+            masterTable.getColumnModel().getColumn(1).setPreferredWidth(75);
+            masterTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+            masterTable.getColumnModel().getColumn(3).setPreferredWidth(75);
+            masterTable.getColumnModel().getColumn(4).setPreferredWidth(75);
+            masterTable.getColumnModel().getColumn(5).setPreferredWidth(75);
+            masterTable.getColumnModel().getColumn(6).setPreferredWidth(150);
+            masterTable.getColumnModel().getColumn(7).setPreferredWidth(75);
+            masterTable.getColumnModel().getColumn(8).setPreferredWidth(250);
+            masterScrollPane.setViewportView(masterTable);
+            if (masterTable.getColumnModel().getColumnCount() > 0) {
+                masterTable.getColumnModel().getColumn(8).setResizable(false);
             }
 
-            // Code for dispatching events from components to event handlers.
+            codigoLabel.setText("Codigo:");
 
-            private class FormListener implements java.awt.event.ActionListener {
-                FormListener() {}
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if (evt.getSource() == saveButton) {
-                        Empleados2.this.saveButtonActionPerformed(evt);
+            cedulaLabel.setText("Cedula:");
+
+            nombreLabel.setText("Nombre:");
+
+            salarioLabel.setText("Salario:");
+
+            tipoLabel.setText("Tipo de contrato:");
+
+            estadoLabel.setText("Estado:");
+
+            bancoIdbancoLabel.setText("Banco:");
+
+            numeroCuentaLabel.setText("Numero Cuenta:");
+
+            cargoCargoidLabel.setText("Cargo:");
+
+            org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigo}"), codigoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            binding.setSourceUnreadableValue("");
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cedula}"), cedulaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            binding.setSourceUnreadableValue("");
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), cedulaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nombre}"), nombreField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            binding.setSourceUnreadableValue("");
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nombreField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.salario}"), salarioField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            binding.setSourceUnreadableValue("");
+            binding.setConverter(doubleConverter1);
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), salarioField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.numeroCuenta}"), numeroCuentaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            binding.setSourceUnreadableValue("");
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), numeroCuentaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            jComboBox1.setRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(
+                    JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value instanceof Banco) {
+                        Banco mec = (Banco)value;
+                        setText(mec.getBanco());
                     }
-                    else if (evt.getSource() == refreshButton) {
-                        Empleados2.this.refreshButtonActionPerformed(evt);
-                    }
-                    else if (evt.getSource() == newButton) {
-                        Empleados2.this.newButtonActionPerformed(evt);
-                    }
-                    else if (evt.getSource() == jComboBox2) {
-                        Empleados2.this.jComboBox2ActionPerformed(evt);
-                    }
+                    return this;
                 }
-            }// </editor-fold>//GEN-END:initComponents
+            });
+
+            org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bancoList, jComboBox1);
+            bindingGroup.addBinding(jComboBoxBinding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bancoIdbanco}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            jComboBox2.setRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(
+                    JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value instanceof Cargo) {
+                        Cargo mec = (Cargo)value;
+                        setText(mec.getCargo());
+                    }
+                    return this;
+                }
+            });
+
+            jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargoList, jComboBox2);
+            bindingGroup.addBinding(jComboBoxBinding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cargoCargoid}"), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            jComboBox2.addActionListener(formListener);
+
+            jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PLANTA", "CONTRATO" }));
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipo}"), jComboBox3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ACTIVO", "INACTIVO" }));
+            jComboBox4.setMaximumSize(new java.awt.Dimension(170, 20));
+            jComboBox4.setMinimumSize(new java.awt.Dimension(106, 20));
+            jComboBox4.setPreferredSize(new java.awt.Dimension(106, 20));
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.estado}"), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
+            newButton1.setText("Nuevo");
+            newButton1.setBorder(null);
+            newButton1.setBorderPainted(false);
+            newButton1.setContentAreaFilled(false);
+            newButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            newButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            newButton1.setIconTextGap(-3);
+            newButton1.setMaximumSize(new java.awt.Dimension(115, 100));
+            newButton1.setMinimumSize(new java.awt.Dimension(115, 100));
+            newButton1.setPreferredSize(new java.awt.Dimension(115, 100));
+            newButton1.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
+            newButton1.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
+            newButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+            newButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            newButton1.addActionListener(formListener);
+
+            refreshButton1.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
+            refreshButton1.setText("Actualizar");
+            refreshButton1.setBorder(null);
+            refreshButton1.setBorderPainted(false);
+            refreshButton1.setContentAreaFilled(false);
+            refreshButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            refreshButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            refreshButton1.setIconTextGap(-3);
+            refreshButton1.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
+            refreshButton1.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
+            refreshButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+            refreshButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            refreshButton1.addActionListener(formListener);
+
+            saveButton1.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+            saveButton1.setText("Guardar Cambios");
+            saveButton1.setBorder(null);
+            saveButton1.setBorderPainted(false);
+            saveButton1.setContentAreaFilled(false);
+            saveButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            saveButton1.setIconTextGap(-3);
+            saveButton1.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+            saveButton1.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+            saveButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+            saveButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            saveButton1.addActionListener(formListener);
+
+            jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+            jLabel1.setText("Listado de empleados");
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(masterScrollPane))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(bancoIdbancoLabel)
+                                .addComponent(cargoCargoidLabel)
+                                .addComponent(nombreLabel)
+                                .addComponent(codigoLabel))
+                            .addGap(4, 4, 4)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cedulaLabel)
+                                .addComponent(tipoLabel)
+                                .addComponent(salarioLabel)
+                                .addComponent(numeroCuentaLabel)
+                                .addComponent(estadoLabel))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(numeroCuentaField)
+                                .addComponent(jComboBox4, 0, 427, Short.MAX_VALUE)
+                                .addComponent(salarioField)
+                                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cedulaField)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(28, 28, 28)
+                            .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap())
+            );
+
+            layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codigoField, jComboBox1, jComboBox2, nombreField});
+
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(codigoLabel)
+                        .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cedulaLabel)
+                        .addComponent(cedulaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nombreLabel)
+                        .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipoLabel)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cargoCargoidLabel)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(salarioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(salarioLabel))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bancoIdbancoLabel)
+                        .addComponent(numeroCuentaLabel)
+                        .addComponent(numeroCuentaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(estadoLabel))
+                    .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(52, Short.MAX_VALUE))
+            );
+
+            bindingGroup.bind();
+        }
+
+        // Code for dispatching events from components to event handlers.
+
+        private class FormListener implements java.awt.event.ActionListener {
+            FormListener() {}
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                if (evt.getSource() == jComboBox2) {
+                    Empleados2.this.jComboBox2ActionPerformed(evt);
+                }
+                else if (evt.getSource() == newButton1) {
+                    Empleados2.this.newButton1ActionPerformed(evt);
+                }
+                else if (evt.getSource() == refreshButton1) {
+                    Empleados2.this.refreshButton1ActionPerformed(evt);
+                }
+                else if (evt.getSource() == saveButton1) {
+                    Empleados2.this.saveButton1ActionPerformed(evt);
+                }
+            }
+        }// </editor-fold>//GEN-END:initComponents
 
     
 
-    @SuppressWarnings("unchecked")
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+   
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void newButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButton1ActionPerformed
+        com.udec.modelo.Empleado e = new com.udec.modelo.Empleado();
+        entityManager.persist(e);
+        list.add(e);
+        int row = list.size() - 1;
+        masterTable.setRowSelectionInterval(row, row);
+        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+    }//GEN-LAST:event_newButton1ActionPerformed
+
+    private void refreshButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButton1ActionPerformed
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -404,19 +427,10 @@ public class Empleados2 extends JInternalFrame {
         }
         list.clear();
         list.addAll(data);
-    }//GEN-LAST:event_refreshButtonActionPerformed
+    }//GEN-LAST:event_refreshButton1ActionPerformed
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.udec.modelo.Empleado e = new com.udec.modelo.Empleado();
-        entityManager.persist(e);
-        list.add(e);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
-    
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {
+    private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
+         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
@@ -429,11 +443,7 @@ public class Empleados2 extends JInternalFrame {
             list.clear();
             list.addAll(merged);
         }
-    }//GEN-LAST:event_saveButtonActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_saveButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -448,6 +458,7 @@ public class Empleados2 extends JInternalFrame {
     private javax.swing.JTextField codigoField;
     private javax.swing.JLabel codigoLabel;
     private com.udec.vista.DateConverter dateConverter1;
+    private com.udec.vista.DoubleConverter doubleConverter1;
     private java.util.List<com.udec.modelo.Empleado> empleadoList;
     private javax.persistence.Query empleadoQuery;
     private javax.persistence.EntityManager entityManager;
@@ -459,21 +470,17 @@ public class Empleados2 extends JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private java.util.List<com.udec.modelo.Empleado> list;
     private javax.swing.JScrollPane masterScrollPane;
-    private javax.swing.JScrollPane masterScrollPane1;
     private javax.swing.JTable masterTable;
-    private javax.swing.JTable masterTable2;
-    private javax.swing.JButton newButton;
+    private javax.swing.JButton newButton1;
     private javax.swing.JTextField nombreField;
     private javax.swing.JLabel nombreLabel;
-    private java.util.List<com.udec.modelo.Novedadmedic> novedadmedicList;
-    private javax.persistence.Query novedadmedicQuery;
     private javax.swing.JTextField numeroCuentaField;
     private javax.swing.JLabel numeroCuentaLabel;
     private javax.persistence.Query query;
-    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton refreshButton1;
     private javax.swing.JTextField salarioField;
     private javax.swing.JLabel salarioLabel;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton saveButton1;
     private javax.swing.JLabel tipoLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

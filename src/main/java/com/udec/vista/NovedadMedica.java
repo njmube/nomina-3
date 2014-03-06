@@ -10,7 +10,11 @@ import com.udec.modelo.Empleado;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.beans.Beans;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -57,11 +61,14 @@ public class NovedadMedica extends JInternalFrame {
         empleadoCodigoLabel = new javax.swing.JLabel();
         fechaInicioField = new javax.swing.JTextField();
         fechaFinalField = new javax.swing.JTextField();
-        saveButton = new javax.swing.JButton();
-        refreshButton = new javax.swing.JButton();
-        newButton = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        newButton1 = new javax.swing.JButton();
+        refreshButton1 = new javax.swing.JButton();
+        saveButton1 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -102,15 +109,6 @@ public class NovedadMedica extends JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), fechaFinalField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        saveButton.setText("Guardar Cambios");
-        saveButton.addActionListener(formListener);
-
-        refreshButton.setText("Actualizar");
-        refreshButton.addActionListener(formListener);
-
-        newButton.setText("Nueva Incapacidad");
-        newButton.addActionListener(formListener);
-
         jComboBox1.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
@@ -134,53 +132,110 @@ public class NovedadMedica extends JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipo}"), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("Listado de novedades medicas");
+
+        newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
+        newButton1.setText("Nuevo");
+        newButton1.setBorder(null);
+        newButton1.setBorderPainted(false);
+        newButton1.setContentAreaFilled(false);
+        newButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        newButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        newButton1.setIconTextGap(-3);
+        newButton1.setMaximumSize(new java.awt.Dimension(115, 100));
+        newButton1.setMinimumSize(new java.awt.Dimension(115, 100));
+        newButton1.setPreferredSize(new java.awt.Dimension(115, 100));
+        newButton1.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
+        newButton1.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
+        newButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        newButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newButton1.addActionListener(formListener);
+
+        refreshButton1.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
+        refreshButton1.setText("Actualizar");
+        refreshButton1.setBorder(null);
+        refreshButton1.setBorderPainted(false);
+        refreshButton1.setContentAreaFilled(false);
+        refreshButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        refreshButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        refreshButton1.setIconTextGap(-3);
+        refreshButton1.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
+        refreshButton1.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
+        refreshButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        refreshButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        refreshButton1.addActionListener(formListener);
+
+        saveButton1.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+        saveButton1.setText("Guardar Cambios");
+        saveButton1.setBorder(null);
+        saveButton1.setBorderPainted(false);
+        saveButton1.setContentAreaFilled(false);
+        saveButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saveButton1.setIconTextGap(-3);
+        saveButton1.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+        saveButton1.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+        saveButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saveButton1.addActionListener(formListener);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(refreshButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveButton))
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1035, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fechaInicioLabel)
-                                    .addComponent(fechaFinalLabel)
-                                    .addComponent(tipoLabel)
-                                    .addComponent(empleadoCodigoLabel))
+                            .addComponent(fechaInicioLabel)
+                            .addComponent(fechaFinalLabel)
+                            .addComponent(tipoLabel)
+                            .addComponent(empleadoCodigoLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(fechaFinalField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fechaInicioField))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fechaInicioField)
-                                    .addComponent(fechaFinalField)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1035, Short.MAX_VALUE))))
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newButton, refreshButton, saveButton});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaInicioLabel)
-                    .addComponent(fechaInicioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaFinalLabel)
-                    .addComponent(fechaFinalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(fechaInicioLabel)
+                        .addComponent(fechaInicioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(fechaFinalLabel)
+                        .addComponent(fechaFinalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tipoLabel)
@@ -190,37 +245,75 @@ public class NovedadMedica extends JInternalFrame {
                     .addComponent(empleadoCodigoLabel)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(refreshButton)
-                    .addComponent(newButton))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        bindingGroup.bind();
-    }
+        jDateChooser1.setMaximumSize(new java.awt.Dimension(27, 20));
 
-    // Code for dispatching events from components to event handlers.
+        // Code adding the component to the parent container - not shown here
+        jDateChooser1.getDateEditor().addPropertyChangeListener(
+            new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent e) {
+                    if ("date".equals(e.getPropertyName())) {
+                        System.out.println(e.getPropertyName()
+                            + ": " + (Date) e.getNewValue());
+                        fechaInicioField.setText(""+new SimpleDateFormat("dd/MM/yyyy").format((Date)e.getNewValue()));
+                    }
+                }
+            });
+            this.add(jDateChooser1);
+            jDateChooser2.setMaximumSize(new java.awt.Dimension(27, 20));
 
-    private class FormListener implements java.awt.event.ActionListener {
-        FormListener() {}
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == saveButton) {
-                NovedadMedica.this.saveButtonActionPerformed(evt);
+            // Code adding the component to the parent container - not shown here
+            jDateChooser2.getDateEditor().addPropertyChangeListener(
+                new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent e) {
+                        if ("date".equals(e.getPropertyName())) {
+                            fechaFinalField.setText(""+new SimpleDateFormat("dd/MM/yyyy").format((Date)e.getNewValue()));
+                        }
+                    }
+                });
+                this.add(jDateChooser1);
+
+                bindingGroup.bind();
             }
-            else if (evt.getSource() == refreshButton) {
-                NovedadMedica.this.refreshButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == newButton) {
-                NovedadMedica.this.newButtonActionPerformed(evt);
-            }
-        }
-    }// </editor-fold>//GEN-END:initComponents
+
+            // Code for dispatching events from components to event handlers.
+
+            private class FormListener implements java.awt.event.ActionListener {
+                FormListener() {}
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    if (evt.getSource() == newButton1) {
+                        NovedadMedica.this.newButton1ActionPerformed(evt);
+                    }
+                    else if (evt.getSource() == refreshButton1) {
+                        NovedadMedica.this.refreshButton1ActionPerformed(evt);
+                    }
+                    else if (evt.getSource() == saveButton1) {
+                        NovedadMedica.this.saveButton1ActionPerformed(evt);
+                    }
+                }
+            }// </editor-fold>//GEN-END:initComponents
 
     
 
-    @SuppressWarnings("unchecked")
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+   
+    private void newButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButton1ActionPerformed
+        com.udec.modelo.Novedadmedic n = new com.udec.modelo.Novedadmedic();
+        entityManager.persist(n);
+        list.add(n);
+        int row = list.size() - 1;
+        masterTable2.setRowSelectionInterval(row, row);
+        masterTable2.scrollRectToVisible(masterTable2.getCellRect(row, 0, true));
+    }//GEN-LAST:event_newButton1ActionPerformed
+
+    private void refreshButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButton1ActionPerformed
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -229,18 +322,9 @@ public class NovedadMedica extends JInternalFrame {
         }
         list.clear();
         list.addAll(data);
-    }//GEN-LAST:event_refreshButtonActionPerformed
+    }//GEN-LAST:event_refreshButton1ActionPerformed
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.udec.modelo.Novedadmedic n = new com.udec.modelo.Novedadmedic();
-        entityManager.persist(n);
-        list.add(n);
-        int row = list.size() - 1;
-        masterTable2.setRowSelectionInterval(row, row);
-        masterTable2.scrollRectToVisible(masterTable2.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
-    
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+    private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
@@ -254,7 +338,7 @@ public class NovedadMedica extends JInternalFrame {
             list.clear();
             list.addAll(merged);
         }
-    }//GEN-LAST:event_saveButtonActionPerformed
+    }//GEN-LAST:event_saveButton1ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -269,13 +353,16 @@ public class NovedadMedica extends JInternalFrame {
     private javax.swing.JLabel fechaInicioLabel;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JLabel jLabel1;
     private java.util.List<com.udec.modelo.Novedadmedic> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable2;
-    private javax.swing.JButton newButton;
+    private javax.swing.JButton newButton1;
     private javax.persistence.Query query;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton refreshButton1;
+    private javax.swing.JButton saveButton1;
     private javax.swing.JLabel tipoLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
