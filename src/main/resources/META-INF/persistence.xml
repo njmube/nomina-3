@@ -17,6 +17,7 @@
     <class>com.udec.modelo.Novedadmedic</class>
     <class>com.udec.vista.Grupoconcepto</class>
     <class>com.udec.modelo.Grupoconcepto</class>
+    <class>com.udec.modelo.Diastrabajados</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/nomina2?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="123456"/>

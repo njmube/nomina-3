@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.udec.vista;
 
 import com.udec.modelo.Empleado;
+import com.udec.modelo.Periodo;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.beans.Beans;
@@ -29,8 +29,11 @@ import javax.swing.JPanel;
  * @author Oscar
  */
 public class NovedadMedica extends JInternalFrame {
-    
-    public NovedadMedica() {
+
+    private Periodo p;
+
+    public NovedadMedica(Periodo pe) {
+        this.p = pe;
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -48,7 +51,7 @@ public class NovedadMedica extends JInternalFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("com.udec_nomina_jar_1.0-SNAPSHOTPU").createEntityManager();
-        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT n FROM Novedadmedic n");
+        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT n FROM Novedadmedic n where (n.fechaInicio BETWEEN :startDate AND :endDate) OR (n.fechaFinal BETWEEN :startDate AND :endDate) ").setParameter("startDate", p.getDesde()).setParameter("endDate", p.getHasta());
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
         dateConverter1 = new com.udec.vista.DateConverter();
         empleadoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Empleado e");
@@ -59,8 +62,6 @@ public class NovedadMedica extends JInternalFrame {
         fechaFinalLabel = new javax.swing.JLabel();
         tipoLabel = new javax.swing.JLabel();
         empleadoCodigoLabel = new javax.swing.JLabel();
-        fechaInicioField = new javax.swing.JTextField();
-        fechaFinalField = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -97,18 +98,6 @@ public class NovedadMedica extends JInternalFrame {
 
         empleadoCodigoLabel.setText("Empleado:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaInicio}"), fechaInicioField, org.jdesktop.beansbinding.BeanProperty.create("text"), "date");
-        binding.setConverter(dateConverter1);
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), fechaInicioField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaFinal}"), fechaFinalField, org.jdesktop.beansbinding.BeanProperty.create("text"), "date2");
-        binding.setConverter(dateConverter1);
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), fechaFinalField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
         jComboBox1.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
@@ -124,7 +113,7 @@ public class NovedadMedica extends JInternalFrame {
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, empleadoList, jComboBox1);
         bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.empleadoCodigo}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.empleadoCodigo}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Incapacidad de origen común", "Incapacidad de origen profesional" }));
@@ -197,20 +186,14 @@ public class NovedadMedica extends JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(fechaFinalField, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fechaInicioField))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
@@ -226,15 +209,11 @@ public class NovedadMedica extends JInternalFrame {
                 .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fechaInicioLabel)
-                        .addComponent(fechaInicioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechaInicioLabel)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fechaFinalLabel)
-                        .addComponent(fechaFinalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechaFinalLabel)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -249,61 +228,41 @@ public class NovedadMedica extends JInternalFrame {
                     .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jDateChooser1.setMaximumSize(new java.awt.Dimension(27, 20));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaInicio}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaFinal}"), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
 
-        // Code adding the component to the parent container - not shown here
-        jDateChooser1.getDateEditor().addPropertyChangeListener(
-            new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent e) {
-                    if ("date".equals(e.getPropertyName())) {
-                        System.out.println(e.getPropertyName()
-                            + ": " + (Date) e.getNewValue());
-                        fechaInicioField.setText(""+new SimpleDateFormat("dd/MM/yyyy").format((Date)e.getNewValue()));
-                    }
-                }
-            });
-            this.add(jDateChooser1);
-            jDateChooser2.setMaximumSize(new java.awt.Dimension(27, 20));
+        bindingGroup.bind();
+    }
 
-            // Code adding the component to the parent container - not shown here
-            jDateChooser2.getDateEditor().addPropertyChangeListener(
-                new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent e) {
-                        if ("date".equals(e.getPropertyName())) {
-                            fechaFinalField.setText(""+new SimpleDateFormat("dd/MM/yyyy").format((Date)e.getNewValue()));
-                        }
-                    }
-                });
-                this.add(jDateChooser1);
+    // Code for dispatching events from components to event handlers.
 
-                bindingGroup.bind();
+    private class FormListener implements java.awt.event.ActionListener {
+        FormListener() {}
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            if (evt.getSource() == newButton1) {
+                NovedadMedica.this.newButton1ActionPerformed(evt);
             }
+            else if (evt.getSource() == refreshButton1) {
+                NovedadMedica.this.refreshButton1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == saveButton1) {
+                NovedadMedica.this.saveButton1ActionPerformed(evt);
+            }
+        }
+    }// </editor-fold>//GEN-END:initComponents
 
-            // Code for dispatching events from components to event handlers.
 
-            private class FormListener implements java.awt.event.ActionListener {
-                FormListener() {}
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if (evt.getSource() == newButton1) {
-                        NovedadMedica.this.newButton1ActionPerformed(evt);
-                    }
-                    else if (evt.getSource() == refreshButton1) {
-                        NovedadMedica.this.refreshButton1ActionPerformed(evt);
-                    }
-                    else if (evt.getSource() == saveButton1) {
-                        NovedadMedica.this.saveButton1ActionPerformed(evt);
-                    }
-                }
-            }// </editor-fold>//GEN-END:initComponents
-
-    
-
-   
     private void newButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButton1ActionPerformed
         com.udec.modelo.Novedadmedic n = new com.udec.modelo.Novedadmedic();
         entityManager.persist(n);
@@ -340,16 +299,14 @@ public class NovedadMedica extends JInternalFrame {
         }
     }//GEN-LAST:event_saveButton1ActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.udec.vista.DateConverter dateConverter1;
     private javax.swing.JLabel empleadoCodigoLabel;
     private java.util.List<com.udec.modelo.Empleado> empleadoList;
     private javax.persistence.Query empleadoQuery;
     private javax.persistence.EntityManager entityManager;
-    private javax.swing.JTextField fechaFinalField;
     private javax.swing.JLabel fechaFinalLabel;
-    private javax.swing.JTextField fechaInicioField;
     private javax.swing.JLabel fechaInicioLabel;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
@@ -366,6 +323,5 @@ public class NovedadMedica extends JInternalFrame {
     private javax.swing.JLabel tipoLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-   
-    
+
 }

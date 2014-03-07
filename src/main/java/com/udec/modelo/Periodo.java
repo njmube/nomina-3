@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.udec.modelo;
 
 import java.beans.PropertyChangeListener;
@@ -72,6 +73,8 @@ public class Periodo implements Serializable {
     private String actual;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "periodoIdperiodo")
     private List<Nomina> nominaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "periodoIdperiodo")
+    private List<Diastrabajados> diastrabajadosList;
 
     public Periodo() {
     }
@@ -161,6 +164,15 @@ public class Periodo implements Serializable {
         this.nominaList = nominaList;
     }
 
+    @XmlTransient
+    public List<Diastrabajados> getDiastrabajadosList() {
+        return diastrabajadosList;
+    }
+
+    public void setDiastrabajadosList(List<Diastrabajados> diastrabajadosList) {
+        this.diastrabajadosList = diastrabajadosList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -185,10 +197,10 @@ public class Periodo implements Serializable {
     public String toString() {
         return "com.udec.modelo.Periodo[ idperiodo=" + idperiodo + " ]";
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

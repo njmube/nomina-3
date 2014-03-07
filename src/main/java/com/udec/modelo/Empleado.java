@@ -74,6 +74,8 @@ public class Empleado implements Serializable {
     private Banco bancoIdbanco;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoCodigo")
     private List<Novedadmedic> novedadmedicList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoCodigo")
+    private List<Diastrabajados> diastrabajadosList;
 
     public Empleado() {
     }
@@ -197,6 +199,15 @@ public class Empleado implements Serializable {
 
     public void setNovedadmedicList(List<Novedadmedic> novedadmedicList) {
         this.novedadmedicList = novedadmedicList;
+    }
+
+    @XmlTransient
+    public List<Diastrabajados> getDiastrabajadosList() {
+        return diastrabajadosList;
+    }
+
+    public void setDiastrabajadosList(List<Diastrabajados> diastrabajadosList) {
+        this.diastrabajadosList = diastrabajadosList;
     }
 
     @Override

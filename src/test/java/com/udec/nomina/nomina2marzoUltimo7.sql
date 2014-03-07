@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-02-2014 a las 22:08:58
+-- Tiempo de generación: 07-03-2014 a las 21:50:56
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -42,7 +42,7 @@ INSERT INTO `banco` (`idbanco`, `codigo`, `banco`) VALUES
 (2, 'B102', 'BANCO AVVILLAS'),
 (3, 'B103', 'BANCOLOMBIA S.A'),
 (4, 'B104', 'BANCO SUDAMERIS'),
-(5, 'B105', 'BANCO DE LAS MARGARITAS');
+(5, 'B105', 'BANCO CREDIVALORES');
 
 -- --------------------------------------------------------
 
@@ -116,6 +116,29 @@ INSERT INTO `concepto` (`idconcepto`, `codigo`, `concepto`, `tipo`, `formato`, `
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `diastrabajados`
+--
+
+CREATE TABLE IF NOT EXISTS `diastrabajados` (
+  `iddiastrabajados` int(11) NOT NULL AUTO_INCREMENT,
+  `empleado_codigo` int(11) NOT NULL,
+  `periodo_idperiodo` int(11) NOT NULL,
+  `dias` int(11) DEFAULT NULL,
+  PRIMARY KEY (`iddiastrabajados`),
+  KEY `fk_diastrabajados_empleado1` (`empleado_codigo`),
+  KEY `fk_diastrabajados_periodo1` (`periodo_idperiodo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `diastrabajados`
+--
+
+INSERT INTO `diastrabajados` (`iddiastrabajados`, `empleado_codigo`, `periodo_idperiodo`, `dias`) VALUES
+(2, 33266823, 1, 15);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `empleado`
 --
 
@@ -123,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `empleado` (
   `codigo` int(11) NOT NULL,
   `cedula` varchar(45) DEFAULT NULL,
   `nombre` varchar(100) DEFAULT NULL,
-  `salario` float DEFAULT NULL,
+  `salario` double DEFAULT NULL,
   `tipo` varchar(45) DEFAULT NULL,
   `estado` varchar(45) DEFAULT NULL,
   `banco_idbanco` int(11) DEFAULT NULL,
@@ -174,8 +197,8 @@ INSERT INTO `grupoconcepto` (`idgrupoconcepto`, `codigo`, `nombre`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `nomina` (
-  `idnomina` int(11) NOT NULL,
-  `valor` float DEFAULT NULL,
+  `idnomina` int(11) NOT NULL AUTO_INCREMENT,
+  `valor` double DEFAULT NULL,
   `periodo_idperiodo` int(11) NOT NULL,
   `concepto_idconcepto` int(11) NOT NULL,
   `empleado_codigo` int(11) NOT NULL,
@@ -183,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `nomina` (
   KEY `fk_nomina_periodo1_idx` (`periodo_idperiodo`),
   KEY `fk_nomina_concepto1_idx` (`concepto_idconcepto`),
   KEY `fk_nomina_empleado1_idx` (`empleado_codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -199,7 +222,14 @@ CREATE TABLE IF NOT EXISTS `novedadmedic` (
   `empleado_codigo` int(11) NOT NULL,
   PRIMARY KEY (`idnovedadmedic`),
   KEY `fk_novedadmedic_empleado1_idx` (`empleado_codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `novedadmedic`
+--
+
+INSERT INTO `novedadmedic` (`idnovedadmedic`, `fecha_inicio`, `fecha_final`, `tipo`, `empleado_codigo`) VALUES
+(1, '2012-08-16', '2012-08-31', 'Incapacidad de origen común', 1047416719);
 
 -- --------------------------------------------------------
 
@@ -209,11 +239,11 @@ CREATE TABLE IF NOT EXISTS `novedadmedic` (
 
 CREATE TABLE IF NOT EXISTS `novedadxconcepto` (
   `idnovedad` int(11) NOT NULL AUTO_INCREMENT,
-  `valor` float DEFAULT NULL,
-  `saldo` float DEFAULT NULL,
+  `valor` double DEFAULT NULL,
+  `saldo` double DEFAULT NULL,
   `tipo_saldo` varchar(45) DEFAULT NULL,
   `aplicar_quincenal` varchar(45) DEFAULT NULL,
-  `total_libranza` float DEFAULT NULL,
+  `total_libranza` double DEFAULT NULL,
   `numero_cuotas` int(11) DEFAULT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `concepto_idconcepto` int(11) NOT NULL,
@@ -223,7 +253,18 @@ CREATE TABLE IF NOT EXISTS `novedadxconcepto` (
   KEY `fk_novedadxconcepto_concepto1_idx` (`concepto_idconcepto`),
   KEY `fk_novedadxconcepto_banco1_idx` (`banco_idbanco`),
   KEY `fk_novedadxconcepto_empleado1_idx` (`empleado_codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `novedadxconcepto`
+--
+
+INSERT INTO `novedadxconcepto` (`idnovedad`, `valor`, `saldo`, `tipo_saldo`, `aplicar_quincenal`, `total_libranza`, `numero_cuotas`, `fecha_inicio`, `concepto_idconcepto`, `banco_idbanco`, `empleado_codigo`) VALUES
+(5, 489305, 14679200, 'Hasta saldo', 'Todas', 14679200, 30, '2012-08-16', 13, 5, 73129072),
+(6, 8150, NULL, 'Indefinido', 'Todas', NULL, NULL, '2012-08-16', 7, NULL, 73129072),
+(8, 15000, NULL, 'Indefinido', 'Todas', NULL, NULL, '2012-08-16', 11, NULL, 45495621),
+(9, 11664, NULL, 'Solo este periodo', 'Segundas Quincenasa', NULL, NULL, '2012-08-16', 6, NULL, 73129072),
+(11, 5750, NULL, 'Indefinido', 'Todas', NULL, NULL, '2012-08-16', 7, NULL, 1047416719);
 
 -- --------------------------------------------------------
 
@@ -256,7 +297,7 @@ INSERT INTO `parametros_generales` (`salario_minimo`, `subsidio_transporte`, `su
 --
 
 CREATE TABLE IF NOT EXISTS `periodo` (
-  `idperiodo` int(11) NOT NULL,
+  `idperiodo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `mes` int(11) DEFAULT NULL,
   `anio` int(11) DEFAULT NULL,
@@ -265,7 +306,14 @@ CREATE TABLE IF NOT EXISTS `periodo` (
   `hasta` date DEFAULT NULL,
   `actual` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idperiodo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `periodo`
+--
+
+INSERT INTO `periodo` (`idperiodo`, `nombre`, `mes`, `anio`, `quincena`, `desde`, `hasta`, `actual`) VALUES
+(1, 'NÓMINA DE SUELDOS  SEGUNDA QUINCENA MES DE AGOSTO DE 2012', 8, 2012, 2, '2012-08-16', '2012-08-31', 'SI');
 
 --
 -- Restricciones para tablas volcadas
@@ -276,6 +324,13 @@ CREATE TABLE IF NOT EXISTS `periodo` (
 --
 ALTER TABLE `concepto`
   ADD CONSTRAINT `fk_concepto_grupoconcepto1` FOREIGN KEY (`grupoconcepto_idgrupoconcepto`) REFERENCES `grupoconcepto` (`idgrupoconcepto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `diastrabajados`
+--
+ALTER TABLE `diastrabajados`
+  ADD CONSTRAINT `fk_diastrabajados_empleado1` FOREIGN KEY (`empleado_codigo`) REFERENCES `empleado` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_diastrabajados_periodo1` FOREIGN KEY (`periodo_idperiodo`) REFERENCES `periodo` (`idperiodo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `empleado`

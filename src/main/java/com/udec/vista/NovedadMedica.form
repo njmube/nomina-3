@@ -19,6 +19,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="java.beans.Beans.isDesignTime() ? null : entityManager.createQuery(&quot;SELECT n FROM Novedadmedic n where (n.fechaInicio BETWEEN :startDate AND :endDate) OR (n.fechaFinal BETWEEN :startDate AND :endDate) &quot;).setParameter(&quot;startDate&quot;, p.getDesde()).setParameter(&quot;endDate&quot;, p.getHasta())"/>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
@@ -90,17 +91,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jComboBox1" alignment="0" max="32767" attributes="0"/>
                           <Component id="jComboBox2" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="fechaFinalField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="fechaInicioField" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jDateChooser1" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="jDateChooser2" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="jDateChooser1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jDateChooser2" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -109,7 +101,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="newButton1" min="-2" pref="95" max="-2" attributes="0"/>
+                      <Component id="newButton1" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="refreshButton1" min="-2" pref="98" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
@@ -129,18 +121,12 @@
               <Component id="masterScrollPane" min="-2" pref="225" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="fechaInicioLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fechaInicioField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="fechaInicioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="fechaFinalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fechaFinalField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="fechaFinalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -159,7 +145,7 @@
                   <Component id="refreshButton1" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                   <Component id="saveButton1" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -249,30 +235,6 @@
         <Property name="text" type="java.lang.String" value="Empleado:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fechaInicioField">
-      <BindingProperties>
-        <BindingProperty name="text" source="masterTable2" sourcePath="${selectedElement.fechaInicio}" target="fechaInicioField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-            <ComponentRef name="dateConverter1"/>
-          </Property>
-          <Property name="name" type="java.lang.String" value="date"/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable2" sourcePath="${selectedElement != null}" target="fechaInicioField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="fechaFinalField">
-      <BindingProperties>
-        <BindingProperty name="text" source="masterTable2" sourcePath="${selectedElement.fechaFinal}" target="fechaFinalField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-            <ComponentRef name="dateConverter1"/>
-          </Property>
-          <Property name="name" type="java.lang.String" value="date2"/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable2" sourcePath="${selectedElement != null}" target="fechaFinalField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-    </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <BindingProperties>
         <BindingProperty name="elements" source="empleadoList" target="jComboBox1" targetPath="elements" updateStrategy="0" immediately="false"/>
@@ -297,12 +259,12 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jDateChooser1.setMaximumSize(new java.awt.Dimension(27, 20));&#xa;&#xa;// Code adding the component to the parent container - not shown here&#xa;jDateChooser1.getDateEditor().addPropertyChangeListener(&#xa;    new PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(PropertyChangeEvent e) {&#xa;            if (&quot;date&quot;.equals(e.getPropertyName())) {&#xa;                System.out.println(e.getPropertyName()&#xa;                    + &quot;: &quot; + (Date) e.getNewValue());&#xa;                    fechaInicioField.setText(&quot;&quot;+new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).format((Date)e.getNewValue()));&#xa;            }&#xa;        }&#xa;    });&#xa;this.add(jDateChooser1);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement.fechaInicio}&quot;), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create(&quot;date&quot;));&#xa;binding.setSourceUnreadableValue(null);&#xa;bindingGroup.addBinding(binding);&#xa;binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
       </AuxValues>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jDateChooser2.setMaximumSize(new java.awt.Dimension(27, 20));&#xa;&#xa;// Code adding the component to the parent container - not shown here&#xa;jDateChooser2.getDateEditor().addPropertyChangeListener(&#xa;    new PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(PropertyChangeEvent e) {&#xa;            if (&quot;date&quot;.equals(e.getPropertyName())) {&#xa;                    fechaFinalField.setText(&quot;&quot;+new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).format((Date)e.getNewValue()));&#xa;            }&#xa;        }&#xa;    });&#xa;this.add(jDateChooser1);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable2, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement.fechaFinal}&quot;), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create(&quot;date&quot;));&#xa;binding.setSourceUnreadableValue(null);&#xa;bindingGroup.addBinding(binding);&#xa;binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable2, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
