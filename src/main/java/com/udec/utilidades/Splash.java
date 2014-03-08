@@ -5,6 +5,7 @@
  */
 package com.udec.utilidades;
 
+import com.udec.connection.jpaConnection;
 import com.udec.modelo.Periodo;
 import com.udec.vista.Inicio;
 import com.udec.vista.NominaMain;
@@ -34,6 +35,7 @@ public class Splash extends JWindow {
         setVisible(true);
         try {
             new Inicio().setVisible(true);
+            jpaConnection.createEntityManagerFactory();
             Thread.sleep(duracion);
         } catch (Exception e) {
             e.printStackTrace();

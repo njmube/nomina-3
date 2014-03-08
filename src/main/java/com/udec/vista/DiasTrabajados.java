@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -51,7 +52,20 @@ public class DiasTrabajados extends JInternalFrame {
         empleadoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Empleado e");
         empleadoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : empleadoQuery.getResultList();
         masterScrollPane = new javax.swing.JScrollPane();
-        masterTable = new javax.swing.JTable();
+        masterTable = new javax.swing.JTable(){
+            public void changeSelection(final int row, final int column, boolean toggle, boolean extend)
+            {
+                super.changeSelection(row, column, toggle, extend);
+                if(column==1){
+                    masterTable.editCellAt(row, column);
+                    masterTable.transferFocus();
+                    Component editor = getEditorComponent();
+                    editor.requestFocusInWindow();
+                    ((JTextComponent)editor).selectAll();
+                }
+
+            }
+        };
         empleadoCodigoLabel = new javax.swing.JLabel();
         diasLabel = new javax.swing.JLabel();
         diasField = new javax.swing.JTextField();
@@ -66,6 +80,7 @@ public class DiasTrabajados extends JInternalFrame {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${empleadoCodigo.nombre}"));
         columnBinding.setColumnName("Empleado");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dias}"));
         columnBinding.setColumnName("Dias trabajados");
         columnBinding.setColumnClass(Integer.class);
@@ -110,7 +125,7 @@ public class DiasTrabajados extends JInternalFrame {
         jButton1.setText("Liquidar nomina");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-            getContentPane().setLayout(layout);
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -226,40 +241,5 @@ public class DiasTrabajados extends JInternalFrame {
     private javax.swing.JButton saveButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-    public static void main(String[] args) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DiasTrabajados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DiasTrabajados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DiasTrabajados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DiasTrabajados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame();
-                frame.setContentPane(new DiasTrabajados(new Periodo()));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
-    }
-    
+  
 }

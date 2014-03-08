@@ -5,9 +5,14 @@
  */
 package com.udec.vista;
 
+import com.udec.controlador.DiastrabajadosJpaController;
+import com.udec.controlador.EmpleadoJpaController;
+import com.udec.modelo.Diastrabajados;
+import com.udec.modelo.Empleado;
 import com.udec.modelo.Periodo;
 import java.awt.Container;
 import java.awt.event.MouseListener;
+import java.util.List;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -282,8 +287,17 @@ public class NominaMain extends javax.swing.JFrame {
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         this.jDesktopPane1.removeAll();
         this.jDesktopPane1.repaint();
+        DiastrabajadosJpaController dtC = new DiastrabajadosJpaController();
+        EmpleadoJpaController eC = new EmpleadoJpaController();
+        List<Empleado>  emplActivos = eC.findByList("estado", "ACTIVO");
         if (periodoActual.getDiastrabajadosList().isEmpty()) {
-            
+            for (Empleado empleado : emplActivos) {
+                Diastrabajados dt = new Diastrabajados();
+                dt.setEmpleadoCodigo(empleado);
+                dt.setDias(15);
+                dt.setPeriodoIdperiodo(periodoActual);
+                dtC.create(dt);
+            }
         }
         DiasTrabajados nm = new DiasTrabajados(periodoActual);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
