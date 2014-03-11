@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.udec.controlador;
 
 import com.udec.connection.jpaConnection;
@@ -26,15 +25,29 @@ import javax.persistence.EntityManager;
  */
 public class NominaJpaController implements Serializable {
 
-    public NominaJpaController( ) {
-      
+    public NominaJpaController() {
+
     }
-   
 
     public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();
     }
 
+    public List<Nomina> findByList(String property, Object m) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Nomina.class));
+        return getEntityManager().createQuery("SELECT c FROM " + Nomina.class.getSimpleName() + " c WHERE c." + property + " = :name", Nomina.class).setParameter("name", m).getResultList();
+    }
+
+    public List<Nomina> findByList2(String property1, Object m1, String property2, Object m2) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Nomina.class));
+        Query q = getEntityManager().createQuery("SELECT c FROM " + Nomina.class.getSimpleName() + " c WHERE c." + property1 + " = :name1 and c." + property2 + " = :name2", Nomina.class);
+        q.setParameter("name1", m1);
+        q.setParameter("name2", m2);
+        return q.getResultList();
+    }
+    
     public void create(Nomina nomina) {
         EntityManager em = null;
         try {
@@ -223,5 +236,5 @@ public class NominaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

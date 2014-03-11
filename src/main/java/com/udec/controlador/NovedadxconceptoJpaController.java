@@ -17,6 +17,7 @@ import com.udec.modelo.Empleado;
 import com.udec.modelo.Banco;
 import com.udec.modelo.Concepto;
 import com.udec.modelo.Novedadxconcepto;
+import com.udec.modelo.Periodo;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -36,6 +37,31 @@ public class NovedadxconceptoJpaController implements Serializable {
 
     }
 
+    public List<Novedadxconcepto> findByList3(String property1, Object m1, String property2, Object m2, Periodo p) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Novedadxconcepto.class));
+        Query q = getEntityManager().createQuery("SELECT c FROM " + Novedadxconcepto.class.getSimpleName() + " c WHERE c." + property1 + " = :name1 and c." + property2 + " = :name2 and ((c.fechaInicio BETWEEN :startDate AND :endDate) OR ((c.fechaInicio <:startDate) AND (c.tipoSaldo='Indefinido')))", Novedadxconcepto.class);
+        q.setParameter("name1", m1);
+        q.setParameter("name2", m2);
+        q.setParameter("startDate", p.getDesde());
+        q.setParameter("endDate", p.getHasta());
+        return q.getResultList();
+    }                                         //EmpleadoCodigo             , Concepto.tipo             periodo
+    public List<Novedadxconcepto> findByList4(String property1, Object m1, String property2, Object m2, Periodo p) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Novedadxconcepto.class));
+        Query q = getEntityManager().createQuery("SELECT c FROM " + Novedadxconcepto.class.getSimpleName() + " c "
+                + "WHERE c." + property1 + " = :name1 and c." + property2 + " = :name2 and "
+                + "((c.fechaInicio BETWEEN :startDate AND :endDate) "
+                + "OR ((c.fechaInicio <:startDate) AND (c.tipoSaldo='Indefinido'))"
+                + "OR ((c.fechaInicio <:startDate) AND (c.tipoSaldo='Hasta saldo') AND c.saldo > 0))", Novedadxconcepto.class);
+        q.setParameter("name1", m1);
+        q.setParameter("name2", m2);
+        q.setParameter("startDate", p.getDesde());
+        q.setParameter("endDate", p.getHasta());
+        return q.getResultList();
+    }
+    
     public void create(Novedadxconcepto novedadxconcepto) {
         EntityManager em = null;
         try {

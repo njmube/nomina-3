@@ -3,10 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.udec.vista;
 
+import com.udec.controlador.ConceptoJpaController;
+import com.udec.controlador.DiastrabajadosJpaController;
+import com.udec.controlador.EmpleadoJpaController;
+import com.udec.controlador.NominaJpaController;
+import com.udec.controlador.NovedadmedicJpaController;
+import com.udec.controlador.NovedadxconceptoJpaController;
+import com.udec.controlador.ParametrosGeneralesJpaController;
+import com.udec.controlador.exceptions.NonexistentEntityException;
+import com.udec.modelo.Diastrabajados;
 import com.udec.modelo.Empleado;
+import com.udec.modelo.Nomina;
+import com.udec.modelo.Novedadmedic;
+import com.udec.modelo.Novedadxconcepto;
 import com.udec.modelo.Periodo;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -14,6 +25,8 @@ import java.beans.Beans;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFrame;
@@ -27,9 +40,11 @@ import javax.swing.text.JTextComponent;
  * @author Ususario
  */
 public class DiasTrabajados extends JInternalFrame {
+
     private Periodo p;
+
     public DiasTrabajados(Periodo pe) {
-        this.p=pe;
+        this.p = pe;
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -73,6 +88,7 @@ public class DiasTrabajados extends JInternalFrame {
         refreshButton = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -123,33 +139,35 @@ public class DiasTrabajados extends JInternalFrame {
         bindingGroup.addBinding(binding);
 
         jButton1.setText("Liquidar nomina");
+        jButton1.addActionListener(formListener);
+
+        jButton2.setText("Recalcular empleados");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(empleadoCodigoLabel)
-                                    .addComponent(diasLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(diasField, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(126, 126, 126)
+                            .addComponent(empleadoCodigoLabel)
+                            .addComponent(diasLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(diasField, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(refreshButton)
-                        .addGap(56, 56, 56)
+                        .addGap(18, 18, 18)
                         .addComponent(saveButton)
-                        .addGap(42, 42, 42)
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
 
@@ -159,7 +177,7 @@ public class DiasTrabajados extends JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(empleadoCodigoLabel)
@@ -172,7 +190,8 @@ public class DiasTrabajados extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(refreshButton)
                     .addComponent(saveButton)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -190,10 +209,11 @@ public class DiasTrabajados extends JInternalFrame {
             else if (evt.getSource() == refreshButton) {
                 DiasTrabajados.this.refreshButtonActionPerformed(evt);
             }
+            else if (evt.getSource() == jButton1) {
+                DiasTrabajados.this.jButton1ActionPerformed(evt);
+            }
         }
     }// </editor-fold>//GEN-END:initComponents
-
-    
 
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
@@ -206,7 +226,7 @@ public class DiasTrabajados extends JInternalFrame {
         list.clear();
         list.addAll(data);
     }//GEN-LAST:event_refreshButtonActionPerformed
-    
+
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
             entityManager.getTransaction().commit();
@@ -223,6 +243,139 @@ public class DiasTrabajados extends JInternalFrame {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        NominaJpaController nC = new NominaJpaController();
+        EmpleadoJpaController eC = new EmpleadoJpaController();
+        ConceptoJpaController cC = new ConceptoJpaController();
+        NovedadmedicJpaController nmC = new NovedadmedicJpaController();
+        NovedadxconceptoJpaController ncC = new NovedadxconceptoJpaController();
+        ParametrosGeneralesJpaController pgC = new ParametrosGeneralesJpaController();
+        DiastrabajadosJpaController dtC = new DiastrabajadosJpaController();
+        List<Nomina> nominas = nC.findByList("periodoIdperiodo", p);
+        List<Empleado> empleadosActivos = eC.findByList("estado", "ACTIVO");
+        for (Nomina nomina : nominas) {
+            try {
+                nC.destroy(nomina.getIdnomina());
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(DiasTrabajados.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        com.udec.modelo.ParametrosGenerales pg = pgC.findParametrosGenerales(1);
+
+        for (Empleado empleado : empleadosActivos) {
+            Nomina aux = new Nomina();
+            aux.setEmpleadoCodigo(empleado); //empleado
+            aux.setConceptoIdconcepto(cC.findConcepto(1)); //sueldo
+            aux.setPeriodoIdperiodo(p);
+            Diastrabajados dt = dtC.findBySingle2("empleadoCodigo", empleado, "periodoIdperiodo", p);
+            Double sueldoQuincena = (Double) empleado.getSalario() * dt.getDias()/30;
+            aux.setValor(sueldoQuincena); //sueldo Quincena
+            nC.create(aux);
+
+            //subsidio de transporte
+            if ((empleado.getSalario() < (double) (pg.getSalarioMinimo() * 2)) && empleado.getTipo().equals("PLANTA")) { //si el salario no supera los 2 SMLV y el empleado es de planta
+                Nomina aux2 = new Nomina();
+                aux2.setEmpleadoCodigo(empleado); //empleado
+                aux2.setConceptoIdconcepto(cC.findConcepto(2)); //auxilio de transporte
+                aux2.setPeriodoIdperiodo(p); //periodo
+                Double subsidioT = (double) (dt.getDias() * pg.getSubsidioTransporte() / 30);
+                aux2.setValor(subsidioT); //subsidio de transporte
+                nC.create(aux2);
+            }
+
+            //subsidio de alimentacion
+            if ((empleado.getSalario() < (double) 1228170) && empleado.getTipo().equals("PLANTA")) { //si el salario no supera 1.228.170 y el empleado es de planta
+                Nomina aux3 = new Nomina();
+                aux3.setEmpleadoCodigo(empleado); //empleado
+                aux3.setConceptoIdconcepto(cC.findConcepto(3)); //auxilio de alimentacion
+                aux3.setPeriodoIdperiodo(p); //periodo
+                Double subsidioA = (double) (dt.getDias() * pg.getSubsidioAlimentacion() / 30);
+                aux3.setValor(subsidioA); //subsidio de alimentacion
+                nC.create(aux3);
+            }
+
+            //algun concepto de devengado en novedades por concepto
+            List<Novedadxconcepto> nc = ncC.findByList3("empleadoCodigo", empleado, "conceptoIdconcepto.tipo", "DEVENGADO", p);
+            for (Novedadxconcepto novedadxconcepto : nc) {
+                Nomina aux4 = new Nomina();
+                aux4.setEmpleadoCodigo(empleado); //empleado
+                aux4.setConceptoIdconcepto(novedadxconcepto.getConceptoIdconcepto()); //concepto de algo devengado
+                aux4.setPeriodoIdperiodo(p); //periodo
+                aux4.setValor(novedadxconcepto.getValor()); //valor a pagar en el concepto
+                nC.create(aux4);
+            }
+
+            //incapacidad de origen comun
+            List<Novedadmedic> novedadesMedicasOrigenComun = nmC.findByPeriodoEmpleadoO(p, empleado, "Incapacidad de origen común");
+            if (!novedadesMedicasOrigenComun.isEmpty()) {
+                Nomina aux3 = new Nomina();
+                aux3.setEmpleadoCodigo(empleado); //empleado
+                aux3.setConceptoIdconcepto(cC.findConcepto(4)); //INCAPACIDAD DE ORIGEN COMUN
+                aux3.setPeriodoIdperiodo(p); //periodo
+                Double valorIncapacidad = 0.0;
+                for (Novedadmedic novedadmedic : novedadesMedicasOrigenComun) {
+                    if (novedadmedic.getFechaInicio().before(p.getDesde()) && novedadmedic.getFechaFinal().after(p.getHasta())) { //si la incapacidad comienza antes del periodo y se acaba despues del periodo
+
+                    } else {
+                        if (novedadmedic.getFechaInicio().before(p.getDesde()) && !novedadmedic.getFechaFinal().after(p.getHasta())) { //si la incapacidad comienza antes del periodo y se acaba dentro del periodo
+
+                        } else {
+                            if (!novedadmedic.getFechaInicio().before(p.getDesde()) && novedadmedic.getFechaFinal().after(p.getHasta())) { //si la incapacidad comienza dentro del periodo y se acaba despues del periodo
+
+                            } else {
+                                if (!novedadmedic.getFechaInicio().before(p.getDesde()) && !novedadmedic.getFechaFinal().after(p.getHasta())) { //si la incapacidad esta dentro del periodo
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //DEDUCCIONES
+            //Seguridad Social
+            Nomina aux5 = new Nomina();
+            aux5.setEmpleadoCodigo(empleado); //empleado
+            aux5.setConceptoIdconcepto(cC.findConcepto(14)); //SALUD
+            aux5.setPeriodoIdperiodo(p); //periodo
+            aux5.setValor(sueldoQuincena * pg.getPorcentajeSalud() / 100); //valor Salud
+            nC.create(aux5);
+
+            //Pension
+            Nomina aux6 = new Nomina();
+            aux6.setEmpleadoCodigo(empleado); //empleado
+            aux6.setConceptoIdconcepto(cC.findConcepto(15)); //PENSION
+            aux6.setPeriodoIdperiodo(p); //periodo
+            aux6.setValor(sueldoQuincena * pg.getPorcentajePension() / 100); //valor Pension
+            nC.create(aux6);
+
+            //FSP
+            if (empleado.getSalario() >= (double)(pg.getSalarioMinimo()*4)) {
+                Nomina aux7 = new Nomina();
+                aux7.setEmpleadoCodigo(empleado); //empleado
+                aux7.setConceptoIdconcepto(cC.findConcepto(16)); //FSP
+                aux7.setPeriodoIdperiodo(p); //periodo
+                aux7.setValor(sueldoQuincena * pg.getPorcentajeFps() / 100); //valor FSP
+                nC.create(aux7);
+            }
+            
+            
+            //OTRAS DEDUCCIONES
+            List<Novedadxconcepto> nc2 = ncC.findByList4("empleadoCodigo", empleado, "conceptoIdconcepto.tipo", "DEDUCIDO", p);
+            for (Novedadxconcepto novedadxconcepto : nc2) {
+                Nomina aux8 = new Nomina();
+                aux8.setEmpleadoCodigo(empleado); //empleado
+                aux8.setConceptoIdconcepto(novedadxconcepto.getConceptoIdconcepto()); //concepto de algo devengado
+                aux8.setPeriodoIdperiodo(p); //periodo
+                aux8.setValor(novedadxconcepto.getValor()); //valor a pagar en el concepto
+                nC.create(aux8);
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField diasField;
@@ -232,6 +385,7 @@ public class DiasTrabajados extends JInternalFrame {
     private javax.persistence.Query empleadoQuery;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private java.util.List<com.udec.modelo.Diastrabajados> list;
     private javax.swing.JScrollPane masterScrollPane;
@@ -241,5 +395,5 @@ public class DiasTrabajados extends JInternalFrame {
     private javax.swing.JButton saveButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-  
+
 }

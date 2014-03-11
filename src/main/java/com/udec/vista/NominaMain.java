@@ -10,8 +10,10 @@ import com.udec.controlador.EmpleadoJpaController;
 import com.udec.modelo.Diastrabajados;
 import com.udec.modelo.Empleado;
 import com.udec.modelo.Periodo;
+import com.udec.utilidades.PdfTable;
 import java.awt.Container;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -62,6 +64,7 @@ public class NominaMain extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,7 +167,16 @@ public class NominaMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Reportes");
+        jMenu3.setText("Imprimir");
+
+        jMenuItem9.setText("Comprobantes de pago");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem9);
+
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -289,15 +301,18 @@ public class NominaMain extends javax.swing.JFrame {
         this.jDesktopPane1.repaint();
         DiastrabajadosJpaController dtC = new DiastrabajadosJpaController();
         EmpleadoJpaController eC = new EmpleadoJpaController();
-        List<Empleado>  emplActivos = eC.findByList("estado", "ACTIVO");
+        List<Empleado> emplActivos = eC.findByList("estado", "ACTIVO");
         if (periodoActual.getDiastrabajadosList().isEmpty()) {
+            List<Diastrabajados> diasTrab = new ArrayList<Diastrabajados>();
             for (Empleado empleado : emplActivos) {
                 Diastrabajados dt = new Diastrabajados();
                 dt.setEmpleadoCodigo(empleado);
                 dt.setDias(15);
                 dt.setPeriodoIdperiodo(periodoActual);
                 dtC.create(dt);
+                diasTrab.add(dt);
             }
+            periodoActual.setDiastrabajadosList(diasTrab);
         }
         DiasTrabajados nm = new DiasTrabajados(periodoActual);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
@@ -306,6 +321,10 @@ public class NominaMain extends javax.swing.JFrame {
         nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
         nm.show();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        new PdfTable(this.periodoActual);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,6 +379,7 @@ public class NominaMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JLabel periodoLabel;
     // End of variables declaration//GEN-END:variables
 }

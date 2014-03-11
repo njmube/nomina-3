@@ -34,7 +34,16 @@ public class DiastrabajadosJpaController implements Serializable {
         return jpaConnection.getEntityManager();
 
     }
+    public Diastrabajados findBySingle2(String property1, Object m1, String property2, Object m2) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Diastrabajados.class));
+        Query q = getEntityManager().createQuery("SELECT c FROM " + Diastrabajados.class.getSimpleName() + " c WHERE c." + property1 + " = :name1 and c." + property2 + " = :name2", Diastrabajados.class);
+        q.setParameter("name1", m1);
+        q.setParameter("name2", m2);
+        return (Diastrabajados) q.getSingleResult();
+    }
 
+    
     public void create(Diastrabajados diastrabajados) {
         EntityManager em = null;
         try {

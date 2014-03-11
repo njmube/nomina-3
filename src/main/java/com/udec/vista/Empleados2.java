@@ -50,7 +50,7 @@ public class Empleados2 extends JInternalFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("com.udec_nomina_jar_1.0-SNAPSHOTPU").createEntityManager();
-        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Empleado e");
+        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Empleado e ORDER BY e.nombre");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
         bancoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT b FROM Banco b");
         bancoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : bancoQuery.getResultList();

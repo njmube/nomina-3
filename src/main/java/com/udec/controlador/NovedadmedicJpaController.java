@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.udec.modelo.Empleado;
 import com.udec.modelo.Novedadmedic;
+import com.udec.modelo.Periodo;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -34,7 +35,18 @@ public class NovedadmedicJpaController implements Serializable {
         return jpaConnection.getEntityManager();
 
     }
-
+        public List<Novedadmedic> findByPeriodoEmpleadoO(Periodo p, Empleado e, String origen) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Novedadmedic.class));
+        Query q = getEntityManager().createQuery("SELECT c FROM " + Novedadmedic.class.getSimpleName() + " c WHERE c.empleadoCodigo=:empleado AND c.tipo=:tipo AND ((c.fechaInicio BETWEEN :startDate AND :endDate) OR (c.fechaFinal BETWEEN :startDate AND :endDate))", Novedadmedic.class);
+        q.setParameter("startDate", p.getDesde());
+        q.setParameter("endDate", p.getHasta());
+        q.setParameter("empleado", e);
+        q.setParameter("tipo", origen);
+        return  q.getResultList();
+        }
+   
+    
     public void create(Novedadmedic novedadmedic) {
         EntityManager em = null;
         try {

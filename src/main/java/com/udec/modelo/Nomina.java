@@ -6,6 +6,8 @@
 
 package com.udec.modelo;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,6 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Nomina.findByIdnomina", query = "SELECT n FROM Nomina n WHERE n.idnomina = :idnomina"),
     @NamedQuery(name = "Nomina.findByValor", query = "SELECT n FROM Nomina n WHERE n.valor = :valor")})
 public class Nomina implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +68,9 @@ public class Nomina implements Serializable {
     }
 
     public void setIdnomina(Integer idnomina) {
+        Integer oldIdnomina = this.idnomina;
         this.idnomina = idnomina;
+        changeSupport.firePropertyChange("idnomina", oldIdnomina, idnomina);
     }
 
     public Double getValor() {
@@ -71,7 +78,9 @@ public class Nomina implements Serializable {
     }
 
     public void setValor(Double valor) {
+        Double oldValor = this.valor;
         this.valor = valor;
+        changeSupport.firePropertyChange("valor", oldValor, valor);
     }
 
     public Empleado getEmpleadoCodigo() {
@@ -79,7 +88,9 @@ public class Nomina implements Serializable {
     }
 
     public void setEmpleadoCodigo(Empleado empleadoCodigo) {
+        Empleado oldEmpleadoCodigo = this.empleadoCodigo;
         this.empleadoCodigo = empleadoCodigo;
+        changeSupport.firePropertyChange("empleadoCodigo", oldEmpleadoCodigo, empleadoCodigo);
     }
 
     public Concepto getConceptoIdconcepto() {
@@ -87,7 +98,9 @@ public class Nomina implements Serializable {
     }
 
     public void setConceptoIdconcepto(Concepto conceptoIdconcepto) {
+        Concepto oldConceptoIdconcepto = this.conceptoIdconcepto;
         this.conceptoIdconcepto = conceptoIdconcepto;
+        changeSupport.firePropertyChange("conceptoIdconcepto", oldConceptoIdconcepto, conceptoIdconcepto);
     }
 
     public Periodo getPeriodoIdperiodo() {
@@ -95,7 +108,9 @@ public class Nomina implements Serializable {
     }
 
     public void setPeriodoIdperiodo(Periodo periodoIdperiodo) {
+        Periodo oldPeriodoIdperiodo = this.periodoIdperiodo;
         this.periodoIdperiodo = periodoIdperiodo;
+        changeSupport.firePropertyChange("periodoIdperiodo", oldPeriodoIdperiodo, periodoIdperiodo);
     }
 
     @Override
@@ -121,6 +136,14 @@ public class Nomina implements Serializable {
     @Override
     public String toString() {
         return "com.udec.modelo.Nomina[ idnomina=" + idnomina + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
