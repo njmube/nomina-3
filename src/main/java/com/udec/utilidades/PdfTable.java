@@ -58,7 +58,7 @@ public class PdfTable {
 
         try {
             //Obtenemos la instancia del archivo a utilizar
-            writer = PdfWriter.getInstance(documento, new FileOutputStream(archivo.replace("PdfTabla", "PdfTabla"+nomi.get(0).getEmpleadoCodigo().getCedula())));
+            writer = PdfWriter.getInstance(documento, new FileOutputStream(archivo.replace("PdfTabla", "PdfTabla" + nomi.get(0).getEmpleadoCodigo().getCedula())));
         } catch (Exception ex) {
             ex.getMessage();
         }
@@ -93,7 +93,7 @@ public class PdfTable {
             //documento.add(tabla());
             documento.add(tabla2(nomi));
             documento.add(new Paragraph(" "));
-            documento.add(tabla3());
+            documento.add(tabla3(nomi));
         } catch (DocumentException ex) {
             ex.getMessage();
         }
@@ -110,7 +110,7 @@ public class PdfTable {
     }
 
     //Método para crear la tabla
-    public  PdfPTable tabla2(List<Nomina> no) throws DocumentException {
+    public PdfPTable tabla2(List<Nomina> no) throws DocumentException {
         //Instanciamos una tabla de 3 columnas
         PdfPTable tabla = new PdfPTable(4);
         tabla.setWidthPercentage(100);
@@ -122,7 +122,7 @@ public class PdfTable {
         //celda.setBorder(Rectangle.NO_BORDER);
         tabla.addCell(celda);
         if (!no.isEmpty()) {
-            celda = new PdfPCell(new Phrase(""+no.get(0).getEmpleadoCodigo().getCodigo()));
+            celda = new PdfPCell(new Phrase("" + no.get(0).getEmpleadoCodigo().getCodigo()));
             //celda.setBorder(Rectangle.NO_BORDER);
             tabla.addCell(celda);
         }
@@ -160,9 +160,9 @@ public class PdfTable {
         celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
         tabla.addCell(celda);
         if (!no.isEmpty()) {
-             dt = dtC.findBySingle2("periodoIdperiodo", no.get(0).getPeriodoIdperiodo(), "empleadoCodigo", no.get(0).getEmpleadoCodigo());
-            
-            celda = new PdfPCell(new Phrase(""+dt.getDias()));
+            dt = dtC.findBySingle2("periodoIdperiodo", no.get(0).getPeriodoIdperiodo(), "empleadoCodigo", no.get(0).getEmpleadoCodigo());
+
+            celda = new PdfPCell(new Phrase("" + dt.getDias()));
             //celda.setBorder(Rectangle.NO_BORDER);
             tabla.addCell(celda);
         }
@@ -182,7 +182,7 @@ public class PdfTable {
         return tabla;
     }
 
-    public  PdfPTable tabla3() throws DocumentException {
+    public PdfPTable tabla3(List<Nomina> no) throws DocumentException {
         //Instanciamos una tabla de 3 columnas
         PdfPTable tabla = new PdfPTable(4);
         tabla.setWidthPercentage(100);
@@ -191,19 +191,91 @@ public class PdfTable {
         PdfPCell celda;
         celda = new PdfPCell(new Phrase("CODIGO"));
         celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-        //celda.setBorder(Rectangle.NO_BORDER);
+        celda.setBorder(Rectangle.BOTTOM);
+        celda.setVerticalAlignment(Element.ALIGN_TOP);
+        celda.setBorderWidth(1);
         tabla.addCell(celda);
         celda = new PdfPCell(new Phrase("DESCRIPCION"));
-        //celda.setBorder(Rectangle.NO_BORDER);
+        celda.setBorder(Rectangle.BOTTOM);
+        celda.setVerticalAlignment(Element.ALIGN_TOP);
+        celda.setBorderWidth(1);
         celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
         tabla.addCell(celda);
         celda = new PdfPCell(new Phrase("VLR.DEVEN"));
-        //celda.setBorder(Rectangle.NO_BORDER);
+        celda.setBorder(Rectangle.BOTTOM);
+        celda.setVerticalAlignment(Element.ALIGN_TOP);
+        celda.setBorderWidth(1);
         celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+        celda.setBorderWidth(1);
+        celda.setVerticalAlignment(Element.ALIGN_TOP);
         tabla.addCell(celda);
         celda = new PdfPCell(new Phrase("VLR.DEDUC"));
-        //celda.setBorder(Rectangle.NO_BORDER);
+        celda.setBorder(Rectangle.BOTTOM);
+        celda.setVerticalAlignment(Element.ALIGN_TOP);
+        celda.setBorderWidth(1);
         celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+        tabla.addCell(celda);
+        double totalDev = 0, totalDed = 0;
+        for (Nomina nomina : no) {
+            celda = new PdfPCell(new Phrase("" + nomina.getConceptoIdconcepto().getCodigo()));
+            celda.setBorder(Rectangle.NO_BORDER);
+            celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            tabla.addCell(celda);
+            celda = new PdfPCell(new Phrase("" + nomina.getConceptoIdconcepto().getConcepto()));
+            celda.setBorder(Rectangle.NO_BORDER);
+            celda.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            tabla.addCell(celda);
+            if (nomina.getConceptoIdconcepto().getTipo().equals("DEVENGADO")) {
+                totalDev += nomina.getValor();
+                celda = new PdfPCell(new Phrase("" + nomina.getValor()));
+                celda.setBorder(Rectangle.NO_BORDER);
+                celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                tabla.addCell(celda);
+            } else {
+                celda = new PdfPCell(new Phrase(""));
+                celda.setBorder(Rectangle.NO_BORDER);
+                tabla.addCell(celda);
+            }
+            if (nomina.getConceptoIdconcepto().getTipo().equals("DEDUCIDO")) {
+                totalDed += nomina.getValor();
+                celda = new PdfPCell(new Phrase("" + nomina.getValor()));
+                celda.setBorder(Rectangle.NO_BORDER);
+                celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                tabla.addCell(celda);
+            } else {
+                celda = new PdfPCell(new Phrase(""));
+                celda.setBorder(Rectangle.NO_BORDER);
+                tabla.addCell(celda);
+            }
+
+        }
+
+        celda = new PdfPCell(new Phrase(""));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase("TOTALES"));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase("" + totalDev));
+        celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        celda.setBorder(Rectangle.TOP);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(" " + totalDed));
+        celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        celda.setBorder(Rectangle.TOP);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(""));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase("NETO A PAGAR"));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(" " + (totalDev - totalDed)));
+        celda.setBorder(Rectangle.NO_BORDER);
+        celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(" "));
+        celda.setBorder(Rectangle.NO_BORDER);
         tabla.addCell(celda);
 
         return tabla;
