@@ -33,7 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Diastrabajados.findAll", query = "SELECT d FROM Diastrabajados d"),
     @NamedQuery(name = "Diastrabajados.findByIddiastrabajados", query = "SELECT d FROM Diastrabajados d WHERE d.iddiastrabajados = :iddiastrabajados"),
-    @NamedQuery(name = "Diastrabajados.findByDias", query = "SELECT d FROM Diastrabajados d WHERE d.dias = :dias")})
+    @NamedQuery(name = "Diastrabajados.findByDias", query = "SELECT d FROM Diastrabajados d WHERE d.dias = :dias"),
+    @NamedQuery(name = "Diastrabajados.findByDiasIncTotal", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncTotal = :diasIncTotal"),
+    @NamedQuery(name = "Diastrabajados.findByDiasIncDostercios", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncDostercios = :diasIncDostercios"),
+    @NamedQuery(name = "Diastrabajados.findByDiasIncCincuenta", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncCincuenta = :diasIncCincuenta")})
 public class Diastrabajados implements Serializable {
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -45,6 +48,12 @@ public class Diastrabajados implements Serializable {
     private Integer iddiastrabajados;
     @Column(name = "dias")
     private Integer dias;
+    @Column(name = "dias_inc_total")
+    private Integer diasIncTotal;
+    @Column(name = "dias_inc_dostercios")
+    private Integer diasIncDostercios;
+    @Column(name = "dias_inc_cincuenta")
+    private Integer diasIncCincuenta;
     @JoinColumn(name = "periodo_idperiodo", referencedColumnName = "idperiodo")
     @ManyToOne(optional = false)
     private Periodo periodoIdperiodo;
@@ -77,6 +86,36 @@ public class Diastrabajados implements Serializable {
         Integer oldDias = this.dias;
         this.dias = dias;
         changeSupport.firePropertyChange("dias", oldDias, dias);
+    }
+
+    public Integer getDiasIncTotal() {
+        return diasIncTotal;
+    }
+
+    public void setDiasIncTotal(Integer diasIncTotal) {
+        Integer oldDiasIncTotal = this.diasIncTotal;
+        this.diasIncTotal = diasIncTotal;
+        changeSupport.firePropertyChange("diasIncTotal", oldDiasIncTotal, diasIncTotal);
+    }
+
+    public Integer getDiasIncDostercios() {
+        return diasIncDostercios;
+    }
+
+    public void setDiasIncDostercios(Integer diasIncDostercios) {
+        Integer oldDiasIncDostercios = this.diasIncDostercios;
+        this.diasIncDostercios = diasIncDostercios;
+        changeSupport.firePropertyChange("diasIncDostercios", oldDiasIncDostercios, diasIncDostercios);
+    }
+
+    public Integer getDiasIncCincuenta() {
+        return diasIncCincuenta;
+    }
+
+    public void setDiasIncCincuenta(Integer diasIncCincuenta) {
+        Integer oldDiasIncCincuenta = this.diasIncCincuenta;
+        this.diasIncCincuenta = diasIncCincuenta;
+        changeSupport.firePropertyChange("diasIncCincuenta", oldDiasIncCincuenta, diasIncCincuenta);
     }
 
     public Periodo getPeriodoIdperiodo() {
@@ -123,10 +162,10 @@ public class Diastrabajados implements Serializable {
     public String toString() {
         return "com.udec.modelo.Diastrabajados[ iddiastrabajados=" + iddiastrabajados + " ]";
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

@@ -73,8 +73,6 @@ public class Empleado implements Serializable {
     @ManyToOne
     private Banco bancoIdbanco;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoCodigo")
-    private List<Novedadmedic> novedadmedicList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoCodigo")
     private List<Diastrabajados> diastrabajadosList;
 
     public Empleado() {
@@ -193,15 +191,6 @@ public class Empleado implements Serializable {
     }
 
     @XmlTransient
-    public List<Novedadmedic> getNovedadmedicList() {
-        return novedadmedicList;
-    }
-
-    public void setNovedadmedicList(List<Novedadmedic> novedadmedicList) {
-        this.novedadmedicList = novedadmedicList;
-    }
-
-    @XmlTransient
     public List<Diastrabajados> getDiastrabajadosList() {
         return diastrabajadosList;
     }
@@ -234,10 +223,10 @@ public class Empleado implements Serializable {
     public String toString() {
         return "com.udec.modelo.Empleado[ codigo=" + codigo + " ]";
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-    }
+}
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

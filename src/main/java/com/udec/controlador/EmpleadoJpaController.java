@@ -20,7 +20,6 @@ import com.udec.modelo.Nomina;
 import java.util.ArrayList;
 import java.util.List;
 import com.udec.modelo.Novedadxconcepto;
-import com.udec.modelo.Novedadmedic;
 import com.udec.modelo.Diastrabajados;
 import com.udec.modelo.Empleado;
 import javax.persistence.EntityManager;
@@ -30,7 +29,7 @@ import javax.persistence.EntityManager;
  * @author Oscar
  */
 public class EmpleadoJpaController implements Serializable {
-    
+
 
     public EmpleadoJpaController() {
 
@@ -53,9 +52,6 @@ public class EmpleadoJpaController implements Serializable {
         }
         if (empleado.getNovedadxconceptoList() == null) {
             empleado.setNovedadxconceptoList(new ArrayList<Novedadxconcepto>());
-        }
-        if (empleado.getNovedadmedicList() == null) {
-            empleado.setNovedadmedicList(new ArrayList<Novedadmedic>());
         }
         if (empleado.getDiastrabajadosList() == null) {
             empleado.setDiastrabajadosList(new ArrayList<Diastrabajados>());
@@ -86,12 +82,6 @@ public class EmpleadoJpaController implements Serializable {
                 attachedNovedadxconceptoList.add(novedadxconceptoListNovedadxconceptoToAttach);
             }
             empleado.setNovedadxconceptoList(attachedNovedadxconceptoList);
-            List<Novedadmedic> attachedNovedadmedicList = new ArrayList<Novedadmedic>();
-            for (Novedadmedic novedadmedicListNovedadmedicToAttach : empleado.getNovedadmedicList()) {
-                novedadmedicListNovedadmedicToAttach = em.getReference(novedadmedicListNovedadmedicToAttach.getClass(), novedadmedicListNovedadmedicToAttach.getIdnovedadmedic());
-                attachedNovedadmedicList.add(novedadmedicListNovedadmedicToAttach);
-            }
-            empleado.setNovedadmedicList(attachedNovedadmedicList);
             List<Diastrabajados> attachedDiastrabajadosList = new ArrayList<Diastrabajados>();
             for (Diastrabajados diastrabajadosListDiastrabajadosToAttach : empleado.getDiastrabajadosList()) {
                 diastrabajadosListDiastrabajadosToAttach = em.getReference(diastrabajadosListDiastrabajadosToAttach.getClass(), diastrabajadosListDiastrabajadosToAttach.getIddiastrabajados());
@@ -123,15 +113,6 @@ public class EmpleadoJpaController implements Serializable {
                 if (oldEmpleadoCodigoOfNovedadxconceptoListNovedadxconcepto != null) {
                     oldEmpleadoCodigoOfNovedadxconceptoListNovedadxconcepto.getNovedadxconceptoList().remove(novedadxconceptoListNovedadxconcepto);
                     oldEmpleadoCodigoOfNovedadxconceptoListNovedadxconcepto = em.merge(oldEmpleadoCodigoOfNovedadxconceptoListNovedadxconcepto);
-                }
-            }
-            for (Novedadmedic novedadmedicListNovedadmedic : empleado.getNovedadmedicList()) {
-                Empleado oldEmpleadoCodigoOfNovedadmedicListNovedadmedic = novedadmedicListNovedadmedic.getEmpleadoCodigo();
-                novedadmedicListNovedadmedic.setEmpleadoCodigo(empleado);
-                novedadmedicListNovedadmedic = em.merge(novedadmedicListNovedadmedic);
-                if (oldEmpleadoCodigoOfNovedadmedicListNovedadmedic != null) {
-                    oldEmpleadoCodigoOfNovedadmedicListNovedadmedic.getNovedadmedicList().remove(novedadmedicListNovedadmedic);
-                    oldEmpleadoCodigoOfNovedadmedicListNovedadmedic = em.merge(oldEmpleadoCodigoOfNovedadmedicListNovedadmedic);
                 }
             }
             for (Diastrabajados diastrabajadosListDiastrabajados : empleado.getDiastrabajadosList()) {
@@ -170,8 +151,6 @@ public class EmpleadoJpaController implements Serializable {
             List<Nomina> nominaListNew = empleado.getNominaList();
             List<Novedadxconcepto> novedadxconceptoListOld = persistentEmpleado.getNovedadxconceptoList();
             List<Novedadxconcepto> novedadxconceptoListNew = empleado.getNovedadxconceptoList();
-            List<Novedadmedic> novedadmedicListOld = persistentEmpleado.getNovedadmedicList();
-            List<Novedadmedic> novedadmedicListNew = empleado.getNovedadmedicList();
             List<Diastrabajados> diastrabajadosListOld = persistentEmpleado.getDiastrabajadosList();
             List<Diastrabajados> diastrabajadosListNew = empleado.getDiastrabajadosList();
             List<String> illegalOrphanMessages = null;
@@ -189,14 +168,6 @@ public class EmpleadoJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Novedadxconcepto " + novedadxconceptoListOldNovedadxconcepto + " since its empleadoCodigo field is not nullable.");
-                }
-            }
-            for (Novedadmedic novedadmedicListOldNovedadmedic : novedadmedicListOld) {
-                if (!novedadmedicListNew.contains(novedadmedicListOldNovedadmedic)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Novedadmedic " + novedadmedicListOldNovedadmedic + " since its empleadoCodigo field is not nullable.");
                 }
             }
             for (Diastrabajados diastrabajadosListOldDiastrabajados : diastrabajadosListOld) {
@@ -232,13 +203,6 @@ public class EmpleadoJpaController implements Serializable {
             }
             novedadxconceptoListNew = attachedNovedadxconceptoListNew;
             empleado.setNovedadxconceptoList(novedadxconceptoListNew);
-            List<Novedadmedic> attachedNovedadmedicListNew = new ArrayList<Novedadmedic>();
-            for (Novedadmedic novedadmedicListNewNovedadmedicToAttach : novedadmedicListNew) {
-                novedadmedicListNewNovedadmedicToAttach = em.getReference(novedadmedicListNewNovedadmedicToAttach.getClass(), novedadmedicListNewNovedadmedicToAttach.getIdnovedadmedic());
-                attachedNovedadmedicListNew.add(novedadmedicListNewNovedadmedicToAttach);
-            }
-            novedadmedicListNew = attachedNovedadmedicListNew;
-            empleado.setNovedadmedicList(novedadmedicListNew);
             List<Diastrabajados> attachedDiastrabajadosListNew = new ArrayList<Diastrabajados>();
             for (Diastrabajados diastrabajadosListNewDiastrabajadosToAttach : diastrabajadosListNew) {
                 diastrabajadosListNewDiastrabajadosToAttach = em.getReference(diastrabajadosListNewDiastrabajadosToAttach.getClass(), diastrabajadosListNewDiastrabajadosToAttach.getIddiastrabajados());
@@ -282,17 +246,6 @@ public class EmpleadoJpaController implements Serializable {
                     if (oldEmpleadoCodigoOfNovedadxconceptoListNewNovedadxconcepto != null && !oldEmpleadoCodigoOfNovedadxconceptoListNewNovedadxconcepto.equals(empleado)) {
                         oldEmpleadoCodigoOfNovedadxconceptoListNewNovedadxconcepto.getNovedadxconceptoList().remove(novedadxconceptoListNewNovedadxconcepto);
                         oldEmpleadoCodigoOfNovedadxconceptoListNewNovedadxconcepto = em.merge(oldEmpleadoCodigoOfNovedadxconceptoListNewNovedadxconcepto);
-                    }
-                }
-            }
-            for (Novedadmedic novedadmedicListNewNovedadmedic : novedadmedicListNew) {
-                if (!novedadmedicListOld.contains(novedadmedicListNewNovedadmedic)) {
-                    Empleado oldEmpleadoCodigoOfNovedadmedicListNewNovedadmedic = novedadmedicListNewNovedadmedic.getEmpleadoCodigo();
-                    novedadmedicListNewNovedadmedic.setEmpleadoCodigo(empleado);
-                    novedadmedicListNewNovedadmedic = em.merge(novedadmedicListNewNovedadmedic);
-                    if (oldEmpleadoCodigoOfNovedadmedicListNewNovedadmedic != null && !oldEmpleadoCodigoOfNovedadmedicListNewNovedadmedic.equals(empleado)) {
-                        oldEmpleadoCodigoOfNovedadmedicListNewNovedadmedic.getNovedadmedicList().remove(novedadmedicListNewNovedadmedic);
-                        oldEmpleadoCodigoOfNovedadmedicListNewNovedadmedic = em.merge(oldEmpleadoCodigoOfNovedadmedicListNewNovedadmedic);
                     }
                 }
             }
@@ -350,13 +303,6 @@ public class EmpleadoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Empleado (" + empleado + ") cannot be destroyed since the Novedadxconcepto " + novedadxconceptoListOrphanCheckNovedadxconcepto + " in its novedadxconceptoList field has a non-nullable empleadoCodigo field.");
-            }
-            List<Novedadmedic> novedadmedicListOrphanCheck = empleado.getNovedadmedicList();
-            for (Novedadmedic novedadmedicListOrphanCheckNovedadmedic : novedadmedicListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Empleado (" + empleado + ") cannot be destroyed since the Novedadmedic " + novedadmedicListOrphanCheckNovedadmedic + " in its novedadmedicList field has a non-nullable empleadoCodigo field.");
             }
             List<Diastrabajados> diastrabajadosListOrphanCheck = empleado.getDiastrabajadosList();
             for (Diastrabajados diastrabajadosListOrphanCheckDiastrabajados : diastrabajadosListOrphanCheck) {
@@ -432,5 +378,5 @@ public class EmpleadoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

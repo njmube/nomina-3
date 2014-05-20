@@ -16,12 +16,13 @@ import com.udec.modelo.Diastrabajados;
 import com.udec.modelo.Empleado;
 import com.udec.modelo.Nomina;
 import com.udec.modelo.Periodo;
-import com.udec.vista.DiasTrabajados;
 import java.awt.Desktop;
 import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 public class PdfTable {
 
@@ -35,43 +36,78 @@ public class PdfTable {
     //Ruta del archivo, esto es dentro del proyecto Netbeans
     public String archivo = System.getProperty("user.dir") + "/PdfTabla.pdf";
 
+    /*Declaramos documento como un objeto Document
+     Asignamos el tamaño de hoja y los margenes */
+    Document documento;
+
+    //writer es declarado como el método utilizado para escribir en el archivo
+    PdfWriter writer = null;
+
     public PdfTable() {
     }
 
+    public PdfTable(Periodo p, String codigo) {
+        empleados = eC.findByList("codigo", Integer.parseInt(codigo));
+        if (empleados != null && empleados.size() > 0) {
+            documento = new Document(PageSize.LETTER, 80, 80, 75, 75);
+            this.pe = p;
+            String ruta = archivo.replace("PdfTabla", p.getNombre() + codigo);
+            try {
+                //Obtenemos la instancia del archivo a utilizar
+                writer = PdfWriter.getInstance(documento, new FileOutputStream(ruta));
+                documento.open();
+            } catch (Exception ex) {
+                ex.getMessage();
+            }
+            for (Empleado empleado : empleados) {
+                nom = nC.findByList2("periodoIdperiodo", p, "empleadoCodigo", empleado);
+                documento.newPage();
+                createPdf(nom, p);
+
+            }
+            documento.close(); //Cerramos el documento
+            writer.close(); //Cerramos writer
+            try {
+                File path = new File(ruta);
+                Desktop.getDesktop().open(path);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null,"El código del empleado ingresado no existe.","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public PdfTable(Periodo p) {
+        documento = new Document(PageSize.LETTER, 80, 80, 75, 75);
         this.pe = p;
+        String ruta = archivo.replace("PdfTabla", p.getNombre());
+        try {
+            //Obtenemos la instancia del archivo a utilizar
+            writer = PdfWriter.getInstance(documento, new FileOutputStream(ruta));
+            documento.open();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
         empleados = eC.findByList("estado", "ACTIVO");
         for (Empleado empleado : empleados) {
             nom = nC.findByList2("periodoIdperiodo", p, "empleadoCodigo", empleado);
+            documento.newPage();
             createPdf(nom, p);
 
+        }
+        documento.close(); //Cerramos el documento
+        writer.close(); //Cerramos writer
+        try {
+            File path = new File(ruta);
+            Desktop.getDesktop().open(path);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
     public void createPdf(List<Nomina> nomi, Periodo pe) {
-        /*Declaramos documento como un objeto Document
-         Asignamos el tamaño de hoja y los margenes */
-        Document documento = new Document(PageSize.LETTER, 80, 80, 75, 75);
-
-        //writer es declarado como el método utilizado para escribir en el archivo
-        PdfWriter writer = null;
-
-        try {
-            //Obtenemos la instancia del archivo a utilizar
-            writer = PdfWriter.getInstance(documento, new FileOutputStream(archivo.replace("PdfTabla", "PdfTabla" + nomi.get(0).getEmpleadoCodigo().getCedula())));
-        } catch (Exception ex) {
-            ex.getMessage();
-        }
-
-        //Agregamos un titulo al archivo
-        documento.addTitle("Archivo pdf generado desde Java");
-
-        //Agregamos el autor del archivo
-        documento.addAuthor("Nomina");
-
         //Abrimos el documento para edición
-        documento.open();
-
         //Declaramos un texto como Paragraph
         //Le podemos dar formado como alineación, tamaño y color a la fuente.
         Paragraph parrafo = new Paragraph();
@@ -97,9 +133,6 @@ public class PdfTable {
         } catch (DocumentException ex) {
             ex.getMessage();
         }
-
-        documento.close(); //Cerramos el documento
-        writer.close(); //Cerramos writer
 
         try {
             //File file = new File(archivo);

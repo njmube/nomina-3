@@ -7,6 +7,8 @@ package com.udec.vista;
 
 import com.udec.controlador.DiastrabajadosJpaController;
 import com.udec.controlador.EmpleadoJpaController;
+import com.udec.controlador.PeriodoJpaController;
+import com.udec.controlador.exceptions.NonexistentEntityException;
 import com.udec.modelo.Diastrabajados;
 import com.udec.modelo.Empleado;
 import com.udec.modelo.Periodo;
@@ -15,6 +17,9 @@ import java.awt.Container;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -60,11 +65,11 @@ public class NominaMain extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,14 +146,6 @@ public class NominaMain extends javax.swing.JFrame {
 
         jMenu2.setText("Movimientos");
 
-        jMenuItem4.setText("Novedad medica");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem4);
-
         jMenuItem8.setText("Novedad por Concepto");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,13 +166,21 @@ public class NominaMain extends javax.swing.JFrame {
 
         jMenu3.setText("Imprimir");
 
-        jMenuItem9.setText("Comprobantes de pago");
+        jMenuItem9.setText("Comprobantes de pagos");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem9ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem9);
+
+        jMenuItem4.setText("Comprobante por persona");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
 
         jMenuBar1.add(jMenu3);
 
@@ -241,17 +246,6 @@ public class NominaMain extends javax.swing.JFrame {
         cb.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        this.jDesktopPane1.removeAll();
-        this.jDesktopPane1.repaint();
-        NovedadMedica nm = new NovedadMedica(periodoActual);
-        BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        ui.setNorthPane(null);
-        this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
-        nm.show();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         this.jDesktopPane1.removeAll();
         this.jDesktopPane1.repaint();
@@ -301,6 +295,7 @@ public class NominaMain extends javax.swing.JFrame {
         this.jDesktopPane1.repaint();
         DiastrabajadosJpaController dtC = new DiastrabajadosJpaController();
         EmpleadoJpaController eC = new EmpleadoJpaController();
+        PeriodoJpaController pC = new PeriodoJpaController();
         List<Empleado> emplActivos = eC.findByList("estado", "ACTIVO");
         if (periodoActual.getDiastrabajadosList().isEmpty()) {
             List<Diastrabajados> diasTrab = new ArrayList<Diastrabajados>();
@@ -308,13 +303,23 @@ public class NominaMain extends javax.swing.JFrame {
                 Diastrabajados dt = new Diastrabajados();
                 dt.setEmpleadoCodigo(empleado);
                 dt.setDias(15);
+                dt.setDiasIncCincuenta(0);
+                dt.setDiasIncDostercios(0);
+                dt.setDiasIncTotal(0);
                 dt.setPeriodoIdperiodo(periodoActual);
                 dtC.create(dt);
                 diasTrab.add(dt);
             }
             periodoActual.setDiastrabajadosList(diasTrab);
+            try {
+                pC.edit(periodoActual);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(NominaMain.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(NominaMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        DiasTrabajados nm = new DiasTrabajados(periodoActual);
+        DiasTrabajados2 nm = new DiasTrabajados2(periodoActual);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
         ui.setNorthPane(null);
         this.jDesktopPane1.add(nm);
@@ -326,41 +331,15 @@ public class NominaMain extends javax.swing.JFrame {
         new PdfTable(this.periodoActual);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        String codigo = JOptionPane.showInputDialog(null, "Ingrese el codigo del empleado del cual desea imprimir el comprobante de pago");
+        new PdfTable(this.periodoActual,codigo);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NominaMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NominaMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NominaMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NominaMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NominaMain().setVisible(true);
-            }
-        });
-    }
-
+    
     private Periodo periodoActual;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;

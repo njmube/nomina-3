@@ -384,14 +384,14 @@ public class NovedadConcepto extends JInternalFrame {
             if (evt.getSource() == jComboBox2) {
                 NovedadConcepto.this.jComboBox2ActionPerformed(evt);
             }
-            else if (evt.getSource() == newButton1) {
-                NovedadConcepto.this.newButton1ActionPerformed(evt);
+            else if (evt.getSource() == saveButton1) {
+                NovedadConcepto.this.saveButton1ActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton1) {
                 NovedadConcepto.this.refreshButton1ActionPerformed(evt);
             }
-            else if (evt.getSource() == saveButton1) {
-                NovedadConcepto.this.saveButton1ActionPerformed(evt);
+            else if (evt.getSource() == newButton1) {
+                NovedadConcepto.this.newButton1ActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
