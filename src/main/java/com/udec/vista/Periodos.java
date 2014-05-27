@@ -12,6 +12,9 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.beans.Beans;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -20,6 +23,10 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -35,7 +42,7 @@ public class Periodos extends JInternalFrame {
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
         }
-      }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,184 +63,266 @@ public class Periodos extends JInternalFrame {
         nombreLabel = new javax.swing.JLabel();
         desdeLabel = new javax.swing.JLabel();
         hastaLabel = new javax.swing.JLabel();
-        nombreField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         entrar = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
+        Calendar date = new GregorianCalendar();
+        int currentYear = date.get(Calendar.YEAR);
+        jSpinner1 = new javax.swing.JSpinner(new SpinnerNumberModel(currentYear, //initial value
+            currentYear - 100, //min
+            currentYear + 100, //max
+            1));
+    Calendar date2 = new GregorianCalendar();
+    int currentMonth = date2.get(Calendar.MONTH);
+    jSpinner2 = new javax.swing.JSpinner(new SpinnerNumberModel(currentMonth,
+        1, //min
+        12, //max
+        1));
+jSpinner3 = new javax.swing.JSpinner(new SpinnerNumberModel(1,
+    1, //min
+    2, //max
+    1));
+    jTextField1 = new javax.swing.JTextField();
+    jLabel2 = new javax.swing.JLabel();
+    jTextField2 = new javax.swing.JTextField();
+    jTextField3 = new javax.swing.JTextField();
+    jLabel3 = new javax.swing.JLabel();
+    jLabel4 = new javax.swing.JLabel();
 
-        FormListener formListener = new FormListener();
+    FormListener formListener = new FormListener();
 
-        setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+    setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
-        columnBinding.setColumnName("Nombre");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${desde}"));
-        columnBinding.setColumnName("Desde");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${hasta}"));
-        columnBinding.setColumnName("Hasta");
-        columnBinding.setColumnClass(java.util.Date.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        masterTable.getColumnModel().getColumn(0).setPreferredWidth(450);
-        masterTable.getColumnModel().getColumn(1).setPreferredWidth(75);
-        masterTable.getColumnModel().getColumn(2).setPreferredWidth(75);
-        masterScrollPane.setViewportView(masterTable);
+    org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
+    org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
+    columnBinding.setColumnName("Nombre");
+    columnBinding.setColumnClass(String.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${anio}"));
+    columnBinding.setColumnName("Año");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${mes}"));
+    columnBinding.setColumnName("Mes");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quincena}"));
+    columnBinding.setColumnName("Quincena");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${desde}"));
+    columnBinding.setColumnName("Desde");
+    columnBinding.setColumnClass(java.util.Date.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${hasta}"));
+    columnBinding.setColumnName("Hasta");
+    columnBinding.setColumnClass(java.util.Date.class);
+    bindingGroup.addBinding(jTableBinding);
+    jTableBinding.bind();
+    masterTable.getColumnModel().getColumn(0).setPreferredWidth(450);
+    masterTable.getColumnModel().getColumn(1).setPreferredWidth(75);
+    masterTable.getColumnModel().getColumn(2).setPreferredWidth(75);
+    masterScrollPane.setViewportView(masterTable);
 
-        nombreLabel.setText("Nombre:");
+    nombreLabel.setText("Año:");
 
-        desdeLabel.setText("Desde:");
+    desdeLabel.setText("Mes:");
 
-        hastaLabel.setText("Hasta:");
+    hastaLabel.setText("Quincena:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nombre}"), nombreField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nombreField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
+    saveButton.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
+    saveButton.setText("Guardar Cambios");
+    saveButton.setBorder(null);
+    saveButton.setBorderPainted(false);
+    saveButton.setContentAreaFilled(false);
+    saveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    saveButton.setIconTextGap(-3);
+    saveButton.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
+    saveButton.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
+    saveButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+    saveButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    saveButton.addActionListener(formListener);
 
-        saveButton.setIcon(new javax.swing.ImageIcon("img/guardar2.png"));
-        saveButton.setText("Guardar Cambios");
-        saveButton.setBorder(null);
-        saveButton.setBorderPainted(false);
-        saveButton.setContentAreaFilled(false);
-        saveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        saveButton.setIconTextGap(-3);
-        saveButton.setPressedIcon(new javax.swing.ImageIcon("img/guardar33.png"));
-        saveButton.setRolloverIcon(new javax.swing.ImageIcon("img/guardar1.png"));
-        saveButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        saveButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        saveButton.addActionListener(formListener);
+    refreshButton.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
+    refreshButton.setText("Actualizar");
+    refreshButton.setBorder(null);
+    refreshButton.setBorderPainted(false);
+    refreshButton.setContentAreaFilled(false);
+    refreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    refreshButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    refreshButton.setIconTextGap(-3);
+    refreshButton.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
+    refreshButton.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
+    refreshButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+    refreshButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    refreshButton.addActionListener(formListener);
 
-        refreshButton.setIcon(new javax.swing.ImageIcon("img/refres2.png"));
-        refreshButton.setText("Actualizar");
-        refreshButton.setBorder(null);
-        refreshButton.setBorderPainted(false);
-        refreshButton.setContentAreaFilled(false);
-        refreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        refreshButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        refreshButton.setIconTextGap(-3);
-        refreshButton.setPressedIcon(new javax.swing.ImageIcon("img/refresh3.png"));
-        refreshButton.setRolloverIcon(new javax.swing.ImageIcon("img/refresh1.png"));
-        refreshButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        refreshButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        refreshButton.addActionListener(formListener);
+    newButton.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
+    newButton.setText("Nuevo");
+    newButton.setBorder(null);
+    newButton.setBorderPainted(false);
+    newButton.setContentAreaFilled(false);
+    newButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    newButton.setIconTextGap(-3);
+    newButton.setMaximumSize(new java.awt.Dimension(115, 100));
+    newButton.setMinimumSize(new java.awt.Dimension(115, 100));
+    newButton.setPreferredSize(new java.awt.Dimension(115, 100));
+    newButton.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
+    newButton.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
+    newButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+    newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    newButton.addActionListener(formListener);
 
-        newButton.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
-        newButton.setText("Nuevo");
-        newButton.setBorder(null);
-        newButton.setBorderPainted(false);
-        newButton.setContentAreaFilled(false);
-        newButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        newButton.setIconTextGap(-3);
-        newButton.setMaximumSize(new java.awt.Dimension(115, 100));
-        newButton.setMinimumSize(new java.awt.Dimension(115, 100));
-        newButton.setPreferredSize(new java.awt.Dimension(115, 100));
-        newButton.setPressedIcon(new javax.swing.ImageIcon("img/nuevo33.png"));
-        newButton.setRolloverIcon(new javax.swing.ImageIcon("img/nuevo1.png"));
-        newButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        newButton.addActionListener(formListener);
+    entrar.setIcon(new javax.swing.ImageIcon("img/entrar2.png"));
+    entrar.setText("Entrar");
+    entrar.setBorder(null);
+    entrar.setBorderPainted(false);
+    entrar.setContentAreaFilled(false);
+    entrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    entrar.setIconTextGap(-3);
+    entrar.setPressedIcon(new javax.swing.ImageIcon("img/entrar3.png"));
+    entrar.setRolloverIcon(new javax.swing.ImageIcon("img/entrar1.png"));
+    entrar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+    entrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    entrar.addActionListener(formListener);
 
-        entrar.setIcon(new javax.swing.ImageIcon("img/entrar2.png"));
-        entrar.setText("Entrar");
-        entrar.setBorder(null);
-        entrar.setBorderPainted(false);
-        entrar.setContentAreaFilled(false);
-        entrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        entrar.setIconTextGap(-3);
-        entrar.setPressedIcon(new javax.swing.ImageIcon("img/entrar3.png"));
-        entrar.setRolloverIcon(new javax.swing.ImageIcon("img/entrar1.png"));
-        entrar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        entrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        entrar.addActionListener(formListener);
+    jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+    jLabel1.setText("Listado de periodos");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Listado de periodos");
+    jSpinner1.setEditor(new JSpinner.NumberEditor(jSpinner1, "#"));
+    jSpinner1.setEnabled(false);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreLabel)
-                            .addComponent(desdeLabel)
-                            .addComponent(hastaLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreField)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(refreshButton)
-                                .addGap(26, 26, 26)
-                                .addComponent(saveButton)
-                                .addGap(29, 29, 29)
-                                .addComponent(entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+    jSpinner2.setEnabled(false);
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {refreshButton, saveButton});
+    jSpinner3.setEnabled(false);
 
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreLabel)
-                    .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(desdeLabel)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+    jTextField1.setEnabled(false);
+
+    org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nombre}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+    bindingGroup.addBinding(binding);
+
+    jLabel2.setText("Nombre");
+
+    jTextField2.setEnabled(false);
+
+    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.desde}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
+    binding.setConverter(dateConverter1);
+    bindingGroup.addBinding(binding);
+
+    jTextField3.setEnabled(false);
+
+    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.hasta}"), jTextField3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+    binding.setConverter(dateConverter1);
+    bindingGroup.addBinding(binding);
+
+    jLabel3.setText("Desde");
+
+    jLabel4.setText("Hasta");
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(masterScrollPane)
+                    .addGap(10, 10, 10))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(hastaLabel)
+                                .addComponent(nombreLabel)
+                                .addComponent(desdeLabel)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                                        .addComponent(jSpinner2)
+                                        .addComponent(jSpinner3)
+                                        .addComponent(jTextField2)
+                                        .addComponent(jTextField3))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                                    .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(refreshButton)
+                                    .addGap(46, 46, 46)
+                                    .addComponent(saveButton)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField1))))
+                    .addContainerGap())))
+    );
+
+    layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {refreshButton, saveButton});
+
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel1)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(5, 5, 5)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nombreLabel)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(desdeLabel)
+                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(hastaLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(refreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(newButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(entrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
+                        .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addGap(65, 65, 65))))
+    );
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.desde}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.hasta}"), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
+    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.anio}"), jSpinner1, org.jdesktop.beansbinding.BeanProperty.create("value"));
+    binding.setSourceNullValue(currentYear);
+    bindingGroup.addBinding(binding);
+    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jSpinner1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+    bindingGroup.addBinding(binding);
+    org.jdesktop.beansbinding.Binding binding2 = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mes}"), jSpinner2, org.jdesktop.beansbinding.BeanProperty.create("value"));
+    binding2.setSourceNullValue(currentMonth);
+    bindingGroup.addBinding(binding2);
+    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jSpinner2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+    bindingGroup.addBinding(binding);
+    org.jdesktop.beansbinding.Binding binding3 = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.quincena}"), jSpinner3, org.jdesktop.beansbinding.BeanProperty.create("value"));
+    binding3.setSourceNullValue(1);
+    bindingGroup.addBinding(binding3);
+    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jSpinner3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+    bindingGroup.addBinding(binding);
 
-        bindingGroup.bind();
+    bindingGroup.bind();
     }
 
     // Code for dispatching events from components to event handlers.
@@ -279,8 +368,38 @@ public class Periodos extends JInternalFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
+            for (com.udec.modelo.Periodo p : list) {
+                String quincenaNumero = "";
+                if (p.getQuincena() == 1) {
+                    quincenaNumero = "PRIMERA";
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(p.getAnio(), p.getMes(), 1);
+                    p.setDesde(cal.getTime());
+                    cal.set(p.getAnio(), p.getMes(), 15);
+                    p.setHasta(cal.getTime());
+
+                } else if (p.getQuincena() == 2) {
+                    quincenaNumero = "SEGUNDA";
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(p.getAnio(), p.getMes(), 16);
+                    p.setDesde(cal.getTime());
+                    cal.set(p.getAnio(), p.getMes(), 1);
+                    int ultimoDia = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                    cal.set(p.getAnio(), p.getMes(), ultimoDia);
+                    p.setHasta(cal.getTime());
+                }
+                String[] meses = {"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"};
+                String nombre = "NÓMINA DE SUELDOS " + quincenaNumero + " QUINCENA MES DE " + meses[p.getMes() - 1] + " DE " + p.getAnio();
+                if (p.getNombre() != null && !p.getNombre().equals(nombre)) {
+                    p.setNombre(nombre);
+                } else if (p.getNombre() == null) {
+                    p.setNombre(nombre);
+                }
+
+            }
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
+
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
@@ -314,14 +433,20 @@ public class Periodos extends JInternalFrame {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton entrar;
     private javax.swing.JLabel hastaLabel;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JSpinner jSpinner3;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private java.util.List<com.udec.modelo.Periodo> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;
-    private javax.swing.JTextField nombreField;
     private javax.swing.JLabel nombreLabel;
     private javax.persistence.Query query;
     private javax.swing.JButton refreshButton;

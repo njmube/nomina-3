@@ -106,7 +106,9 @@ public class Periodo implements Serializable {
     }
 
     public void setMes(Integer mes) {
+        Integer oldMes = this.mes;
         this.mes = mes;
+        changeSupport.firePropertyChange("mes", oldMes, mes);
     }
 
     public Integer getAnio() {
@@ -114,7 +116,9 @@ public class Periodo implements Serializable {
     }
 
     public void setAnio(Integer anio) {
+        Integer oldAnio = this.anio;
         this.anio = anio;
+        changeSupport.firePropertyChange("anio", oldAnio, anio);
     }
 
     public Integer getQuincena() {
@@ -122,7 +126,9 @@ public class Periodo implements Serializable {
     }
 
     public void setQuincena(Integer quincena) {
+        Integer oldQuincena = this.quincena;
         this.quincena = quincena;
+        changeSupport.firePropertyChange("quincena", oldQuincena, quincena);
     }
 
     public Date getDesde() {
