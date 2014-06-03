@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.udec.modelo;
 
 import java.beans.PropertyChangeListener;
@@ -58,11 +57,11 @@ public class Periodo implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "mes")
-    private Integer mes;
+    private String mes;
     @Column(name = "anio")
     private Integer anio;
     @Column(name = "quincena")
-    private Integer quincena;
+    private String quincena;
     @Column(name = "desde")
     @Temporal(TemporalType.DATE)
     private Date desde;
@@ -101,12 +100,12 @@ public class Periodo implements Serializable {
         changeSupport.firePropertyChange("nombre", oldNombre, nombre);
     }
 
-    public Integer getMes() {
+    public String getMes() {
         return mes;
     }
 
-    public void setMes(Integer mes) {
-        Integer oldMes = this.mes;
+    public void setMes(String mes) {
+        String oldMes = this.mes;
         this.mes = mes;
         changeSupport.firePropertyChange("mes", oldMes, mes);
     }
@@ -121,12 +120,12 @@ public class Periodo implements Serializable {
         changeSupport.firePropertyChange("anio", oldAnio, anio);
     }
 
-    public Integer getQuincena() {
+    public String getQuincena() {
         return quincena;
     }
 
-    public void setQuincena(Integer quincena) {
-        Integer oldQuincena = this.quincena;
+    public void setQuincena(String quincena) {
+        String oldQuincena = this.quincena;
         this.quincena = quincena;
         changeSupport.firePropertyChange("quincena", oldQuincena, quincena);
     }
@@ -203,10 +202,10 @@ public class Periodo implements Serializable {
     public String toString() {
         return "com.udec.modelo.Periodo[ idperiodo=" + idperiodo + " ]";
     }
-    
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-}
+    }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
