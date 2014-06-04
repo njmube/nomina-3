@@ -391,6 +391,9 @@
       </BindingProperties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement.fechaInicio}&quot;), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create(&quot;date&quot;));&#xa;binding.setSourceUnreadableValue(null);&#xa;bindingGroup.addBinding(binding);&#xa;binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.toedter.calendar.JDateChooser()"/>

@@ -62,9 +62,10 @@ public class NominaMain extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -113,14 +114,6 @@ public class NominaMain extends javax.swing.JFrame {
 
         jMenu4.setText("Tablas Generales");
 
-        jMenuItem5.setText("Grupo de Conceptos");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem5);
-
         jMenuItem1.setText("Bancos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,6 +129,22 @@ public class NominaMain extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem2);
+
+        jMenuItem5.setText("E.P.S");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem5);
+
+        jMenuItem13.setText("A.F.P");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem13);
 
         jMenu1.add(jMenu4);
 
@@ -271,17 +280,6 @@ public class NominaMain extends javax.swing.JFrame {
         cb.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        this.jDesktopPane1.removeAll();
-        this.jDesktopPane1.repaint();
-        GruposConcepto nm = new GruposConcepto();
-        BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
-        ui.setNorthPane(null);
-        this.jDesktopPane1.add(nm);
-        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
-        nm.show();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         this.jDesktopPane1.removeAll();
         this.jDesktopPane1.repaint();
@@ -328,6 +326,7 @@ public class NominaMain extends javax.swing.JFrame {
                 Diastrabajados dt = new Diastrabajados();
                 dt.setEmpleadoCodigo(empleado);
                 dt.setDias(15);
+                dt.setDiasPermiso(0);
                 dt.setDiasIncCincuenta(0);
                 dt.setDiasIncDostercios(0);
                 dt.setDiasIncTotal(0);
@@ -373,6 +372,28 @@ public class NominaMain extends javax.swing.JFrame {
         new Inicio().setVisible(true);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
+        Epss nm = new Epss();
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
+        ui.setNorthPane(null);
+        this.jDesktopPane1.add(nm);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
+        nm.show();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        this.jDesktopPane1.removeAll();
+        this.jDesktopPane1.repaint();
+        Afps nm = new Afps();
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) nm.getUI();
+        ui.setNorthPane(null);
+        this.jDesktopPane1.add(nm);
+        nm.setBounds(0, 0, this.jDesktopPane1.getWidth(), this.jDesktopPane1.getHeight());
+        nm.show();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -390,6 +411,7 @@ public class NominaMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

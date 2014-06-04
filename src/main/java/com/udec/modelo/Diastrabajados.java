@@ -36,8 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Diastrabajados.findByDias", query = "SELECT d FROM Diastrabajados d WHERE d.dias = :dias"),
     @NamedQuery(name = "Diastrabajados.findByDiasIncTotal", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncTotal = :diasIncTotal"),
     @NamedQuery(name = "Diastrabajados.findByDiasIncDostercios", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncDostercios = :diasIncDostercios"),
-    @NamedQuery(name = "Diastrabajados.findByDiasIncCincuenta", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncCincuenta = :diasIncCincuenta")})
+    @NamedQuery(name = "Diastrabajados.findByDiasIncCincuenta", query = "SELECT d FROM Diastrabajados d WHERE d.diasIncCincuenta = :diasIncCincuenta"),
+    @NamedQuery(name = "Diastrabajados.findByDiasPermiso", query = "SELECT d FROM Diastrabajados d WHERE d.diasPermiso = :diasPermiso")})
 public class Diastrabajados implements Serializable {
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -54,6 +56,8 @@ public class Diastrabajados implements Serializable {
     private Integer diasIncDostercios;
     @Column(name = "dias_inc_cincuenta")
     private Integer diasIncCincuenta;
+    @Column(name = "dias_permiso")
+    private Integer diasPermiso;
     @JoinColumn(name = "periodo_idperiodo", referencedColumnName = "idperiodo")
     @ManyToOne(optional = false)
     private Periodo periodoIdperiodo;
@@ -118,6 +122,16 @@ public class Diastrabajados implements Serializable {
         changeSupport.firePropertyChange("diasIncCincuenta", oldDiasIncCincuenta, diasIncCincuenta);
     }
 
+    public Integer getDiasPermiso() {
+        return diasPermiso;
+    }
+
+    public void setDiasPermiso(Integer diasPermiso) {
+        Integer oldDiasPermiso = this.diasPermiso;
+        this.diasPermiso = diasPermiso;
+        changeSupport.firePropertyChange("diasIncCincuenta", oldDiasPermiso, diasPermiso);
+    }
+
     public Periodo getPeriodoIdperiodo() {
         return periodoIdperiodo;
     }
@@ -162,13 +176,13 @@ public class Diastrabajados implements Serializable {
     public String toString() {
         return "com.udec.modelo.Diastrabajados[ iddiastrabajados=" + iddiastrabajados + " ]";
     }
-    
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-}
+    }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-    
+
 }

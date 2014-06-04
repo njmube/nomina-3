@@ -89,25 +89,26 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="empleadoCodigoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="diasLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="diasIncTotalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="diasIncDosterciosLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="diasIncCincuentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="diasField" alignment="0" pref="699" max="32767" attributes="0"/>
-                                  <Component id="diasIncTotalField" alignment="0" pref="699" max="32767" attributes="0"/>
-                                  <Component id="diasIncDosterciosField" alignment="0" pref="699" max="32767" attributes="0"/>
-                                  <Component id="diasIncCincuentaField" alignment="0" pref="699" max="32767" attributes="0"/>
-                                  <Component id="jComboBox1" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="masterScrollPane" pref="820" max="32767" attributes="0"/>
+                          <Component id="empleadoCodigoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="diasLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="diasLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="diasIncTotalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="diasIncDosterciosLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="diasIncCincuentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="diasField" linkSize="2" alignment="0" min="-2" pref="699" max="-2" attributes="0"/>
+                          <Component id="diasIncTotalField" linkSize="2" alignment="0" min="-2" pref="699" max="-2" attributes="0"/>
+                          <Component id="diasIncDosterciosField" linkSize="2" alignment="0" min="-2" pref="699" max="-2" attributes="0"/>
+                          <Component id="diasIncCincuentaField" linkSize="2" alignment="0" min="-2" pref="699" max="-2" attributes="0"/>
+                          <Component id="jComboBox1" linkSize="2" alignment="0" min="-2" pref="699" max="-2" attributes="0"/>
+                          <Component id="diasPermisoNoRemuneradoField" linkSize="2" alignment="0" min="-2" pref="675" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="masterScrollPane" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -117,9 +118,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="270" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="masterScrollPane" min="-2" pref="239" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="empleadoCodigoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -129,7 +130,12 @@
                   <Component id="diasLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="diasField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="diasLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="diasPermisoNoRemuneradoField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="diasIncTotalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="diasIncTotalField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -144,7 +150,7 @@
                   <Component id="diasIncCincuentaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="diasIncCincuentaField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="1"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -193,6 +199,11 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -204,6 +215,10 @@
               <Subbinding sourcePath="${empleadoCodigo.nombre}">
                 <BindingParameter name="NAME" value="Empleado"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${diasPermiso}">
+                <BindingParameter name="NAME" value="Dias Permiso No Remunerado"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
               <Subbinding sourcePath="${dias}">
                 <BindingParameter name="NAME" value="Dias trabajados"/>
@@ -257,7 +272,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="diasField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.dias}" target="diasField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.diasPermiso}" target="diasField" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
           <Property name="incompletePathValue" type="java.lang.String" value=""/>
         </BindingProperty>
@@ -343,6 +358,16 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jComboBox1.setRenderer(new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if (value instanceof Empleado) {&#xa;                   Empleado mec = (Empleado)value;&#xa;                   setText(mec.getNombre());&#xa;               }&#xa;               return this;&#xa;           }&#xa;       });"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="diasLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dias Permiso No remunerado:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="diasPermisoNoRemuneradoField">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

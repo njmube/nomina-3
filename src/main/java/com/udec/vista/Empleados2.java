@@ -6,9 +6,11 @@
 
 package com.udec.vista;
 
+import com.udec.modelo.Afp;
 import com.udec.modelo.Banco;
 import com.udec.modelo.Cargo;
 import com.udec.modelo.Empleado;
+import com.udec.modelo.Eps;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -60,6 +62,10 @@ public class Empleados2 extends JInternalFrame {
         empleadoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : empleadoQuery.getResultList();
         dateConverter1 = new com.udec.vista.DateConverter();
         doubleConverter1 = new com.udec.vista.DoubleConverter();
+        epsQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Eps e");
+        epsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : epsQuery.getResultList();
+        afpQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Afp a");
+        afpList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : afpQuery.getResultList();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -88,6 +94,24 @@ public class Empleados2 extends JInternalFrame {
             refreshButton1 = new javax.swing.JButton();
             saveButton1 = new javax.swing.JButton();
             jLabel1 = new javax.swing.JLabel();
+            jLabel2 = new javax.swing.JLabel();
+            jLabel3 = new javax.swing.JLabel();
+            jLabel4 = new javax.swing.JLabel();
+            jLabel5 = new javax.swing.JLabel();
+            jComboBox5 = new javax.swing.JComboBox();
+            jLabel6 = new javax.swing.JLabel();
+            jTextField4 = new javax.swing.JTextField();
+            jLabel7 = new javax.swing.JLabel();
+            jTextField5 = new javax.swing.JTextField();
+            jLabel8 = new javax.swing.JLabel();
+            jTextField6 = new javax.swing.JTextField();
+            jLabel9 = new javax.swing.JLabel();
+            jComboBox6 = new javax.swing.JComboBox();
+            jLabel10 = new javax.swing.JLabel();
+            jComboBox7 = new javax.swing.JComboBox();
+            jDateChooser1 = new com.toedter.calendar.JDateChooser();
+            jDateChooser2 = new com.toedter.calendar.JDateChooser();
+            jDateChooser3 = new com.toedter.calendar.JDateChooser();
 
             FormListener formListener = new FormListener();
 
@@ -114,30 +138,15 @@ public class Empleados2 extends JInternalFrame {
             columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${estado}"));
             columnBinding.setColumnName("Estado");
             columnBinding.setColumnClass(String.class);
-            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bancoIdbanco.banco}"));
-            columnBinding.setColumnName("Banco");
-            columnBinding.setColumnClass(String.class);
-            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroCuenta}"));
-            columnBinding.setColumnName("Numero Cuenta");
-            columnBinding.setColumnClass(String.class);
-            columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cargoCargoid.cargo}"));
-            columnBinding.setColumnName("Cargo");
-            columnBinding.setColumnClass(String.class);
             bindingGroup.addBinding(jTableBinding);
             jTableBinding.bind();
-            masterTable.getColumnModel().getColumn(0).setPreferredWidth(75);
-            masterTable.getColumnModel().getColumn(1).setPreferredWidth(75);
-            masterTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-            masterTable.getColumnModel().getColumn(3).setPreferredWidth(75);
-            masterTable.getColumnModel().getColumn(4).setPreferredWidth(75);
-            masterTable.getColumnModel().getColumn(5).setPreferredWidth(75);
-            masterTable.getColumnModel().getColumn(6).setPreferredWidth(150);
-            masterTable.getColumnModel().getColumn(7).setPreferredWidth(75);
-            masterTable.getColumnModel().getColumn(8).setPreferredWidth(250);
+            masterTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            masterTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            masterTable.getColumnModel().getColumn(2).setPreferredWidth(300);
+            masterTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            masterTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+            masterTable.getColumnModel().getColumn(5).setPreferredWidth(100);
             masterScrollPane.setViewportView(masterTable);
-            if (masterTable.getColumnModel().getColumnCount() > 0) {
-                masterTable.getColumnModel().getColumn(8).setResizable(false);
-            }
 
             codigoLabel.setText("Codigo:");
 
@@ -181,6 +190,8 @@ public class Empleados2 extends JInternalFrame {
             bindingGroup.addBinding(binding);
             binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), salarioField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
             bindingGroup.addBinding(binding);
+
+            salarioField.addActionListener(formListener);
 
             binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.numeroCuenta}"), numeroCuentaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
             binding.setSourceUnreadableValue("");
@@ -227,16 +238,24 @@ public class Empleados2 extends JInternalFrame {
             jComboBox2.addActionListener(formListener);
 
             jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PLANTA", "CONTRATO" }));
+            jComboBox3.setEnabled(false);
 
             binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipo}"), jComboBox3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
             bindingGroup.addBinding(binding);
 
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jComboBox3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
             jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ACTIVO", "INACTIVO" }));
+            jComboBox4.setEnabled(false);
             jComboBox4.setMaximumSize(new java.awt.Dimension(170, 20));
             jComboBox4.setMinimumSize(new java.awt.Dimension(106, 20));
             jComboBox4.setPreferredSize(new java.awt.Dimension(106, 20));
 
             binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.estado}"), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
             bindingGroup.addBinding(binding);
 
             newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
@@ -286,55 +305,183 @@ public class Empleados2 extends JInternalFrame {
             jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
             jLabel1.setText("Listado de empleados");
 
+            jLabel2.setText("Fecha Ingreso:");
+
+            jLabel3.setText("Fecha retiro:");
+
+            jLabel4.setText("Fecha de Nacimiento:");
+
+            jLabel5.setText("Sexo:");
+
+            jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masculino", "Femenino" }));
+            jComboBox5.setEnabled(false);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sexo}"), jComboBox5, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jComboBox5, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            jLabel6.setText("Dirección:");
+
+            jTextField4.setEnabled(false);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.direccion}"), jTextField4, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jTextField4, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            jLabel7.setText("Teléfono");
+
+            jTextField5.setEnabled(false);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.telefono}"), jTextField5, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            bindingGroup.addBinding(binding);
+
+            jLabel8.setText("Correo electrónico:");
+
+            jTextField6.setEnabled(false);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.correo}"), jTextField6, org.jdesktop.beansbinding.BeanProperty.create("text"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jTextField6, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            jLabel9.setText("E.P.S");
+
+            jComboBox6.setRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(
+                    JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value instanceof Eps) {
+                        Eps mec = (Eps)value;
+                        setText(mec.getNombre());
+                    }
+                    return this;
+                }
+            });
+            jComboBox6.setEnabled(false);
+
+            jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, epsList, jComboBox6);
+            bindingGroup.addBinding(jComboBoxBinding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.epsIdeps}"), jComboBox6, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jComboBox6, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            jLabel10.setText("A.F.P");
+
+            jComboBox7.setRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(
+                    JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value instanceof Afp) {
+                        Afp mec = (Afp)value;
+                        setText(mec.getNombre());
+                    }
+                    return this;
+                }
+            });
+            jComboBox7.setEnabled(false);
+
+            jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, afpList, jComboBox7);
+            bindingGroup.addBinding(jComboBoxBinding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.afpIdafp}"), jComboBox7, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            bindingGroup.addBinding(binding);
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jComboBox7, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+
+            jDateChooser1.setEnabled(false);
+
+            jDateChooser2.setEnabled(false);
+
+            jDateChooser3.setEnabled(false);
+
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(masterScrollPane)
                         .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(masterScrollPane))
+                            .addComponent(jLabel1)
+                            .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(bancoIdbancoLabel)
-                                .addComponent(cargoCargoidLabel)
+                                .addComponent(codigoLabel)
                                 .addComponent(nombreLabel)
-                                .addComponent(codigoLabel))
-                            .addGap(4, 4, 4)
+                                .addComponent(cargoCargoidLabel)
+                                .addComponent(bancoIdbancoLabel)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel10))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jTextField4))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(codigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jTextField6)
+                                        .addComponent(jComboBox6, 0, 410, Short.MAX_VALUE)
+                                        .addComponent(jComboBox7, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cedulaLabel)
-                                .addComponent(tipoLabel)
-                                .addComponent(salarioLabel)
-                                .addComponent(numeroCuentaLabel)
-                                .addComponent(estadoLabel))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(numeroCuentaField)
-                                .addComponent(jComboBox4, 0, 427, Short.MAX_VALUE)
-                                .addComponent(salarioField)
-                                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cedulaField)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel1))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(28, 28, 28)
-                            .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cedulaLabel)
+                                        .addComponent(tipoLabel)
+                                        .addComponent(salarioLabel)
+                                        .addComponent(numeroCuentaLabel)
+                                        .addComponent(estadoLabel)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel3))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(numeroCuentaField)
+                                        .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(salarioField)
+                                        .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cedulaField)
+                                        .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTextField5)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGap(328, 328, 328)
+                                    .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(28, 28, 28)
+                                    .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addContainerGap())
             );
 
-            layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codigoField, jComboBox1, jComboBox2, nombreField});
+            layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codigoField, jComboBox1, jComboBox2, jComboBox6, jComboBox7, jDateChooser1, jDateChooser2, jTextField4, jTextField6, nombreField});
 
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,13 +518,69 @@ public class Empleados2 extends JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(estadoLabel))
+                    .addGap(12, 12, 12)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7)
+                                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel8)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(45, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap())
             );
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jTextField5, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaIngreso}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("date"));
+            binding.setSourceUnreadableValue(null);
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaNacimiento}"), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create("date"));
+            binding.setSourceUnreadableValue(null);
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaRetiro}"), jDateChooser3, org.jdesktop.beansbinding.BeanProperty.create("date"));
+            binding.setSourceUnreadableValue(null);
+            bindingGroup.addBinding(binding);
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jDateChooser3, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+            bindingGroup.addBinding(binding);
 
             bindingGroup.bind();
         }
@@ -398,6 +601,9 @@ public class Empleados2 extends JInternalFrame {
                 }
                 else if (evt.getSource() == saveButton1) {
                     Empleados2.this.saveButton1ActionPerformed(evt);
+                }
+                else if (evt.getSource() == salarioField) {
+                    Empleados2.this.salarioFieldActionPerformed(evt);
                 }
             }
         }// </editor-fold>//GEN-END:initComponents
@@ -445,8 +651,14 @@ public class Empleados2 extends JInternalFrame {
         }
     }//GEN-LAST:event_saveButton1ActionPerformed
 
+    private void salarioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salarioFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salarioFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.util.List<com.udec.modelo.Afp> afpList;
+    private javax.persistence.Query afpQuery;
     private javax.swing.JLabel bancoIdbancoLabel;
     private java.util.List<com.udec.modelo.Banco> bancoList;
     private javax.persistence.Query bancoQuery;
@@ -462,12 +674,32 @@ public class Empleados2 extends JInternalFrame {
     private java.util.List<com.udec.modelo.Empleado> empleadoList;
     private javax.persistence.Query empleadoQuery;
     private javax.persistence.EntityManager entityManager;
+    private java.util.List<com.udec.modelo.Eps> epsList;
+    private javax.persistence.Query epsQuery;
     private javax.swing.JLabel estadoLabel;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JComboBox jComboBox5;
+    private javax.swing.JComboBox jComboBox6;
+    private javax.swing.JComboBox jComboBox7;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private java.util.List<com.udec.modelo.Empleado> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;

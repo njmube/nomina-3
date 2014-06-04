@@ -80,6 +80,8 @@ public class DiasTrabajados2 extends JInternalFrame {
         newButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
+        diasLabel1 = new javax.swing.JLabel();
+        diasPermisoNoRemuneradoField = new javax.swing.JTextField();
 
         FormListener formListener = new FormListener();
 
@@ -87,6 +89,9 @@ public class DiasTrabajados2 extends JInternalFrame {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${empleadoCodigo.nombre}"));
         columnBinding.setColumnName("Empleado");
         columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${diasPermiso}"));
+        columnBinding.setColumnName("Dias Permiso No Remunerado");
+        columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dias}"));
         columnBinding.setColumnName("Dias trabajados");
         columnBinding.setColumnClass(Integer.class);
@@ -113,7 +118,7 @@ public class DiasTrabajados2 extends JInternalFrame {
 
         diasIncCincuentaLabel.setText("Dias Incapacidad 50%:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dias}"), diasField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.diasPermiso}"), diasField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), diasField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
@@ -167,6 +172,10 @@ public class DiasTrabajados2 extends JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.empleadoCodigo}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        diasLabel1.setText("Dias Permiso No remunerado:");
+
+        diasPermisoNoRemuneradoField.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,32 +194,36 @@ public class DiasTrabajados2 extends JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(empleadoCodigoLabel)
-                                    .addComponent(diasLabel)
-                                    .addComponent(diasIncTotalLabel)
-                                    .addComponent(diasIncDosterciosLabel)
-                                    .addComponent(diasIncCincuentaLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(diasField, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-                                    .addComponent(diasIncTotalField, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-                                    .addComponent(diasIncDosterciosField, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-                                    .addComponent(diasIncCincuentaField, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE))))
+                            .addComponent(empleadoCodigoLabel)
+                            .addComponent(diasLabel)
+                            .addComponent(diasLabel1)
+                            .addComponent(diasIncTotalLabel)
+                            .addComponent(diasIncDosterciosLabel)
+                            .addComponent(diasIncCincuentaLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(diasField, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(diasIncTotalField, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(diasIncDosterciosField, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(diasIncCincuentaField, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(diasPermisoNoRemuneradoField, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(masterScrollPane)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {refreshButton, saveButton});
 
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {diasField, diasIncCincuentaField, diasIncDosterciosField, diasIncTotalField, diasPermisoNoRemuneradoField, jComboBox1});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(empleadoCodigoLabel)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -219,6 +232,10 @@ public class DiasTrabajados2 extends JInternalFrame {
                     .addComponent(diasLabel)
                     .addComponent(diasField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(diasLabel1)
+                    .addComponent(diasPermisoNoRemuneradoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(diasIncTotalLabel)
                     .addComponent(diasIncTotalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -230,7 +247,7 @@ public class DiasTrabajados2 extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(diasIncCincuentaLabel)
                     .addComponent(diasIncCincuentaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
@@ -352,7 +369,6 @@ public class DiasTrabajados2 extends JInternalFrame {
             aux.setPeriodoIdperiodo(p);
             Diastrabajados dt = dtC.findBySingle2("empleadoCodigo", empleado, "periodoIdperiodo.idperiodo", p.getIdperiodo());
 
-            System.out.println("periodo: " + p.getNombre() + "empleado: " + empleado.getCedula() + "diasTrab: " + dt.getDias());
             Double sueldoQuincena = (Double) empleado.getSalario() * dt.getDias() / 30;
             aux.setValor(sueldoQuincena); //sueldo Quincena
             if (sueldoQuincena > 0) {
@@ -474,6 +490,8 @@ public class DiasTrabajados2 extends JInternalFrame {
     private javax.swing.JTextField diasIncTotalField;
     private javax.swing.JLabel diasIncTotalLabel;
     private javax.swing.JLabel diasLabel;
+    private javax.swing.JLabel diasLabel1;
+    private javax.swing.JTextField diasPermisoNoRemuneradoField;
     private javax.swing.JLabel empleadoCodigoLabel;
     private java.util.List<com.udec.modelo.Empleado> empleadoList;
     private javax.persistence.Query empleadoQuery;

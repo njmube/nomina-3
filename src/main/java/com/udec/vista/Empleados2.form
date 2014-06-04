@@ -95,6 +95,42 @@
     </Component>
     <Component class="com.udec.vista.DoubleConverter" name="doubleConverter1">
     </Component>
+    <Component class="javax.persistence.Query" name="epsQuery">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT e FROM Eps e"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="epsList">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="epsQuery"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;com.udec.modelo.Eps&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.persistence.Query" name="afpQuery">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT a FROM Afp a"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="afpList">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="afpQuery"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;com.udec.modelo.Afp&gt;"/>
+      </AuxValues>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="title" type="java.lang.String" value="Listado de empleados"/>
@@ -122,56 +158,95 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="masterScrollPane" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="masterScrollPane" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bancoIdbancoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cargoCargoidLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="nombreLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="codigoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jComboBox1" linkSize="3" alignment="0" min="-2" pref="430" max="-2" attributes="0"/>
-                          <Component id="jComboBox2" linkSize="3" alignment="0" min="-2" pref="430" max="-2" attributes="0"/>
-                          <Component id="nombreField" linkSize="3" alignment="0" min="-2" pref="441" max="-2" attributes="0"/>
-                          <Component id="codigoField" linkSize="3" alignment="0" min="-2" pref="441" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cedulaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="salarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="numeroCuentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="estadoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="numeroCuentaField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBox4" alignment="0" pref="427" max="32767" attributes="0"/>
-                          <Component id="salarioField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBox3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cedulaField" alignment="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="newButton1" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="refreshButton1" min="-2" pref="98" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="saveButton1" min="-2" pref="103" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="codigoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="nombreLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="cargoCargoidLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="bancoIdbancoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Component id="jTextField4" linkSize="3" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jDateChooser2" linkSize="3" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jDateChooser1" linkSize="3" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jComboBox1" linkSize="3" alignment="0" min="-2" pref="430" max="-2" attributes="0"/>
+                                      <Component id="jComboBox2" linkSize="3" alignment="0" min="-2" pref="430" max="-2" attributes="0"/>
+                                      <Component id="nombreField" linkSize="3" alignment="0" min="-2" pref="441" max="-2" attributes="0"/>
+                                      <Component id="codigoField" linkSize="3" alignment="0" min="-2" pref="441" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextField6" linkSize="3" max="32767" attributes="0"/>
+                                  <Component id="jComboBox6" linkSize="3" pref="410" max="32767" attributes="0"/>
+                                  <Component id="jComboBox7" linkSize="3" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cedulaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tipoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="salarioLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="numeroCuentaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="estadoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jDateChooser3" max="32767" attributes="0"/>
+                                  <Component id="numeroCuentaField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jComboBox4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="salarioField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jComboBox3" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cedulaField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jComboBox5" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextField5" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="328" max="-2" attributes="0"/>
+                              <Component id="newButton1" min="-2" pref="95" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="refreshButton1" min="-2" pref="98" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="saveButton1" min="-2" pref="103" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -215,13 +290,64 @@
                   <Component id="jComboBox4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="estadoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jDateChooser1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jComboBox5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextField5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Component id="jDateChooser2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="jDateChooser3" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextField6" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBox6" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBox7" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="45" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="newButton1" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshButton1" min="-2" pref="100" max="-2" attributes="0"/>
                   <Component id="saveButton1" min="-2" pref="100" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -268,21 +394,6 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -315,23 +426,11 @@
                 <BindingParameter name="NAME" value="Estado"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${bancoIdbanco.banco}">
-                <BindingParameter name="NAME" value="Banco"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${numeroCuenta}">
-                <BindingParameter name="NAME" value="Numero Cuenta"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${cargoCargoid.cargo}">
-                <BindingParameter name="NAME" value="Cargo"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
             </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;    public boolean isCellEditable(int rowIndex, int colIndex) {&#xa;        return false;   //Disallow the editing of any cell&#xa;&#xa;    }}"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="masterTable.getColumnModel().getColumn(0).setPreferredWidth(75);&#xa;masterTable.getColumnModel().getColumn(1).setPreferredWidth(75);&#xa;masterTable.getColumnModel().getColumn(2).setPreferredWidth(200);&#xa;masterTable.getColumnModel().getColumn(3).setPreferredWidth(75);&#xa;masterTable.getColumnModel().getColumn(4).setPreferredWidth(75);&#xa;masterTable.getColumnModel().getColumn(5).setPreferredWidth(75);&#xa;masterTable.getColumnModel().getColumn(6).setPreferredWidth(150);&#xa;masterTable.getColumnModel().getColumn(7).setPreferredWidth(75);&#xa;masterTable.getColumnModel().getColumn(8).setPreferredWidth(250);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="masterTable.getColumnModel().getColumn(0).setPreferredWidth(100);&#xa;masterTable.getColumnModel().getColumn(1).setPreferredWidth(100);&#xa;masterTable.getColumnModel().getColumn(2).setPreferredWidth(300);&#xa;masterTable.getColumnModel().getColumn(3).setPreferredWidth(100);&#xa;masterTable.getColumnModel().getColumn(4).setPreferredWidth(100);&#xa;masterTable.getColumnModel().getColumn(5).setPreferredWidth(100);"/>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
           </AuxValues>
@@ -421,6 +520,9 @@
         </BindingProperty>
         <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="salarioField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="salarioFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="numeroCuentaField">
       <BindingProperties>
@@ -460,10 +562,14 @@
             <StringItem index="1" value="CONTRATO"/>
           </StringArray>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <BindingProperties>
         <BindingProperty name="selectedItem" source="masterTable" sourcePath="${selectedElement.tipo}" target="jComboBox3" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
       </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jComboBox3, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox4">
       <Properties>
@@ -473,6 +579,7 @@
             <StringItem index="1" value="INACTIVO"/>
           </StringArray>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[170, 20]"/>
         </Property>
@@ -486,6 +593,9 @@
       <BindingProperties>
         <BindingProperty name="selectedItem" source="masterTable" sourcePath="${selectedElement.estado}" target="jComboBox4" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
       </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="newButton1">
       <Properties>
@@ -599,6 +709,157 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Listado de empleados"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fecha Ingreso:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fecha retiro:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fecha de Nacimiento:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sexo:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox5">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="Masculino"/>
+            <StringItem index="1" value="Femenino"/>
+          </StringArray>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="selectedItem" source="masterTable" sourcePath="${selectedElement.sexo}" target="jComboBox5" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jComboBox5, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField4">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.direccion}" target="jTextField4" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jTextField4, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel7">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tel&#xe9;fono"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField5">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.telefono}" target="jTextField5" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jTextField5, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel8">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Correo electr&#xf3;nico:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField6">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.correo}" target="jTextField6" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jTextField6, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel9">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="E.P.S"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox6">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="elements" source="epsList" target="jComboBox6" targetPath="elements" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="selectedItem" source="masterTable" sourcePath="${selectedElement.epsIdeps}" target="jComboBox6" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jComboBox6.setRenderer(new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if (value instanceof Eps) {&#xa;                   Eps mec = (Eps)value;&#xa;                   setText(mec.getNombre());&#xa;               }&#xa;               return this;&#xa;           }&#xa;       });"/>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jComboBox6, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel10">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="A.F.P"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox7">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="elements" source="afpList" target="jComboBox7" targetPath="elements" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="selectedItem" source="masterTable" sourcePath="${selectedElement.afpIdafp}" target="jComboBox7" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jComboBox7.setRenderer(new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if (value instanceof Afp) {&#xa;                   Afp mec = (Afp)value;&#xa;                   setText(mec.getNombre());&#xa;               }&#xa;               return this;&#xa;           }&#xa;       });"/>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jComboBox7, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement.fechaIngreso}&quot;), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create(&quot;date&quot;));&#xa;binding.setSourceUnreadableValue(null);&#xa;bindingGroup.addBinding(binding);&#xa;binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement.fechaNacimiento}&quot;), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create(&quot;date&quot;));&#xa;binding.setSourceUnreadableValue(null);&#xa;bindingGroup.addBinding(binding);&#xa;binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jDateChooser2, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser3">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement.fechaRetiro}&quot;), jDateChooser3, org.jdesktop.beansbinding.BeanProperty.create(&quot;date&quot;));&#xa;binding.setSourceUnreadableValue(null);&#xa;bindingGroup.addBinding(binding);&#xa;binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create(&quot;${selectedElement != null}&quot;), jDateChooser3, org.jdesktop.beansbinding.BeanProperty.create(&quot;enabled&quot;));&#xa;bindingGroup.addBinding(binding);"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

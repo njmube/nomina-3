@@ -11,6 +11,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,57 +27,44 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Oscar
+ * @author Ususario
  */
 @Entity
-@Table(name = "grupoconcepto", catalog = "nomina2", schema = "")
+@Table(name = "eps", catalog = "nomina2", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Grupoconcepto.findAll", query = "SELECT g FROM Grupoconcepto g"),
-    @NamedQuery(name = "Grupoconcepto.findByIdgrupoconcepto", query = "SELECT g FROM Grupoconcepto g WHERE g.idgrupoconcepto = :idgrupoconcepto"),
-    @NamedQuery(name = "Grupoconcepto.findByCodigo", query = "SELECT g FROM Grupoconcepto g WHERE g.codigo = :codigo"),
-    @NamedQuery(name = "Grupoconcepto.findByNombre", query = "SELECT g FROM Grupoconcepto g WHERE g.nombre = :nombre")})
-public class Grupoconcepto implements Serializable {
+    @NamedQuery(name = "Eps.findAll", query = "SELECT e FROM Eps e"),
+    @NamedQuery(name = "Eps.findByIdeps", query = "SELECT e FROM Eps e WHERE e.ideps = :ideps"),
+    @NamedQuery(name = "Eps.findByNombre", query = "SELECT e FROM Eps e WHERE e.nombre = :nombre")})
+public class Eps implements Serializable {
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idgrupoconcepto")
-    private Integer idgrupoconcepto;
-    @Column(name = "codigo")
-    private String codigo;
+    @Column(name = "ideps")
+    private Integer ideps;
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(mappedBy = "grupoconceptoIdgrupoconcepto")
-    private List<Concepto> conceptoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "epsIdeps")
+    private List<Empleado> empleadoList;
 
-    public Grupoconcepto() {
+    public Eps() {
     }
 
-    public Grupoconcepto(Integer idgrupoconcepto) {
-        this.idgrupoconcepto = idgrupoconcepto;
+    public Eps(Integer ideps) {
+        this.ideps = ideps;
     }
 
-    public Integer getIdgrupoconcepto() {
-        return idgrupoconcepto;
+    public Integer getIdeps() {
+        return ideps;
     }
 
-    public void setIdgrupoconcepto(Integer idgrupoconcepto) {
-        Integer oldIdgrupoconcepto = this.idgrupoconcepto;
-        this.idgrupoconcepto = idgrupoconcepto;
-        changeSupport.firePropertyChange("idgrupoconcepto", oldIdgrupoconcepto, idgrupoconcepto);
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        String oldCodigo = this.codigo;
-        this.codigo = codigo;
-        changeSupport.firePropertyChange("codigo", oldCodigo, codigo);
+    public void setIdeps(Integer ideps) {
+        Integer oldIdeps = this.ideps;
+        this.ideps = ideps;
+        changeSupport.firePropertyChange("ideps", oldIdeps, ideps);
     }
 
     public String getNombre() {
@@ -90,29 +78,29 @@ public class Grupoconcepto implements Serializable {
     }
 
     @XmlTransient
-    public List<Concepto> getConceptoList() {
-        return conceptoList;
+    public List<Empleado> getEmpleadoList() {
+        return empleadoList;
     }
 
-    public void setConceptoList(List<Concepto> conceptoList) {
-        this.conceptoList = conceptoList;
+    public void setEmpleadoList(List<Empleado> empleadoList) {
+        this.empleadoList = empleadoList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idgrupoconcepto != null ? idgrupoconcepto.hashCode() : 0);
+        hash += (ideps != null ? ideps.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Grupoconcepto)) {
+        if (!(object instanceof Eps)) {
             return false;
         }
-        Grupoconcepto other = (Grupoconcepto) object;
-        if ((this.idgrupoconcepto == null && other.idgrupoconcepto != null) || (this.idgrupoconcepto != null && !this.idgrupoconcepto.equals(other.idgrupoconcepto))) {
+        Eps other = (Eps) object;
+        if ((this.ideps == null && other.ideps != null) || (this.ideps != null && !this.ideps.equals(other.ideps))) {
             return false;
         }
         return true;
@@ -120,12 +108,12 @@ public class Grupoconcepto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.udec.modelo.Grupoconcepto[ idgrupoconcepto=" + idgrupoconcepto + " ]";
+        return "com.udec.modelo.Eps[ ideps=" + ideps + " ]";
     }
-    
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-}
+    }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.udec.modelo;
 
 import java.beans.PropertyChangeListener;
@@ -43,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Concepto.findByFormato", query = "SELECT c FROM Concepto c WHERE c.formato = :formato"),
     @NamedQuery(name = "Concepto.findByGeneral", query = "SELECT c FROM Concepto c WHERE c.general = :general")})
 public class Concepto implements Serializable {
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -61,9 +61,6 @@ public class Concepto implements Serializable {
     private String formato;
     @Column(name = "general")
     private String general;
-    @JoinColumn(name = "grupoconcepto_idgrupoconcepto", referencedColumnName = "idgrupoconcepto")
-    @ManyToOne
-    private Grupoconcepto grupoconceptoIdgrupoconcepto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptoIdconcepto")
     private List<Nomina> nominaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptoIdconcepto")
@@ -136,16 +133,6 @@ public class Concepto implements Serializable {
         changeSupport.firePropertyChange("general", oldGeneral, general);
     }
 
-    public Grupoconcepto getGrupoconceptoIdgrupoconcepto() {
-        return grupoconceptoIdgrupoconcepto;
-    }
-
-    public void setGrupoconceptoIdgrupoconcepto(Grupoconcepto grupoconceptoIdgrupoconcepto) {
-        Grupoconcepto oldGrupoconceptoIdgrupoconcepto = this.grupoconceptoIdgrupoconcepto;
-        this.grupoconceptoIdgrupoconcepto = grupoconceptoIdgrupoconcepto;
-        changeSupport.firePropertyChange("grupoconceptoIdgrupoconcepto", oldGrupoconceptoIdgrupoconcepto, grupoconceptoIdgrupoconcepto);
-    }
-
     @XmlTransient
     public List<Nomina> getNominaList() {
         return nominaList;
@@ -188,13 +175,13 @@ public class Concepto implements Serializable {
     public String toString() {
         return "com.udec.modelo.Concepto[ idconcepto=" + idconcepto + " ]";
     }
-    
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
-}
+    }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-    
+
 }

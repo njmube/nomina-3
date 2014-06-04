@@ -18,6 +18,8 @@
     <class>com.udec.vista.Grupoconcepto</class>
     <class>com.udec.modelo.Grupoconcepto</class>
     <class>com.udec.modelo.Diastrabajados</class>
+    <class>com.udec.modelo.Eps</class>
+    <class>com.udec.modelo.Afp</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/nomina2?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="123456"/>

@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.udec.modelo.Afp;
+import com.udec.modelo.Eps;
 import com.udec.modelo.Cargo;
 import com.udec.modelo.Banco;
 import com.udec.modelo.Nomina;
@@ -60,6 +62,16 @@ public class EmpleadoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Afp afpIdafp = empleado.getAfpIdafp();
+            if (afpIdafp != null) {
+                afpIdafp = em.getReference(afpIdafp.getClass(), afpIdafp.getIdafp());
+                empleado.setAfpIdafp(afpIdafp);
+            }
+            Eps epsIdeps = empleado.getEpsIdeps();
+            if (epsIdeps != null) {
+                epsIdeps = em.getReference(epsIdeps.getClass(), epsIdeps.getIdeps());
+                empleado.setEpsIdeps(epsIdeps);
+            }
             Cargo cargoCargoid = empleado.getCargoCargoid();
             if (cargoCargoid != null) {
                 cargoCargoid = em.getReference(cargoCargoid.getClass(), cargoCargoid.getCargoid());
@@ -89,6 +101,14 @@ public class EmpleadoJpaController implements Serializable {
             }
             empleado.setDiastrabajadosList(attachedDiastrabajadosList);
             em.persist(empleado);
+            if (afpIdafp != null) {
+                afpIdafp.getEmpleadoList().add(empleado);
+                afpIdafp = em.merge(afpIdafp);
+            }
+            if (epsIdeps != null) {
+                epsIdeps.getEmpleadoList().add(empleado);
+                epsIdeps = em.merge(epsIdeps);
+            }
             if (cargoCargoid != null) {
                 cargoCargoid.getEmpleadoList().add(empleado);
                 cargoCargoid = em.merge(cargoCargoid);
@@ -143,6 +163,10 @@ public class EmpleadoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empleado persistentEmpleado = em.find(Empleado.class, empleado.getCodigo());
+            Afp afpIdafpOld = persistentEmpleado.getAfpIdafp();
+            Afp afpIdafpNew = empleado.getAfpIdafp();
+            Eps epsIdepsOld = persistentEmpleado.getEpsIdeps();
+            Eps epsIdepsNew = empleado.getEpsIdeps();
             Cargo cargoCargoidOld = persistentEmpleado.getCargoCargoid();
             Cargo cargoCargoidNew = empleado.getCargoCargoid();
             Banco bancoIdbancoOld = persistentEmpleado.getBancoIdbanco();
@@ -181,6 +205,14 @@ public class EmpleadoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            if (afpIdafpNew != null) {
+                afpIdafpNew = em.getReference(afpIdafpNew.getClass(), afpIdafpNew.getIdafp());
+                empleado.setAfpIdafp(afpIdafpNew);
+            }
+            if (epsIdepsNew != null) {
+                epsIdepsNew = em.getReference(epsIdepsNew.getClass(), epsIdepsNew.getIdeps());
+                empleado.setEpsIdeps(epsIdepsNew);
+            }
             if (cargoCargoidNew != null) {
                 cargoCargoidNew = em.getReference(cargoCargoidNew.getClass(), cargoCargoidNew.getCargoid());
                 empleado.setCargoCargoid(cargoCargoidNew);
@@ -211,6 +243,22 @@ public class EmpleadoJpaController implements Serializable {
             diastrabajadosListNew = attachedDiastrabajadosListNew;
             empleado.setDiastrabajadosList(diastrabajadosListNew);
             empleado = em.merge(empleado);
+            if (afpIdafpOld != null && !afpIdafpOld.equals(afpIdafpNew)) {
+                afpIdafpOld.getEmpleadoList().remove(empleado);
+                afpIdafpOld = em.merge(afpIdafpOld);
+            }
+            if (afpIdafpNew != null && !afpIdafpNew.equals(afpIdafpOld)) {
+                afpIdafpNew.getEmpleadoList().add(empleado);
+                afpIdafpNew = em.merge(afpIdafpNew);
+            }
+            if (epsIdepsOld != null && !epsIdepsOld.equals(epsIdepsNew)) {
+                epsIdepsOld.getEmpleadoList().remove(empleado);
+                epsIdepsOld = em.merge(epsIdepsOld);
+            }
+            if (epsIdepsNew != null && !epsIdepsNew.equals(epsIdepsOld)) {
+                epsIdepsNew.getEmpleadoList().add(empleado);
+                epsIdepsNew = em.merge(epsIdepsNew);
+            }
             if (cargoCargoidOld != null && !cargoCargoidOld.equals(cargoCargoidNew)) {
                 cargoCargoidOld.getEmpleadoList().remove(empleado);
                 cargoCargoidOld = em.merge(cargoCargoidOld);
@@ -313,6 +361,16 @@ public class EmpleadoJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Afp afpIdafp = empleado.getAfpIdafp();
+            if (afpIdafp != null) {
+                afpIdafp.getEmpleadoList().remove(empleado);
+                afpIdafp = em.merge(afpIdafp);
+            }
+            Eps epsIdeps = empleado.getEpsIdeps();
+            if (epsIdeps != null) {
+                epsIdeps.getEmpleadoList().remove(empleado);
+                epsIdeps = em.merge(epsIdeps);
             }
             Cargo cargoCargoid = empleado.getCargoCargoid();
             if (cargoCargoid != null) {

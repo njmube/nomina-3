@@ -15,7 +15,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.udec.modelo.Grupoconcepto;
 import com.udec.modelo.Nomina;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class ConceptoJpaController implements Serializable {
     public ConceptoJpaController() {
        
     }
-  
+
 
     public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();
@@ -50,11 +49,6 @@ public class ConceptoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Grupoconcepto grupoconceptoIdgrupoconcepto = concepto.getGrupoconceptoIdgrupoconcepto();
-            if (grupoconceptoIdgrupoconcepto != null) {
-                grupoconceptoIdgrupoconcepto = em.getReference(grupoconceptoIdgrupoconcepto.getClass(), grupoconceptoIdgrupoconcepto.getIdgrupoconcepto());
-                concepto.setGrupoconceptoIdgrupoconcepto(grupoconceptoIdgrupoconcepto);
-            }
             List<Nomina> attachedNominaList = new ArrayList<Nomina>();
             for (Nomina nominaListNominaToAttach : concepto.getNominaList()) {
                 nominaListNominaToAttach = em.getReference(nominaListNominaToAttach.getClass(), nominaListNominaToAttach.getIdnomina());
@@ -68,10 +62,6 @@ public class ConceptoJpaController implements Serializable {
             }
             concepto.setNovedadxconceptoList(attachedNovedadxconceptoList);
             em.persist(concepto);
-            if (grupoconceptoIdgrupoconcepto != null) {
-                grupoconceptoIdgrupoconcepto.getConceptoList().add(concepto);
-                grupoconceptoIdgrupoconcepto = em.merge(grupoconceptoIdgrupoconcepto);
-            }
             for (Nomina nominaListNomina : concepto.getNominaList()) {
                 Concepto oldConceptoIdconceptoOfNominaListNomina = nominaListNomina.getConceptoIdconcepto();
                 nominaListNomina.setConceptoIdconcepto(concepto);
@@ -104,8 +94,6 @@ public class ConceptoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Concepto persistentConcepto = em.find(Concepto.class, concepto.getIdconcepto());
-            Grupoconcepto grupoconceptoIdgrupoconceptoOld = persistentConcepto.getGrupoconceptoIdgrupoconcepto();
-            Grupoconcepto grupoconceptoIdgrupoconceptoNew = concepto.getGrupoconceptoIdgrupoconcepto();
             List<Nomina> nominaListOld = persistentConcepto.getNominaList();
             List<Nomina> nominaListNew = concepto.getNominaList();
             List<Novedadxconcepto> novedadxconceptoListOld = persistentConcepto.getNovedadxconceptoList();
@@ -130,10 +118,6 @@ public class ConceptoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (grupoconceptoIdgrupoconceptoNew != null) {
-                grupoconceptoIdgrupoconceptoNew = em.getReference(grupoconceptoIdgrupoconceptoNew.getClass(), grupoconceptoIdgrupoconceptoNew.getIdgrupoconcepto());
-                concepto.setGrupoconceptoIdgrupoconcepto(grupoconceptoIdgrupoconceptoNew);
-            }
             List<Nomina> attachedNominaListNew = new ArrayList<Nomina>();
             for (Nomina nominaListNewNominaToAttach : nominaListNew) {
                 nominaListNewNominaToAttach = em.getReference(nominaListNewNominaToAttach.getClass(), nominaListNewNominaToAttach.getIdnomina());
@@ -149,14 +133,6 @@ public class ConceptoJpaController implements Serializable {
             novedadxconceptoListNew = attachedNovedadxconceptoListNew;
             concepto.setNovedadxconceptoList(novedadxconceptoListNew);
             concepto = em.merge(concepto);
-            if (grupoconceptoIdgrupoconceptoOld != null && !grupoconceptoIdgrupoconceptoOld.equals(grupoconceptoIdgrupoconceptoNew)) {
-                grupoconceptoIdgrupoconceptoOld.getConceptoList().remove(concepto);
-                grupoconceptoIdgrupoconceptoOld = em.merge(grupoconceptoIdgrupoconceptoOld);
-            }
-            if (grupoconceptoIdgrupoconceptoNew != null && !grupoconceptoIdgrupoconceptoNew.equals(grupoconceptoIdgrupoconceptoOld)) {
-                grupoconceptoIdgrupoconceptoNew.getConceptoList().add(concepto);
-                grupoconceptoIdgrupoconceptoNew = em.merge(grupoconceptoIdgrupoconceptoNew);
-            }
             for (Nomina nominaListNewNomina : nominaListNew) {
                 if (!nominaListOld.contains(nominaListNewNomina)) {
                     Concepto oldConceptoIdconceptoOfNominaListNewNomina = nominaListNewNomina.getConceptoIdconcepto();
@@ -225,11 +201,6 @@ public class ConceptoJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Grupoconcepto grupoconceptoIdgrupoconcepto = concepto.getGrupoconceptoIdgrupoconcepto();
-            if (grupoconceptoIdgrupoconcepto != null) {
-                grupoconceptoIdgrupoconcepto.getConceptoList().remove(concepto);
-                grupoconceptoIdgrupoconcepto = em.merge(grupoconceptoIdgrupoconcepto);
             }
             em.remove(concepto);
             em.getTransaction().commit();

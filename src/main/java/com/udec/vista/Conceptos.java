@@ -5,7 +5,6 @@
  */
 package com.udec.vista;
 
-import com.udec.modelo.Grupoconcepto;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.beans.Beans;
@@ -44,8 +43,6 @@ public class Conceptos extends JInternalFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("com.udec_nomina_jar_1.0-SNAPSHOTPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Concepto c");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
-        grupoconceptoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT g FROM Grupoconcepto g");
-        grupoconceptoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : grupoconceptoQuery.getResultList();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         codigoLabel = new javax.swing.JLabel();
@@ -53,13 +50,11 @@ public class Conceptos extends JInternalFrame {
         tipoLabel = new javax.swing.JLabel();
         formatoLabel = new javax.swing.JLabel();
         generalLabel = new javax.swing.JLabel();
-        grupoconceptoIdgrupoconceptoLabel = new javax.swing.JLabel();
         codigoField = new javax.swing.JTextField();
         conceptoField = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
         jComboBox3 = new javax.swing.JComboBox();
-        jComboBox4 = new javax.swing.JComboBox();
         newButton1 = new javax.swing.JButton();
         refreshButton1 = new javax.swing.JButton();
         saveButton1 = new javax.swing.JButton();
@@ -83,9 +78,6 @@ public class Conceptos extends JInternalFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${general}"));
         columnBinding.setColumnName("General");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${grupoconceptoIdgrupoconcepto.nombre}"));
-        columnBinding.setColumnName("Grupo de conceptos");
-        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         masterScrollPane.setViewportView(masterTable);
@@ -99,8 +91,6 @@ public class Conceptos extends JInternalFrame {
         formatoLabel.setText("Formato:");
 
         generalLabel.setText("General:");
-
-        grupoconceptoIdgrupoconceptoLabel.setText("Grupo de concepto:");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigo}"), codigoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
@@ -127,24 +117,6 @@ public class Conceptos extends JInternalFrame {
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SI", "NO" }));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.general}"), jComboBox3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        jComboBox4.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Grupoconcepto) {
-                    Grupoconcepto mec = (Grupoconcepto)value;
-                    setText(mec.getNombre());
-                }
-                return this;
-            }
-        });
-
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, grupoconceptoList, jComboBox4);
-        bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.grupoconceptoIdgrupoconcepto}"), jComboBox4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         newButton1.setIcon(new javax.swing.ImageIcon("img/nuevo2.png"));
@@ -208,16 +180,14 @@ public class Conceptos extends JInternalFrame {
                             .addComponent(conceptoLabel)
                             .addComponent(tipoLabel)
                             .addComponent(formatoLabel)
-                            .addComponent(generalLabel)
-                            .addComponent(grupoconceptoIdgrupoconceptoLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(generalLabel))
+                        .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(codigoField)
                             .addComponent(conceptoField)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,16 +227,12 @@ public class Conceptos extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(generalLabel)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(grupoconceptoIdgrupoconceptoLabel)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(refreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saveButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -334,13 +300,9 @@ public class Conceptos extends JInternalFrame {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel formatoLabel;
     private javax.swing.JLabel generalLabel;
-    private javax.swing.JLabel grupoconceptoIdgrupoconceptoLabel;
-    private java.util.List<com.udec.modelo.Grupoconcepto> grupoconceptoList;
-    private javax.persistence.Query grupoconceptoQuery;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
-    private javax.swing.JComboBox jComboBox4;
     private javax.swing.JLabel jLabel1;
     private java.util.List<com.udec.modelo.Concepto> list;
     private javax.swing.JScrollPane masterScrollPane;
