@@ -358,7 +358,10 @@ public class NominaMain extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         String codigo = JOptionPane.showInputDialog(null, "Ingrese el codigo del empleado del cual desea imprimir el comprobante de pago");
-        new PdfTable(this.periodoActual, codigo);
+        if (codigo != null) {
+            new PdfTable(this.periodoActual, codigo);
+        }
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed

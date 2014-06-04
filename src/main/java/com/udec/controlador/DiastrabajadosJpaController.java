@@ -41,7 +41,6 @@ public class DiastrabajadosJpaController implements Serializable {
         
         q.setParameter("name1", m1);
         q.setParameter("name2", m2);
-        System.out.println("consulta:"+q.toString());
         return (Diastrabajados) q.getSingleResult();
     }
 

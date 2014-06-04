@@ -74,7 +74,7 @@ public class PdfTable {
                 ex.printStackTrace();
             }
         } else {
-            JOptionPane.showMessageDialog(null,"El código del empleado ingresado no existe.","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El código del empleado ingresado no existe.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -130,6 +130,10 @@ public class PdfTable {
             documento.add(tabla2(nomi));
             documento.add(new Paragraph(" "));
             documento.add(tabla3(nomi));
+            documento.add(new Paragraph(" "));
+            documento.add(new Paragraph(" "));
+            documento.add(new Paragraph(" "));
+            documento.add(firma());
         } catch (DocumentException ex) {
             ex.getMessage();
         }
@@ -212,6 +216,36 @@ public class PdfTable {
             tabla.addCell(celda);
         }
 
+        return tabla;
+    }
+
+    public PdfPTable firma() throws DocumentException {
+        PdfPTable tabla = new PdfPTable(3);
+        tabla.setWidthPercentage(100);
+        tabla.setWidths(new float[]{2, 1, 2});
+        //Declaramos un objeto para manejar las celdas
+        PdfPCell celda;
+
+        celda = new PdfPCell(new Phrase(""));
+        celda.setBorder(Rectangle.BOTTOM);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(""));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(""));
+        celda.setBorder(Rectangle.BOTTOM);
+        tabla.addCell(celda);
+        
+        
+        celda = new PdfPCell(new Phrase("JEFE ADMINISTRATIVO"));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase(""));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
+        celda = new PdfPCell(new Phrase("EMPLEADO"));
+        celda.setBorder(Rectangle.NO_BORDER);
+        tabla.addCell(celda);
         return tabla;
     }
 
